@@ -1,0 +1,6 @@
+@layer base, components, utilities;
+@import "tailwindcss";
+@layer base {
+  @import "./base.css";
+}
+@import "./global.css";

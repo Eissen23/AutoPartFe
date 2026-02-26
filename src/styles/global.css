@@ -1,0 +1,84 @@
+@layer components {
+  .error-page {
+    justify-content: center;
+    display: flex;
+    background-color: #fffff6;
+    height: 100%;
+  }
+
+  .dimming {
+    height: 100vh;
+    width: 100%;
+    opacity: 1;
+    position: absolute;
+    filter: brightness(50%);
+    object-fit: cover;
+  }
+
+  /* Dashboard Layout Styles - Dark and Yellow Theme */
+  .dashboard-container {
+    @apply h-screen w-full flex flex-col bg-slate-900;
+  }
+
+  .dashboard-top {
+    @apply sticky top-0 z-50 flex items-center justify-between bg-slate-800 border-b border-yellow-500 h-16 px-6 shadow-lg;
+  }
+
+  .dashboard-top-left {
+    @apply flex items-center;
+  }
+
+  .logo-placeholder {
+    @apply text-2xl font-bold text-yellow-400 hover:text-yellow-300 transition-colors cursor-pointer;
+  }
+
+  .dashboard-top-right {
+    @apply flex items-center gap-3;
+  }
+
+  .search-input {
+    @apply px-4 py-2 rounded-lg bg-slate-700 text-white placeholder-slate-400 border border-slate-600 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 transition-colors;
+    width: 300px;
+  }
+
+  .search-input::placeholder {
+    @apply text-slate-400;
+  }
+
+  .dashboard-main {
+    @apply flex flex-1 overflow-hidden;
+  }
+
+  .dashboard-sidebar {
+    @apply w-64 bg-slate-800 border-r border-slate-700 overflow-y-auto;
+  }
+
+  .sidebar-nav {
+    @apply flex flex-col gap-2 p-4;
+  }
+
+  .nav-item {
+    @apply px-4 py-3 rounded-lg text-slate-300 hover:bg-slate-700 hover:text-yellow-400 transition-colors duration-200 font-medium;
+  }
+
+  .nav-item:hover {
+    @apply bg-slate-700 text-yellow-400;
+  }
+
+  .dashboard-content {
+    @apply flex-1 overflow-y-auto bg-slate-900 p-6;
+  }
+}
+
+@layer base {
+  .app-container {
+    display: grid;
+    min-height: 100%;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+  }
+
+  .app-content {
+    grid-area: cn;
+  }
+}

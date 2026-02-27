@@ -1,4 +1,4 @@
-import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
 import { dashboardRoutes } from "#src/routes/core/dashboard";
 
 /**
@@ -18,6 +18,8 @@ interface DashboardRoute {
  * Dark and yellow theme
  */
 export default function DashboardLayout() {
+  const location = useLocation();
+
   // Get child routes from the dashboard routes configuration
   const dashboardRoute = dashboardRoutes.find(
     (route) => route.path === "/dashboard",
@@ -33,7 +35,7 @@ export default function DashboardLayout() {
         (route.path
           ? route.path.charAt(0).toUpperCase() + route.path.slice(1)
           : "Home");
-      const href = route.path ? `/dashboard${route.path}` : "/dashboard";
+      const href = route.path ? `${route.path}` : "/dashboard";
 
       return { label, href };
     });
@@ -61,7 +63,13 @@ export default function DashboardLayout() {
         <aside className="dashboard-sidebar">
           <nav className="sidebar-nav">
             {navItems.map((item) => (
-              <a key={item.href} href={item.href} className="nav-item">
+              <a
+                key={item.href}
+                href={item.href}
+                className={`nav-item ${
+                  location.pathname === item.href ? "nav-item-active" : ""
+                }`}
+              >
                 {item.label}
               </a>
             ))}

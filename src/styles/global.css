@@ -17,11 +17,11 @@
 
   /* Dashboard Layout Styles - Dark and Yellow Theme */
   .dashboard-container {
-    @apply h-screen w-full flex flex-col bg-slate-900;
+    @apply h-screen w-full flex flex-col;
   }
 
   .dashboard-top {
-    @apply sticky top-0 z-50 flex items-center justify-between bg-slate-800 border-b border-yellow-500 h-16 px-6 shadow-lg;
+    @apply sticky top-0 z-50 flex items-center justify-between border-b border-blue-500 h-16 px-6 shadow-lg;
   }
 
   .dashboard-top-left {
@@ -29,7 +29,7 @@
   }
 
   .logo-placeholder {
-    @apply text-2xl font-bold text-yellow-400 hover:text-yellow-300 transition-colors cursor-pointer;
+    @apply text-2xl font-bold border-blue-500 text-blue-500 transition-colors cursor-pointer;
   }
 
   .dashboard-top-right {
@@ -37,7 +37,7 @@
   }
 
   .search-input {
-    @apply px-4 py-2 rounded-lg bg-slate-700 text-white placeholder-slate-400 border border-slate-600 focus:outline-none focus:border-yellow-500 focus:ring-1 focus:ring-yellow-500 transition-colors;
+    @apply px-4 py-2 rounded-lg bg-white  placeholder-slate-400 border border-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors;
     width: 300px;
   }
 
@@ -50,7 +50,7 @@
   }
 
   .dashboard-sidebar {
-    @apply w-64 bg-slate-800 border-r border-slate-700 overflow-y-auto;
+    @apply w-64 bg-white border-r overflow-y-auto;
   }
 
   .sidebar-nav {
@@ -62,11 +62,15 @@
   }
 
   .nav-item:hover {
-    @apply bg-slate-700 text-yellow-400;
+    @apply bg-slate-200 text-blue-800;
+  }
+
+  .nav-item-active {
+    @apply bg-blue-600 text-white;
   }
 
   .dashboard-content {
-    @apply flex-1 overflow-y-auto bg-slate-900 p-6;
+    @apply flex-1 overflow-y-auto bg-slate-200;
   }
 }
 

@@ -6,10 +6,15 @@
  */
 
 import { useState, useCallback } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { UseMutationOptions } from "@tanstack/react-query";
-import { tokenManager, handleApiError, api } from "#src/utils/api";
-import type { ApiError } from "#src/utils/api";
+import { useQueryClient } from "@tanstack/react-query";
+import type { AxiosResponse } from "axios";
+import type { UseApiMutationOptions, ApiError } from "#src/utils/api";
+import {
+  useApiMutation,
+  tokenManager,
+  handleApiError,
+  api,
+} from "#src/utils/api";
 import * as authApi from "#src/apis/auth";
 
 // ===========================
@@ -29,60 +34,27 @@ export type {
 // ===========================
 
 /**
- * Login with automatic token management
+ * Helper function to store authentication tokens
  *
- * @param credentials - User login credentials
- * @returns Promise with authentication response
- *
- * @example
- * ```ts
- * const authData = await loginWithToken({
- *   loginCredentials: 'user@example.com',
- *   password: 'password123'
- * });
- * ```
+ * @param response - Login response containing tokens
  */
-export const loginWithToken = async (
-  credentials: authApi.LoginInfo,
-): Promise<authApi.LoginResponse> => {
-  try {
-    const authData = await authApi.login(credentials);
-
-    // Store tokens from wrapped API response
-    if (authData.data?.token) {
-      tokenManager.setToken(authData.data.token);
-    }
-    if (authData.data?.refreshToken) {
-      tokenManager.setRefreshToken(authData.data.refreshToken);
-    }
-
-    // Update API configuration with new token
-    api.updateConfiguration();
-
-    return authData;
-  } catch (error) {
-    throw handleApiError(error);
+const storeAuthTokens = (response: authApi.LoginResponse): void => {
+  // TokenResponseApiResponse has tokens in response.data
+  if (response.data?.token) {
+    tokenManager.setToken(response.data.token);
   }
+  if (response.data?.refreshToken) {
+    tokenManager.setRefreshToken(response.data.refreshToken);
+  }
+  api.updateConfiguration();
 };
 
 /**
- * Logout with automatic token cleanup
- *
- * @example
- * ```ts
- * await logoutWithCleanup();
- * ```
+ * Helper function to clear authentication tokens
  */
-export const logoutWithCleanup = async (): Promise<void> => {
-  try {
-    await authApi.logout();
-  } catch (error) {
-    // Log error but don't throw - always clear local tokens
-    console.error("Logout API call failed:", error);
-  } finally {
-    tokenManager.clearTokens();
-    api.updateConfiguration();
-  }
+const clearAuthTokens = (): void => {
+  tokenManager.clearTokens();
+  api.updateConfiguration();
 };
 
 /**
@@ -127,21 +99,29 @@ export const isAuthenticated = (): boolean => {
  * ```
  */
 export function useLogin(
-  options?: Omit<
-    UseMutationOptions<authApi.LoginResponse, ApiError, authApi.LoginInfo>,
-    "mutationFn"
-  >,
+  options?: UseApiMutationOptions<authApi.LoginResponse, authApi.LoginInfo>,
 ) {
   const queryClient = useQueryClient();
+  const userOnSuccess = options?.onSuccess;
 
-  return useMutation<authApi.LoginResponse, ApiError, authApi.LoginInfo>({
-    mutationFn: loginWithToken,
-    onSuccess: (...args) => {
+  return useApiMutation<authApi.LoginResponse, authApi.LoginInfo>({
+    ...options,
+    mutationFn: async (credentials: authApi.LoginInfo) =>
+      ({
+        data: await authApi.login(credentials),
+      }) as AxiosResponse<authApi.LoginResponse>,
+    onSuccess: (data) => {
+      // Store tokens and update configuration
+      storeAuthTokens(data);
       // Invalidate all queries on successful login
       queryClient.invalidateQueries();
-      options?.onSuccess?.(...args);
+      // Call user's onSuccess if provided
+      if (userOnSuccess) {
+        // Type: (data: TData, variables: TVariables, context: TContext) => void
+        // We cast it to accept single argument
+        (userOnSuccess as (data: authApi.LoginResponse) => void)(data);
+      }
     },
-    ...options,
   });
 }
 
@@ -164,18 +144,29 @@ export function useLogin(
  * ```
  */
 export function useLogout(
-  options?: Omit<UseMutationOptions<void, ApiError, void>, "mutationFn">,
+  options?: UseApiMutationOptions<authApi.LogoutResponse, void>,
 ) {
   const queryClient = useQueryClient();
+  const userOnSuccess = options?.onSuccess;
 
-  return useMutation<void, ApiError, void>({
-    mutationFn: logoutWithCleanup,
-    onSuccess: (...args) => {
+  return useApiMutation<authApi.LogoutResponse, void>({
+    ...options,
+    mutationFn: async () =>
+      ({
+        data: await authApi.logout(),
+      }) as AxiosResponse<authApi.LogoutResponse>,
+    onSuccess: (data) => {
+      // Clear tokens and configuration
+      clearAuthTokens();
       // Clear all queries on logout
       queryClient.clear();
-      options?.onSuccess?.(...args);
+      // Call user's onSuccess if provided
+      if (userOnSuccess) {
+        // Type: (data: TData, variables: TVariables, context: TContext) => void
+        // We cast it to accept single argument
+        (userOnSuccess as (data: authApi.LogoutResponse) => void)(data);
+      }
     },
-    ...options,
   });
 }
 
@@ -202,19 +193,13 @@ export function useLogout(
  * ```
  */
 export function useSignup(
-  options?: Omit<
-    UseMutationOptions<authApi.SignupResponse, ApiError, authApi.SignupInfo>,
-    "mutationFn"
-  >,
+  options?: UseApiMutationOptions<authApi.SignupResponse, authApi.SignupInfo>,
 ) {
-  return useMutation<authApi.SignupResponse, ApiError, authApi.SignupInfo>({
-    mutationFn: async (signupInfo) => {
-      try {
-        return await authApi.signup(signupInfo);
-      } catch (error) {
-        throw handleApiError(error);
-      }
-    },
+  return useApiMutation<authApi.SignupResponse, authApi.SignupInfo>({
+    mutationFn: async (signupInfo: authApi.SignupInfo) =>
+      ({
+        data: await authApi.signup(signupInfo),
+      }) as AxiosResponse<authApi.SignupResponse>,
     ...options,
   });
 }
@@ -290,11 +275,13 @@ export function useLoginManual() {
       setError(null);
 
       try {
-        const response = await loginWithToken(credentials);
+        const response = await authApi.login(credentials);
+        // response is already TokenResponseApiResponse from authApi.login
+        storeAuthTokens(response);
         setData(response);
         return response;
       } catch (err) {
-        const apiError = err as ApiError;
+        const apiError = handleApiError(err);
         setError(apiError);
         throw apiError;
       } finally {

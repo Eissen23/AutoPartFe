@@ -48,12 +48,12 @@ export default function WarehousesPage() {
     values: WarehouseLocationCreateRequest | WarehouseLocationUpdateRequest,
   ) => {
     if (editingWarehouse) {
-      await updateWarehouse(
-        editingWarehouse.id!,
-        values as WarehouseLocationUpdateRequest,
-      );
+      updateWarehouse({
+        id: editingWarehouse.id!,
+        data: values as WarehouseLocationUpdateRequest,
+      });
     } else {
-      await createWarehouse(values as WarehouseLocationCreateRequest);
+      createWarehouse(values as WarehouseLocationCreateRequest);
     }
     setIsWarehouseModalOpen(false);
     setEditingWarehouse(null);

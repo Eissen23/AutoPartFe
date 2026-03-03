@@ -1,32 +1,28 @@
 /**
  * Authentication Hooks and Helpers
- * 
+ *
  * Centralized authentication logic including login, logout,
  * and authentication state management with React hooks
  */
 
-import { useState, useCallback } from 'react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import type { UseMutationOptions } from '@tanstack/react-query';
-import { tokenManager, handleApiError, api } from '../../utils/api/index.js';
-import type { ApiError } from '#src/utils/api';
-import * as authApi from '#src/apis/auth';
+import { useState, useCallback } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { UseMutationOptions } from "@tanstack/react-query";
+import { tokenManager, handleApiError, api } from "#src/utils/api";
+import type { ApiError } from "#src/utils/api";
+import * as authApi from "#src/apis/auth";
 
 // ===========================
 // Re-export from apis/auth
 // ===========================
 
-export type { LoginInfo, SignupInfo } from '../../apis/auth/index.js';
-
-// ===========================
-// Auth Response Type
-// ===========================
-
-interface AuthTokenResponse {
-  token?: string;
-  refreshToken?: string;
-  [key: string]: unknown;
-}
+export type {
+  LoginInfo,
+  SignupInfo,
+  LoginResponse,
+  SignupResponse,
+  LogoutResponse,
+} from "#src/apis/auth";
 
 // ===========================
 // Enhanced Authentication Functions
@@ -34,10 +30,10 @@ interface AuthTokenResponse {
 
 /**
  * Login with automatic token management
- * 
+ *
  * @param credentials - User login credentials
  * @returns Promise with authentication response
- * 
+ *
  * @example
  * ```ts
  * const authData = await loginWithToken({
@@ -46,22 +42,23 @@ interface AuthTokenResponse {
  * });
  * ```
  */
-export const loginWithToken = async (credentials: authApi.LoginInfo) => {
+export const loginWithToken = async (
+  credentials: authApi.LoginInfo,
+): Promise<authApi.LoginResponse> => {
   try {
     const authData = await authApi.login(credentials);
-    
-    // Store tokens if present in response (adjust based on your API response structure)
-    const responseData = authData as unknown as AuthTokenResponse;
-    if (responseData?.token) {
-      tokenManager.setToken(responseData.token);
+
+    // Store tokens from wrapped API response
+    if (authData.data?.token) {
+      tokenManager.setToken(authData.data.token);
     }
-    if (responseData?.refreshToken) {
-      tokenManager.setRefreshToken(responseData.refreshToken);
+    if (authData.data?.refreshToken) {
+      tokenManager.setRefreshToken(authData.data.refreshToken);
     }
 
     // Update API configuration with new token
     api.updateConfiguration();
-    
+
     return authData;
   } catch (error) {
     throw handleApiError(error);
@@ -70,7 +67,7 @@ export const loginWithToken = async (credentials: authApi.LoginInfo) => {
 
 /**
  * Logout with automatic token cleanup
- * 
+ *
  * @example
  * ```ts
  * await logoutWithCleanup();
@@ -81,7 +78,7 @@ export const logoutWithCleanup = async (): Promise<void> => {
     await authApi.logout();
   } catch (error) {
     // Log error but don't throw - always clear local tokens
-    console.error('Logout API call failed:', error);
+    console.error("Logout API call failed:", error);
   } finally {
     tokenManager.clearTokens();
     api.updateConfiguration();
@@ -90,9 +87,9 @@ export const logoutWithCleanup = async (): Promise<void> => {
 
 /**
  * Check if user is authenticated
- * 
+ *
  * @returns true if user has a valid token
- * 
+ *
  * @example
  * ```ts
  * if (isAuthenticated()) {
@@ -110,18 +107,18 @@ export const isAuthenticated = (): boolean => {
 
 /**
  * Hook for login with React Query mutation
- * 
+ *
  * @example
  * ```tsx
  * function LoginForm() {
  *   const { mutate: login, isPending, error } = useLogin({
  *     onSuccess: () => navigate('/dashboard')
  *   });
- * 
+ *
  *   return (
- *     <button onClick={() => login({ 
- *       loginCredentials: 'user@example.com', 
- *       password: 'pass' 
+ *     <button onClick={() => login({
+ *       loginCredentials: 'user@example.com',
+ *       password: 'pass'
  *     })}>
  *       {isPending ? 'Logging in...' : 'Login'}
  *     </button>
@@ -130,11 +127,14 @@ export const isAuthenticated = (): boolean => {
  * ```
  */
 export function useLogin(
-  options?: Omit<UseMutationOptions<unknown, ApiError, authApi.LoginInfo>, 'mutationFn'>
+  options?: Omit<
+    UseMutationOptions<authApi.LoginResponse, ApiError, authApi.LoginInfo>,
+    "mutationFn"
+  >,
 ) {
   const queryClient = useQueryClient();
 
-  return useMutation<unknown, ApiError, authApi.LoginInfo>({
+  return useMutation<authApi.LoginResponse, ApiError, authApi.LoginInfo>({
     mutationFn: loginWithToken,
     onSuccess: (...args) => {
       // Invalidate all queries on successful login
@@ -147,14 +147,14 @@ export function useLogin(
 
 /**
  * Hook for logout with React Query mutation
- * 
+ *
  * @example
  * ```tsx
  * function LogoutButton() {
  *   const { mutate: logout, isPending } = useLogout({
  *     onSuccess: () => navigate('/login')
  *   });
- * 
+ *
  *   return (
  *     <button onClick={() => logout()} disabled={isPending}>
  *       {isPending ? 'Logging out...' : 'Logout'}
@@ -164,7 +164,7 @@ export function useLogin(
  * ```
  */
 export function useLogout(
-  options?: Omit<UseMutationOptions<void, ApiError, void>, 'mutationFn'>
+  options?: Omit<UseMutationOptions<void, ApiError, void>, "mutationFn">,
 ) {
   const queryClient = useQueryClient();
 
@@ -181,16 +181,16 @@ export function useLogout(
 
 /**
  * Hook for signup with React Query mutation
- * 
+ *
  * @example
  * ```tsx
  * function SignupForm() {
  *   const { mutate: signup, isPending, error } = useSignup({
  *     onSuccess: () => navigate('/login')
  *   });
- * 
+ *
  *   return (
- *     <button onClick={() => signup({ 
+ *     <button onClick={() => signup({
  *       username: 'newuser',
  *       email: 'user@example.com',
  *       password: 'pass'
@@ -202,9 +202,12 @@ export function useLogout(
  * ```
  */
 export function useSignup(
-  options?: Omit<UseMutationOptions<unknown, ApiError, authApi.SignupInfo>, 'mutationFn'>
+  options?: Omit<
+    UseMutationOptions<authApi.SignupResponse, ApiError, authApi.SignupInfo>,
+    "mutationFn"
+  >,
 ) {
-  return useMutation<unknown, ApiError, authApi.SignupInfo>({
+  return useMutation<authApi.SignupResponse, ApiError, authApi.SignupInfo>({
     mutationFn: async (signupInfo) => {
       try {
         return await authApi.signup(signupInfo);
@@ -218,14 +221,14 @@ export function useSignup(
 
 /**
  * Hook for managing authentication state
- * 
+ *
  * @returns Auth state and helper functions
- * 
+ *
  * @example
  * ```tsx
  * function AuthStatus() {
  *   const { isAuthenticated, checkAuth } = useAuth();
- * 
+ *
  *   return (
  *     <div>
  *       {isAuthenticated ? 'Logged in' : 'Not logged in'}
@@ -256,12 +259,12 @@ export function useAuth() {
 /**
  * Hook for manual login with loading/error states
  * Alternative to useLogin mutation hook
- * 
+ *
  * @example
  * ```tsx
  * function LoginForm() {
  *   const { performLogin, isLoading, error } = useLoginManual();
- * 
+ *
  *   const handleSubmit = async (e) => {
  *     e.preventDefault();
  *     try {
@@ -271,7 +274,7 @@ export function useAuth() {
  *       // Error is already in error state
  *     }
  *   };
- * 
+ *
  *   return <form onSubmit={handleSubmit}>...</form>;
  * }
  * ```
@@ -279,24 +282,27 @@ export function useAuth() {
 export function useLoginManual() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<ApiError | null>(null);
-  const [data, setData] = useState<unknown | null>(null);
+  const [data, setData] = useState<authApi.LoginResponse | null>(null);
 
-  const performLogin = useCallback(async (credentials: authApi.LoginInfo): Promise<unknown> => {
-    setIsLoading(true);
-    setError(null);
-    
-    try {
-      const response = await loginWithToken(credentials);
-      setData(response);
-      return response;
-    } catch (err) {
-      const apiError = err as ApiError;
-      setError(apiError);
-      throw apiError;
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  const performLogin = useCallback(
+    async (credentials: authApi.LoginInfo): Promise<authApi.LoginResponse> => {
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const response = await loginWithToken(credentials);
+        setData(response);
+        return response;
+      } catch (err) {
+        const apiError = err as ApiError;
+        setError(apiError);
+        throw apiError;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [],
+  );
 
   const reset = useCallback(() => {
     setIsLoading(false);
@@ -318,7 +324,7 @@ export function useLoginManual() {
 // ===========================
 
 // Re-export base API functions
-export { login, logout, signup } from '../../apis/auth/index.js';
+export { login, logout, signup } from "#src/apis/auth";
 
 // Re-export token manager for convenience
 export { tokenManager };

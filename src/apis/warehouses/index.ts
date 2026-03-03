@@ -7,6 +7,8 @@ import type {
   PartLocationsApiApiV1PartlocationsPostRequest,
   PartLocationsApiApiV1PartlocationsSearchPostRequest,
   WarehouseLocationDto,
+  WarehouseLocationDetailDto,
+  ExistingPart,
   WarehouseLocationDtoPaginatedResponse,
   WarehousesApiApiV1WarehousesIdDeleteRequest,
   WarehousesApiApiV1WarehousesIdGetRequest,
@@ -119,6 +121,17 @@ export type PartLocationListResponse = PartLocationDtoPaginatedResponse;
  * Contains warehouse location details
  */
 export type WarehouseLocationResponse = WarehouseLocationDto;
+
+/**
+ * Warehouse location detail response
+ * Contains warehouse location with part locations
+ */
+export type WarehouseLocationDetailResponse = WarehouseLocationDetailDto;
+
+/**
+ * Existing part at a warehouse location
+ */
+export type ExistingPartResponse = ExistingPart;
 
 /**
  * Paginated warehouse locations response

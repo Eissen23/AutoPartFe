@@ -2,6 +2,7 @@ import { useState } from "react";
 import { message } from "antd";
 import type {
   WarehouseLocationResponse,
+  WarehouseLocationDetailResponse,
   WarehouseLocationCreateRequest,
   WarehouseLocationUpdateRequest,
   PartLocationResponse,
@@ -61,6 +62,112 @@ const MOCK_WAREHOUSES: WarehouseLocationResponse[] = [
   },
 ];
 
+// Mock data for warehouse details with part locations
+const MOCK_WAREHOUSE_DETAILS: Record<string, WarehouseLocationDetailResponse> =
+  {
+    "1": {
+      id: "1",
+      zoneCode: "A",
+      aisle: 1,
+      shelf: 3,
+      bin: "01",
+      isOverstocked: false,
+      existingPart: [
+        {
+          id: "1",
+          partName: "Engine Oil Filter",
+          partNumber: "PART-001",
+          quantity: 100,
+        },
+        {
+          id: "2",
+          partName: "Air Filter",
+          partNumber: "PART-005",
+          quantity: 50,
+        },
+      ],
+    },
+    "2": {
+      id: "2",
+      zoneCode: "A",
+      aisle: 2,
+      shelf: 5,
+      bin: "02",
+      isOverstocked: true,
+      existingPart: [
+        {
+          id: "3",
+          partName: "Brake Pad Set",
+          partNumber: "PART-002",
+          quantity: 200,
+        },
+      ],
+    },
+    "3": {
+      id: "3",
+      zoneCode: "B",
+      aisle: 1,
+      shelf: 2,
+      bin: "A1",
+      isOverstocked: false,
+      existingPart: [
+        {
+          id: "4",
+          partName: "Spark Plug",
+          partNumber: "PART-003",
+          quantity: 75,
+        },
+        {
+          id: "5",
+          partName: "Fuel Filter",
+          partNumber: "PART-006",
+          quantity: 30,
+        },
+      ],
+    },
+    "4": {
+      id: "4",
+      zoneCode: "B",
+      aisle: 3,
+      shelf: 4,
+      bin: "B2",
+      isOverstocked: false,
+      existingPart: [
+        {
+          id: "6",
+          partName: "Wiper Blade",
+          partNumber: "PART-004",
+          quantity: 25,
+        },
+      ],
+    },
+    "5": {
+      id: "5",
+      zoneCode: "C",
+      aisle: 1,
+      shelf: 1,
+      bin: null,
+      isOverstocked: true,
+      existingPart: [],
+    },
+    "6": {
+      id: "6",
+      zoneCode: null,
+      aisle: 5,
+      shelf: 2,
+      bin: "03",
+      isOverstocked: false,
+      existingPart: [
+        {
+          id: "7",
+          partName: "Battery",
+          partNumber: "PART-007",
+          quantity: 15,
+        },
+      ],
+    },
+  };
+
 // Mock data for part locations
 const MOCK_PART_LOCATIONS: PartLocationResponse[] = [
   {
@@ -105,6 +212,27 @@ export function useWarehouses() {
       setIsLoading(false);
       message.info("Warehouse data refreshed");
     }, 500);
+  };
+
+  const getWarehouseById = (
+    id: string,
+  ): Promise<WarehouseLocationDetailResponse> => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const warehouse = MOCK_WAREHOUSE_DETAILS[id];
+        resolve(
+          warehouse || {
+            id,
+            zoneCode: null,
+            aisle: 0,
+            shelf: 0,
+            bin: null,
+            isOverstocked: false,
+            existingPart: [],
+          },
+        );
+      }, 300);
+    });
   };
 
   const createWarehouse = (data: WarehouseLocationCreateRequest) => {
@@ -173,6 +301,7 @@ export function useWarehouses() {
     isSubmitting,
     isDeleting,
     refetch,
+    getWarehouseById,
     createWarehouse,
     updateWarehouse,
     deleteWarehouse,

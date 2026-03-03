@@ -1,11 +1,12 @@
-import axios, { AxiosError } from 'axios';
-import type { 
-  AxiosInstance, 
+import axios, { AxiosError } from "axios";
+import type {
+  AxiosInstance,
   InternalAxiosRequestConfig,
-  AxiosResponse 
-} from 'axios';
-import { 
+  AxiosResponse,
+} from "axios";
+import {
   Configuration,
+  CategoriesApi,
   CustomersApi,
   DepartmentsApi,
   InvoiceItemsApi,
@@ -15,26 +16,24 @@ import {
   ProductsApi,
   TokenApi,
   UserApi,
-  WarehousesApi
-} from '../../openapi';
-import { useCallback, useState } from 'react';
-import { 
-  useQuery, 
-  useMutation 
-} from '@tanstack/react-query';
-import type { 
+  WarehousesApi,
+} from "../../openapi";
+import { useCallback, useState } from "react";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import type {
   UseQueryOptions,
   UseMutationOptions,
-  QueryKey 
-} from '@tanstack/react-query';
+  QueryKey,
+} from "@tanstack/react-query";
 
 // ===========================
 // Configuration & Constants
 // ===========================
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
-const TOKEN_STORAGE_KEY = 'auth_token';
-const REFRESH_TOKEN_STORAGE_KEY = 'refresh_token';
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+const TOKEN_STORAGE_KEY = "auth_token";
+const REFRESH_TOKEN_STORAGE_KEY = "refresh_token";
 
 // ===========================
 // Token Management
@@ -64,7 +63,7 @@ export const tokenManager = {
 
   hasToken: (): boolean => {
     return !!tokenManager.getToken();
-  }
+  },
 };
 
 // ===========================
@@ -78,7 +77,7 @@ let failedQueue: Array<{
 }> = [];
 
 const processQueue = (error: Error | null, token: string | null = null) => {
-  failedQueue.forEach(prom => {
+  failedQueue.forEach((prom) => {
     if (error) {
       prom.reject(error);
     } else {
@@ -93,7 +92,7 @@ export const apiClient: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
   timeout: 30000,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
@@ -108,14 +107,16 @@ apiClient.interceptors.request.use(
   },
   (error: AxiosError) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // Response interceptor - handle token refresh
 apiClient.interceptors.response.use(
   (response: AxiosResponse) => response,
   async (error: AxiosError) => {
-    const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
+    const originalRequest = error.config as InternalAxiosRequestConfig & {
+      _retry?: boolean;
+    };
 
     // Handle 401 Unauthorized
     if (error.response?.status === 401 && !originalRequest._retry) {
@@ -139,25 +140,29 @@ apiClient.interceptors.response.use(
 
       if (!refreshToken) {
         tokenManager.clearTokens();
-        window.location.href = '/login';
+        window.location.href = "/login";
         return Promise.reject(error);
       }
 
       try {
         // Attempt to refresh the token
-        const response = await axios.post(`${API_BASE_URL}/api/v1/token/refresh`, {
-          refreshToken,
-        });
+        const response = await axios.post(
+          `${API_BASE_URL}/api/v1/token/refresh`,
+          {
+            refreshToken,
+          },
+        );
 
-        const { token: newToken, refreshToken: newRefreshToken } = response.data;
-        
+        const { token: newToken, refreshToken: newRefreshToken } =
+          response.data;
+
         tokenManager.setToken(newToken);
         if (newRefreshToken) {
           tokenManager.setRefreshToken(newRefreshToken);
         }
 
         processQueue(null, newToken);
-        
+
         // Retry the original request with new token
         if (originalRequest.headers) {
           originalRequest.headers.Authorization = `Bearer ${newToken}`;
@@ -166,7 +171,7 @@ apiClient.interceptors.response.use(
       } catch (refreshError) {
         processQueue(refreshError as Error, null);
         tokenManager.clearTokens();
-        window.location.href = '/login';
+        window.location.href = "/login";
         return Promise.reject(refreshError);
       } finally {
         isRefreshing = false;
@@ -174,7 +179,7 @@ apiClient.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 // ===========================
@@ -186,11 +191,11 @@ const createOpenApiConfiguration = (): Configuration => {
     basePath: API_BASE_URL,
     accessToken: () => {
       const token = tokenManager.getToken();
-      return token || '';
+      return token || "";
     },
     baseOptions: {
       timeout: 30000,
-    }
+    },
   });
 };
 
@@ -212,16 +217,28 @@ class ApiClients {
     this.configuration = createOpenApiConfiguration();
   }
 
+  get categories(): CategoriesApi {
+    return new CategoriesApi(this.configuration, undefined, this.axiosInstance);
+  }
+
   get customers(): CustomersApi {
     return new CustomersApi(this.configuration, undefined, this.axiosInstance);
   }
 
   get departments(): DepartmentsApi {
-    return new DepartmentsApi(this.configuration, undefined, this.axiosInstance);
+    return new DepartmentsApi(
+      this.configuration,
+      undefined,
+      this.axiosInstance,
+    );
   }
 
   get invoiceItems(): InvoiceItemsApi {
-    return new InvoiceItemsApi(this.configuration, undefined, this.axiosInstance);
+    return new InvoiceItemsApi(
+      this.configuration,
+      undefined,
+      this.axiosInstance,
+    );
   }
 
   get invoices(): InvoicesApi {
@@ -229,11 +246,19 @@ class ApiClients {
   }
 
   get jobPositions(): JobPositionsApi {
-    return new JobPositionsApi(this.configuration, undefined, this.axiosInstance);
+    return new JobPositionsApi(
+      this.configuration,
+      undefined,
+      this.axiosInstance,
+    );
   }
 
   get partLocations(): PartLocationsApi {
-    return new PartLocationsApi(this.configuration, undefined, this.axiosInstance);
+    return new PartLocationsApi(
+      this.configuration,
+      undefined,
+      this.axiosInstance,
+    );
   }
 
   get products(): ProductsApi {
@@ -268,18 +293,22 @@ export interface ApiError {
 
 export const handleApiError = (error: unknown): ApiError => {
   if (axios.isAxiosError(error)) {
-    const axiosError = error as AxiosError<{ message?: string; error?: string }>;
+    const axiosError = error as AxiosError<{
+      message?: string;
+      error?: string;
+    }>;
     return {
-      message: axiosError.response?.data?.message || 
-               axiosError.response?.data?.error || 
-               axiosError.message || 
-               'An unexpected error occurred',
+      message:
+        axiosError.response?.data?.message ||
+        axiosError.response?.data?.error ||
+        axiosError.message ||
+        "An unexpected error occurred",
       status: axiosError.response?.status,
       code: axiosError.code,
       details: axiosError.response?.data,
     };
   }
-  
+
   if (error instanceof Error) {
     return {
       message: error.message,
@@ -287,7 +316,7 @@ export const handleApiError = (error: unknown): ApiError => {
   }
 
   return {
-    message: 'An unknown error occurred',
+    message: "An unknown error occurred",
   };
 };
 
@@ -301,27 +330,30 @@ export interface UseApiState<T> {
   loading: boolean;
 }
 
-export interface UseApiReturn<T, TArgs extends unknown[]> extends UseApiState<T> {
+export interface UseApiReturn<
+  T,
+  TArgs extends unknown[],
+> extends UseApiState<T> {
   execute: (...args: TArgs) => Promise<T>;
   reset: () => void;
 }
 
 /**
  * Hook for manual API calls with loading and error state management
- * 
+ *
  * @example
  * ```tsx
  * const { data, loading, error, execute } = useApi(
  *   (id: string) => api.customers.apiV1CustomersIdGet({ id })
  * );
- * 
+ *
  * const handleFetch = async () => {
  *   await execute('customer-id-123');
  * };
  * ```
  */
 export function useApi<T, TArgs extends unknown[]>(
-  apiFunction: (...args: TArgs) => Promise<AxiosResponse<T>>
+  apiFunction: (...args: TArgs) => Promise<AxiosResponse<T>>,
 ): UseApiReturn<T, TArgs> {
   const [state, setState] = useState<UseApiState<T>>({
     data: null,
@@ -332,7 +364,7 @@ export function useApi<T, TArgs extends unknown[]>(
   const execute = useCallback(
     async (...args: TArgs): Promise<T> => {
       setState({ data: null, error: null, loading: true });
-      
+
       try {
         const response = await apiFunction(...args);
         const data = response.data;
@@ -344,7 +376,7 @@ export function useApi<T, TArgs extends unknown[]>(
         throw apiError;
       }
     },
-    [apiFunction]
+    [apiFunction],
   );
 
   const reset = useCallback(() => {
@@ -362,14 +394,17 @@ export function useApi<T, TArgs extends unknown[]>(
 // React Hook: useFetch (React Query Integration)
 // ===========================
 
-export interface UseFetchOptions<T> extends Omit<UseQueryOptions<T, ApiError>, 'queryKey' | 'queryFn'> {
+export interface UseFetchOptions<T> extends Omit<
+  UseQueryOptions<T, ApiError>,
+  "queryKey" | "queryFn"
+> {
   queryKey: QueryKey;
 }
 
 /**
  * Hook for data fetching with React Query integration
  * Provides automatic caching, refetching, and state management
- * 
+ *
  * @example
  * ```tsx
  * const { data, isLoading, error, refetch } = useFetch({
@@ -382,7 +417,7 @@ export interface UseFetchOptions<T> extends Omit<UseQueryOptions<T, ApiError>, '
 export function useFetch<T>(
   options: UseFetchOptions<T> & {
     queryFn: () => Promise<AxiosResponse<T>>;
-  }
+  },
 ) {
   return useQuery<T, ApiError>({
     ...options,
@@ -401,23 +436,25 @@ export function useFetch<T>(
 // React Hook: useApiMutation (React Query Mutations)
 // ===========================
 
-export type UseApiMutationOptions<TData, TVariables, TContext = unknown> =
-  Omit<UseMutationOptions<TData, ApiError, TVariables, TContext>, 'mutationFn'>;
+export type UseApiMutationOptions<TData, TVariables, TContext = unknown> = Omit<
+  UseMutationOptions<TData, ApiError, TVariables, TContext>,
+  "mutationFn"
+>;
 
 /**
  * Hook for API mutations with React Query
  * Ideal for create, update, delete operations
- * 
+ *
  * @example
  * ```tsx
  * const { mutate, isPending, isError } = useApiMutation({
- *   mutationFn: (data: CreateCustomerRequest) => 
+ *   mutationFn: (data: CreateCustomerRequest) =>
  *     api.customers.apiV1CustomersPost({ createCustomerRequest: data }),
  *   onSuccess: () => {
  *     queryClient.invalidateQueries({ queryKey: ['customers'] });
  *   },
  * });
- * 
+ *
  * const handleCreate = () => {
  *   mutate({ name: 'John Doe', email: 'john@example.com' });
  * };
@@ -426,7 +463,7 @@ export type UseApiMutationOptions<TData, TVariables, TContext = unknown> =
 export function useApiMutation<TData, TVariables, TContext = unknown>(
   options: UseApiMutationOptions<TData, TVariables, TContext> & {
     mutationFn: (variables: TVariables) => Promise<AxiosResponse<TData>>;
-  }
+  },
 ) {
   return useMutation<TData, ApiError, TVariables, TContext>({
     ...options,
@@ -441,14 +478,10 @@ export function useApiMutation<TData, TVariables, TContext = unknown>(
   });
 }
 
-
-
 // ===========================
 // Exports
 // ===========================
 
-export {
-  api as apiClients,
-};
+export { api as apiClients };
 
-export { queryClient } from './queryClient.js';
+export { queryClient } from "./queryClient.js";

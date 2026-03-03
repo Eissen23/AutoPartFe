@@ -4,6 +4,7 @@ import DashboardLayout from "#src/components/layouts/DashboardLayout";
 
 const HomePage = lazy(() => import("#src/pages/HomePage"));
 const WarehousesPage = lazy(() => import("#src/pages/admin/warehouses"));
+const ProductPage = lazy(() => import("#src/pages/admin/products"));
 
 export const dashboardRoutes: RouteObject[] = [
   {
@@ -19,6 +20,11 @@ export const dashboardRoutes: RouteObject[] = [
         path: "/dashboard/warehouse",
         Component: WarehousesPage,
         handle: { label: "Warehouse" },
+      },
+      {
+        path: "/dashboard/products",
+        Component: ProductPage,
+        handle: { label: "Product" },
       },
     ],
   },

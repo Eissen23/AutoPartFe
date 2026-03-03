@@ -15,8 +15,8 @@ import type {
   WarehousesApiApiV1WarehousesIdPutRequest,
   WarehousesApiApiV1WarehousesPostRequest,
   WarehousesApiApiV1WarehousesSearchPostRequest,
-} from "../../openapi";
-import { apiClients } from "../../utils/api";
+} from "#src/openapi";
+import { apiClients } from "#src/utils/api";
 
 // ===========================
 // Types - Part Location Request Objects

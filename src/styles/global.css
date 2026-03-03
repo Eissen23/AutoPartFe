@@ -73,7 +73,7 @@
   .nav-item-active {
     @apply bg-slate-200 text-blue-800;
     border-right: 5px solid;
-    border-image: linear-gradient(to bottom, darkblue, darkorchid) 1;
+    border-image: linear-gradient(to bottom, darkblue, red) 1;
   }
 
   .dashboard-content {

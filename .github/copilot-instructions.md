@@ -16,3 +16,8 @@
 - Use React hooks for state management
 - Functional components only
 - Proper TypeScript types and error handling
+
+## Note
+
+- Use the useFetch from the "#src/utils/api/index.ts for any all fetching and state managing
+- Avoid using "any" as type whatsovever

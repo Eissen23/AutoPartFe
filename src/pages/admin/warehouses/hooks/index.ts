@@ -23,6 +23,30 @@ import {
 } from "#src/apis/warehouses";
 import { useFetch, useApiMutation } from "#src/utils/api";
 
+function extractPaginatedArrayData<T>(raw: unknown): T[] {
+  if (Array.isArray(raw)) {
+    return raw as T[];
+  }
+
+  if (!raw || typeof raw !== "object") {
+    return [];
+  }
+
+  const firstLevelData = (raw as Record<string, unknown>).data;
+
+  if (Array.isArray(firstLevelData)) {
+    return firstLevelData as T[];
+  }
+
+  if (!firstLevelData || typeof firstLevelData !== "object") {
+    return [];
+  }
+
+  const secondLevelData = (firstLevelData as Record<string, unknown>).data;
+
+  return Array.isArray(secondLevelData) ? (secondLevelData as T[]) : [];
+}
+
 /**
  * Custom hook for managing warehouse locations
  */
@@ -37,10 +61,12 @@ export function useWarehouses() {
     refetch,
   } = useFetch<WarehouseLocationResponse[]>({
     queryKey: ["warehouses"],
-    queryFn: async () =>
-      ({
-        data: await searchWarehouseLocations(),
-      }) as AxiosResponse<WarehouseLocationResponse[]>,
+    queryFn: async () => {
+      const raw = await searchWarehouseLocations();
+      return {
+        data: extractPaginatedArrayData<WarehouseLocationResponse>(raw),
+      } as AxiosResponse<WarehouseLocationResponse[]>;
+    },
   });
 
   // Create warehouse mutation
@@ -155,10 +181,12 @@ export function usePartLocations() {
     refetch,
   } = useFetch<PartLocationResponse[]>({
     queryKey: ["partLocations"],
-    queryFn: async () =>
-      ({
-        data: await searchPartLocations(),
-      }) as AxiosResponse<PartLocationResponse[]>,
+    queryFn: async () => {
+      const raw = await searchPartLocations();
+      return {
+        data: extractPaginatedArrayData<PartLocationResponse>(raw),
+      } as AxiosResponse<PartLocationResponse[]>;
+    },
   });
 
   // Create part location mutation

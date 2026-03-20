@@ -119,6 +119,7 @@ export default function WarehouseTable({
       dataIndex: "zoneCode",
       key: "zoneCode",
       render: (text) => <Text>{text || "-"}</Text>,
+      width: 150,
     },
     {
       title: "Aisle",
@@ -138,13 +139,14 @@ export default function WarehouseTable({
       title: "Bin",
       dataIndex: "bin",
       key: "bin",
+      width: 100,
       render: (text) => <Text>{text || "-"}</Text>,
     },
     {
       title: "Overstocked",
       dataIndex: "isOverstocked",
       key: "isOverstocked",
-      width: 120,
+      width: 50,
       render: (value: boolean) => (
         <span
           className={`px-2 py-1 rounded text-xs font-medium ${

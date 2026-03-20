@@ -59,6 +59,7 @@ export default function ProductTable({
       title: "Zone Code",
       dataIndex: "zoneCode",
       key: "zoneCode",
+      width: 80,
       render: (text) => (
         <Text className="font-mono text-sm">{text || "-"}</Text>
       ),

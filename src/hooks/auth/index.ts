@@ -7,6 +7,7 @@
 
 import { useState, useCallback } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useSelector, useDispatch } from "react-redux";
 import type { AxiosResponse } from "axios";
 import type { UseApiMutationOptions, ApiError } from "#src/utils/api";
 import {
@@ -16,6 +17,12 @@ import {
   api,
 } from "#src/utils/api";
 import * as authApi from "#src/apis/auth";
+import type { RootState, AppDispatch } from "#src/store";
+import {
+  setCredentials,
+  clearCredentials,
+  syncAuth,
+} from "#src/store/userSlice";
 
 // ===========================
 // Re-export from apis/auth
@@ -102,6 +109,7 @@ export function useLogin(
   options?: UseApiMutationOptions<authApi.LoginResponse, authApi.LoginInfo>,
 ) {
   const queryClient = useQueryClient();
+  const dispatch = useDispatch<AppDispatch>();
   const userOnSuccess = options?.onSuccess;
 
   return useApiMutation<authApi.LoginResponse, authApi.LoginInfo>({
@@ -111,14 +119,17 @@ export function useLogin(
         data: await authApi.login(credentials),
       }) as AxiosResponse<authApi.LoginResponse>,
     onSuccess: (data) => {
-      // Store tokens and update configuration
       storeAuthTokens(data);
-      // Invalidate all queries on successful login
+      if (data.data?.token) {
+        dispatch(
+          setCredentials({
+            token: data.data.token,
+            refreshToken: data.data.refreshToken ?? undefined,
+          }),
+        );
+      }
       queryClient.invalidateQueries();
-      // Call user's onSuccess if provided
       if (userOnSuccess) {
-        // Type: (data: TData, variables: TVariables, context: TContext) => void
-        // We cast it to accept single argument
         (userOnSuccess as (data: authApi.LoginResponse) => void)(data);
       }
     },
@@ -147,6 +158,7 @@ export function useLogout(
   options?: UseApiMutationOptions<authApi.LogoutResponse, void>,
 ) {
   const queryClient = useQueryClient();
+  const dispatch = useDispatch<AppDispatch>();
   const userOnSuccess = options?.onSuccess;
 
   return useApiMutation<authApi.LogoutResponse, void>({
@@ -156,14 +168,10 @@ export function useLogout(
         data: await authApi.logout(),
       }) as AxiosResponse<authApi.LogoutResponse>,
     onSuccess: (data) => {
-      // Clear tokens and configuration
       clearAuthTokens();
-      // Clear all queries on logout
+      dispatch(clearCredentials());
       queryClient.clear();
-      // Call user's onSuccess if provided
       if (userOnSuccess) {
-        // Type: (data: TData, variables: TVariables, context: TContext) => void
-        // We cast it to accept single argument
         (userOnSuccess as (data: authApi.LogoutResponse) => void)(data);
       }
     },
@@ -223,19 +231,22 @@ export function useSignup(
  * ```
  */
 export function useAuth() {
-  const [authenticated, setAuthenticated] = useState(isAuthenticated);
+  const dispatch = useDispatch<AppDispatch>();
+  const { isAuthenticated, token } = useSelector(
+    (state: RootState) => state.user,
+  );
 
   const checkAuth = useCallback(() => {
-    setAuthenticated(isAuthenticated());
-  }, []);
+    dispatch(syncAuth());
+  }, [dispatch]);
 
   const updateAuthState = useCallback(() => {
-    setAuthenticated(isAuthenticated());
-  }, []);
+    dispatch(syncAuth());
+  }, [dispatch]);
 
   return {
-    isAuthenticated: authenticated,
-    token: tokenManager.getToken(),
+    isAuthenticated,
+    token,
     checkAuth,
     updateAuthState,
   };
@@ -265,6 +276,7 @@ export function useAuth() {
  * ```
  */
 export function useLoginManual() {
+  const dispatch = useDispatch<AppDispatch>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<ApiError | null>(null);
   const [data, setData] = useState<authApi.LoginResponse | null>(null);
@@ -276,8 +288,15 @@ export function useLoginManual() {
 
       try {
         const response = await authApi.login(credentials);
-        // response is already TokenResponseApiResponse from authApi.login
         storeAuthTokens(response);
+        if (response.data?.token) {
+          dispatch(
+            setCredentials({
+              token: response.data.token,
+              refreshToken: response.data.refreshToken ?? undefined,
+            }),
+          );
+        }
         setData(response);
         return response;
       } catch (err) {
@@ -288,7 +307,7 @@ export function useLoginManual() {
         setIsLoading(false);
       }
     },
-    [],
+    [dispatch],
   );
 
   const reset = useCallback(() => {

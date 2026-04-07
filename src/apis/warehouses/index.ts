@@ -163,9 +163,10 @@ export const createPartLocation = async (
  * GET /api/v1/partlocations/{id}
  * Retrieve details of a specific part location
  */
-export const getPartLocation = async (request: PartLocationGetRequest) => {
-  const result =
-    await apiClients.partLocations.apiV1PartlocationsIdGet(request);
+export const getPartLocation = async (id: string) => {
+  const result = await apiClients.partLocations.apiV1PartlocationsIdGet({
+    id,
+  });
   return result.data;
 };
 
@@ -235,10 +236,11 @@ export const createWarehouseLocation = async (
  * GET /api/v1/warehouses/{id}
  * Retrieve details of a specific warehouse location
  */
-export const getWarehouseLocation = async (
-  request: WarehouseLocationGetRequest,
-) => {
-  const result = await apiClients.warehouses.apiV1WarehousesIdGet(request);
+export const getWarehouseLocation = async (id: string) => {
+  const result = await apiClients.warehouses.apiV1WarehousesIdGet({
+    id: id,
+  });
+
   return result.data;
 };
 

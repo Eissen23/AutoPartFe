@@ -2019,6 +2019,25 @@ export interface ProductDtoPaginatedResponseApiResponse {
 /**
  * 
  * @export
+ * @interface RefreshTokenRequest
+ */
+export interface RefreshTokenRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof RefreshTokenRequest
+     */
+    'token'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof RefreshTokenRequest
+     */
+    'refreshToken'?: string | null;
+}
+/**
+ * 
+ * @export
  * @interface Search
  */
 export interface Search {
@@ -2557,12 +2576,6 @@ export interface UpdateCategoryRequest {
      * @type {string}
      * @memberof UpdateCategoryRequest
      */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateCategoryRequest
-     */
     'name'?: string | null;
     /**
      * 
@@ -2591,12 +2604,6 @@ export interface UpdateCategoryRequest {
  * @interface UpdateCustomerRequest
  */
 export interface UpdateCustomerRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateCustomerRequest
-     */
-    'id'?: string;
     /**
      * 
      * @type {string}
@@ -2666,12 +2673,6 @@ export interface UpdateInvoiceItemRequest {
      * @type {string}
      * @memberof UpdateInvoiceItemRequest
      */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateInvoiceItemRequest
-     */
     'invoiceId'?: string | null;
     /**
      * 
@@ -2698,12 +2699,6 @@ export interface UpdateInvoiceItemRequest {
  * @interface UpdateInvoiceRequest
  */
 export interface UpdateInvoiceRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateInvoiceRequest
-     */
-    'id'?: string;
     /**
      * 
      * @type {string}
@@ -2779,12 +2774,6 @@ export interface UpdatePartLocationRequest {
      * @type {string}
      * @memberof UpdatePartLocationRequest
      */
-    'id'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdatePartLocationRequest
-     */
     'partId'?: string | null;
     /**
      * 
@@ -2805,12 +2794,6 @@ export interface UpdatePartLocationRequest {
  * @interface UpdateProductRequest
  */
 export interface UpdateProductRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateProductRequest
-     */
-    'id'?: string;
     /**
      * 
      * @type {string}
@@ -2988,12 +2971,6 @@ export interface UpdateUserRequest {
  * @interface UpdateWarehouseLocationRequest
  */
 export interface UpdateWarehouseLocationRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateWarehouseLocationRequest
-     */
-    'id'?: string;
     /**
      * 
      * @type {string}
@@ -7088,6 +7065,39 @@ export const TokenApiAxiosParamCreator = function (configuration?: Configuration
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {RefreshTokenRequest} [refreshTokenRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1TokenRefreshPost: async (refreshTokenRequest?: RefreshTokenRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/token/refresh`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(refreshTokenRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -7121,6 +7131,18 @@ export const TokenApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['TokenApi.apiV1TokenPost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @param {RefreshTokenRequest} [refreshTokenRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1TokenRefreshPost(refreshTokenRequest?: RefreshTokenRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokenResponseApiResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1TokenRefreshPost(refreshTokenRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['TokenApi.apiV1TokenRefreshPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -7148,6 +7170,15 @@ export const TokenApiFactory = function (configuration?: Configuration, basePath
         apiV1TokenPost(requestParameters: TokenApiApiV1TokenPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<TokenResponseApiResponse> {
             return localVarFp.apiV1TokenPost(requestParameters.tokenRequest, options).then((request) => request(axios, basePath));
         },
+        /**
+         * 
+         * @param {TokenApiApiV1TokenRefreshPostRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1TokenRefreshPost(requestParameters: TokenApiApiV1TokenRefreshPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<TokenResponseApiResponse> {
+            return localVarFp.apiV1TokenRefreshPost(requestParameters.refreshTokenRequest, options).then((request) => request(axios, basePath));
+        },
     };
 };
 
@@ -7163,6 +7194,20 @@ export interface TokenApiApiV1TokenPostRequest {
      * @memberof TokenApiApiV1TokenPost
      */
     readonly tokenRequest?: TokenRequest
+}
+
+/**
+ * Request parameters for apiV1TokenRefreshPost operation in TokenApi.
+ * @export
+ * @interface TokenApiApiV1TokenRefreshPostRequest
+ */
+export interface TokenApiApiV1TokenRefreshPostRequest {
+    /**
+     * 
+     * @type {RefreshTokenRequest}
+     * @memberof TokenApiApiV1TokenRefreshPost
+     */
+    readonly refreshTokenRequest?: RefreshTokenRequest
 }
 
 /**
@@ -7191,6 +7236,17 @@ export class TokenApi extends BaseAPI {
      */
     public apiV1TokenPost(requestParameters: TokenApiApiV1TokenPostRequest = {}, options?: RawAxiosRequestConfig) {
         return TokenApiFp(this.configuration).apiV1TokenPost(requestParameters.tokenRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {TokenApiApiV1TokenRefreshPostRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TokenApi
+     */
+    public apiV1TokenRefreshPost(requestParameters: TokenApiApiV1TokenRefreshPostRequest = {}, options?: RawAxiosRequestConfig) {
+        return TokenApiFp(this.configuration).apiV1TokenRefreshPost(requestParameters.refreshTokenRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

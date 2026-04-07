@@ -1,18 +1,19 @@
 import { RouterProvider } from "react-router";
 import { Suspense } from "react";
+import { Provider } from "react-redux";
 import { router } from "./routes";
 import { ApiProvider } from "./utils/api/provider";
-import { AuthProvider } from "#src/contexts/AuthContext";
+import { store } from "#src/store";
 
 function App() {
   return (
-    <ApiProvider>
-      <AuthProvider>
+    <Provider store={store}>
+      <ApiProvider>
         <Suspense fallback={<div>Loading...</div>}>
           <RouterProvider router={router} />
         </Suspense>
-      </AuthProvider>
-    </ApiProvider>
+      </ApiProvider>
+    </Provider>
   );
 }
 

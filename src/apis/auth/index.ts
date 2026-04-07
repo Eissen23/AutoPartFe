@@ -4,6 +4,7 @@ import {
   type TokenResponseApiResponse,
   type GuidApiResponse,
   type StringApiResponse,
+  type RefreshTokenRequest,
 } from "#src/openapi";
 import { apiClients } from "#src/utils/api";
 
@@ -34,11 +35,11 @@ export type LogoutResponse = StringApiResponse;
  * Login - Create authentication token
  * POST /api/v1/token
  */
-export const login = async (request: LoginInfo) => {
+export const login = async (payload: LoginInfo) => {
   const result = await apiClients.token.apiV1TokenPost({
-    tokenRequest: request,
+    tokenRequest: payload,
   });
-  return result.data;
+  return result?.data;
 };
 
 /**
@@ -47,16 +48,30 @@ export const login = async (request: LoginInfo) => {
  */
 export const logout = async () => {
   const result = await apiClients.token.apiV1TokenLogoutPost();
-  return result.data;
+  return result?.data;
 };
 
 /**
  * Sign up - Create new user account
  * POST /api/v1/user
  */
-export const signup = async (request: SignupInfo) => {
+export const signup = async (payload: SignupInfo) => {
   const result = await apiClients.user.apiV1UserPost({
-    createUserRequest: request,
+    createUserRequest: payload,
   });
-  return result.data;
+  return result?.data;
+};
+
+export const refreshLogin = async (payload: RefreshTokenRequest) => {
+  const result = await apiClients.token.apiV1TokenRefreshPost({
+    refreshTokenRequest: payload,
+  });
+
+  return result?.data;
+};
+
+export const getProfile = async () => {
+  const result = await apiClients.user.apiV1UserProfileGet();
+
+  return result?.data;
 };

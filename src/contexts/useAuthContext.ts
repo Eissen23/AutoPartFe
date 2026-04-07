@@ -1,22 +1,19 @@
 /**
  * Authentication Context Utilities
  *
- * Contains the context and hooks for authentication
+ * Provides the useAuthContext hook backed by Redux userStore
  */
 
-import { createContext, useContext } from "react";
-import type { AuthContextType } from "#src/contexts/types";
-
-// Create the context with undefined default
-export const AuthContext = createContext<AuthContextType | undefined>(
-  undefined,
-);
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useCallback } from "react";
+import type { RootState, AppDispatch } from "#src/store";
+import { syncAuth } from "#src/store/userSlice";
 
 /**
- * Hook to use authentication context
+ * Hook to access authentication state from the Redux user store
  *
- * @returns Authentication state and methods
- * @throws Error if used outside of AuthProvider
+ * @returns Authentication state and helper methods
  *
  * @example
  * ```tsx
@@ -32,9 +29,18 @@ export const AuthContext = createContext<AuthContextType | undefined>(
  * ```
  */
 export function useAuthContext() {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuthContext must be used within an AuthProvider");
-  }
-  return context;
+  const dispatch = useDispatch<AppDispatch>();
+  const { isAuthenticated, token } = useSelector(
+    (state: RootState) => state.user,
+  );
+
+  const checkAuth = useCallback(() => {
+    dispatch(syncAuth());
+  }, [dispatch]);
+
+  const updateAuthState = useCallback(() => {
+    dispatch(syncAuth());
+  }, [dispatch]);
+
+  return { isAuthenticated, token, checkAuth, updateAuthState };
 }

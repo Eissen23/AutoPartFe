@@ -90,8 +90,10 @@ export const createProduct = async (request?: ProductCreateRequest) => {
  * GET /api/v1/products/{id}
  * Retrieve details of a specific product
  */
-export const getProduct = async (request: ProductGetRequest) => {
-  const result = await apiClients.products.apiV1ProductsIdGet(request);
+export const getProduct = async (id: string) => {
+  const result = await apiClients.products.apiV1ProductsIdGet({
+    id: id,
+  });
   return result.data;
 };
 

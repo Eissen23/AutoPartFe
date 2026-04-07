@@ -118,8 +118,10 @@ export const updateProduct = async (
  * DELETE /api/v1/products/{id}
  * Remove a product from the system
  */
-export const deleteProduct = async (request: ProductDeleteRequest) => {
-  const result = await apiClients.products.apiV1ProductsIdDelete(request);
+export const deleteProduct = async (id: string) => {
+  const result = await apiClients.products.apiV1ProductsIdDelete({
+    id,
+  });
   return result.data;
 };
 

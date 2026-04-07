@@ -33,7 +33,7 @@ function ExpandedPartsTable({ warehouseId }: { warehouseId: string }) {
     );
   }
 
-  const parts = details?.existingPart || [];
+  const parts = details?.data?.existingPart || [];
 
   if (parts.length === 0) {
     return (

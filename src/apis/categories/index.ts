@@ -83,8 +83,10 @@ export const createCategory = async (request?: CategoryCreateRequest) => {
  * GET /api/v1/categories/{id}
  * Retrieve details of a specific category
  */
-export const getCategory = async (request: CategoryGetRequest) => {
-  const result = await apiClients.categories.apiV1CategoriesIdGet(request);
+export const getCategory = async (id: string) => {
+  const result = await apiClients.categories.apiV1CategoriesIdGet({
+    id,
+  });
   return result.data;
 };
 

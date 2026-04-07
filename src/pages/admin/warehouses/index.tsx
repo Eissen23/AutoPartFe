@@ -38,12 +38,12 @@ export default function WarehousesPage() {
   const updateMutation = useUpdateWarehouse();
   const deleteMutation = useDeleteWarehouse();
 
-  const warehousesData = warehousesResult?.items || [];
+  const warehousesData = warehousesResult?.data?.data || [];
   const paginationCurrentPage =
-    warehousesResult?.currentPage || searchParams?.pageNumber || 1;
+    warehousesResult?.data?.currentPage || searchParams?.pageNumber || 1;
   const paginationPageSize =
-    warehousesResult?.pageSize || searchParams?.pageSize || 10;
-  const paginationTotal = warehousesResult?.totalCount || 0;
+    warehousesResult?.data?.pageSize || searchParams?.pageSize || 10;
+  const paginationTotal = warehousesResult?.data?.totalCount || 0;
 
   const searchKeyword = searchParams?.advanceSearches?.keyword ?? "";
   const overstockFilter: "all" | "true" | "false" =

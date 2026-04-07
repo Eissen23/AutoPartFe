@@ -416,7 +416,7 @@ export interface UseFetchOptions<T> extends Omit<
  */
 export function useFetch<T>(
   options: UseFetchOptions<T> & {
-    queryFn: () => Promise<AxiosResponse<T>>;
+    queryFn: () => Promise<T>;
   },
 ) {
   return useQuery<T, ApiError>({
@@ -424,7 +424,7 @@ export function useFetch<T>(
     queryFn: async () => {
       try {
         const response = await options.queryFn();
-        return response.data;
+        return response;
       } catch (error) {
         throw handleApiError(error);
       }
@@ -462,7 +462,7 @@ export type UseApiMutationOptions<TData, TVariables, TContext = unknown> = Omit<
  */
 export function useApiMutation<TData, TVariables, TContext = unknown>(
   options: UseApiMutationOptions<TData, TVariables, TContext> & {
-    mutationFn: (variables: TVariables) => Promise<AxiosResponse<TData>>;
+    mutationFn: (variables: TVariables) => Promise<TData>;
   },
 ) {
   return useMutation<TData, ApiError, TVariables, TContext>({
@@ -470,7 +470,7 @@ export function useApiMutation<TData, TVariables, TContext = unknown>(
     mutationFn: async (variables: TVariables) => {
       try {
         const response = await options.mutationFn(variables);
-        return response.data;
+        return response;
       } catch (error) {
         throw handleApiError(error);
       }

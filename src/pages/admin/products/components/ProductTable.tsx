@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { Table, Typography } from "antd";
+import { Button, Popconfirm, Space, Table, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import type {
-  ProductResponse,
-  ProductDetailResponse,
-} from "#src/apis/products";
+import type { ProductResponse } from "#src/apis/products";
 import type { CategoryNameDto, WarehouseStockDto } from "#src/openapi";
+import { useProductById } from "#src/hooks/product";
 
 const { Text } = Typography;
 
@@ -13,48 +11,38 @@ interface ProductTableProps {
   data: ProductResponse[];
   loading: boolean;
   categoryMap: CategoryNameDto[];
-  onExpand?: (id: string) => Promise<ProductDetailResponse>;
+  onEdit: (record: ProductResponse) => void;
+  onDelete: (id: string) => void;
+  deleting: boolean;
+  currentPage: number;
+  pageSize: number;
+  total: number;
+  onPaginationChange: (page: number, pageSize: number) => void;
 }
 
-const truncateText = (
-  text: string | null | undefined,
-  maxLength: number = 50,
-) => {
-  if (!text) return "-";
-  if (text.length <= maxLength) return text;
-  return text.substring(0, maxLength) + "...";
-};
+function ExpandTable({ productId }: { productId: string }) {
+  const { data: detailData, isLoading } = useProductById(productId);
 
-export default function ProductTable({
-  data,
-  loading,
-  categoryMap,
-  onExpand,
-}: ProductTableProps) {
-  const [expandedRowKeys, setExpandedRowKeys] = useState<string[]>([]);
-  const [expandedData, setExpandedData] = useState<
-    Record<string, ProductDetailResponse>
-  >({});
-  const [expandLoading, setExpandLoading] = useState<Record<string, boolean>>(
-    {},
-  );
+  // Show loader while details query is in flight for the expanded row.
+  if (isLoading) {
+    return (
+      <div className="p-4 text-center text-gray-500">
+        Loading product stock...
+      </div>
+    );
+  }
 
-  const handleExpand = async (expanded: boolean, record: ProductResponse) => {
-    if (expanded && onExpand && record.id) {
-      setExpandLoading({ ...expandLoading, [record.id]: true });
-      try {
-        const details = await onExpand(record.id);
-        setExpandedData({ ...expandedData, [record.id]: details });
-      } catch (error) {
-        console.error("Failed to load product details:", error);
-      } finally {
-        setExpandLoading({ ...expandLoading, [record.id]: false });
-      }
-    }
-  };
+  const stock = detailData?.warehouseStocks || [];
 
-  // Inner table columns for warehouse stocks
-  const warehouseStockColumns: ColumnsType<WarehouseStockDto> = [
+  if (stock.length === 0) {
+    return (
+      <div className="p-4 text-center text-gray-500">
+        No stock found of this product
+      </div>
+    );
+  }
+
+  const columns: ColumnsType<WarehouseStockDto> = [
     {
       title: "Zone Code",
       dataIndex: "zoneCode",
@@ -99,39 +87,62 @@ export default function ProductTable({
     },
   ];
 
+  return (
+    <Table
+      columns={columns}
+      dataSource={stock}
+      rowKey="id"
+      pagination={false}
+      size="small"
+      className="ml-8"
+    />
+  );
+}
+
+const truncateText = (
+  text: string | null | undefined,
+  maxLength: number = 50,
+) => {
+  if (!text) return "-";
+  if (text.length <= maxLength) return text;
+  return text.substring(0, maxLength) + "...";
+};
+
+export default function ProductTable({
+  data,
+  loading,
+  categoryMap,
+  onEdit,
+  onDelete,
+  deleting,
+  currentPage,
+  pageSize,
+  total,
+  onPaginationChange,
+}: ProductTableProps) {
+  const [expandedRowKeys, setExpandedRowKeys] = useState<string[]>([]);
+
+  const handleExpand = async (expanded: boolean, record: ProductResponse) => {
+    if (!record.id) {
+      return;
+    }
+
+    setExpandedRowKeys((prev) =>
+      expanded
+        ? [...new Set([...prev, record.id!])]
+        : prev.filter((key) => key !== record.id),
+    );
+  };
+
+  // Inner table columns for warehouse stocks
+
   // Expandable row render
   const expandedRowRender = (record: ProductResponse) => {
-    const details = expandedData[record.id!];
-    const isLoading = expandLoading[record.id!];
-
-    if (isLoading) {
-      return (
-        <div className="p-4 text-center text-gray-500">
-          Loading warehouse stock information...
-        </div>
-      );
+    if (!record.id) {
+      return null;
     }
 
-    const stocks = details?.warehouseStocks || [];
-
-    if (stocks.length === 0) {
-      return (
-        <div className="p-4 text-center text-gray-500">
-          No warehouse stock records found
-        </div>
-      );
-    }
-
-    return (
-      <Table
-        columns={warehouseStockColumns}
-        dataSource={stocks}
-        rowKey="id"
-        pagination={false}
-        size="small"
-        className="ml-8"
-      />
-    );
+    return <ExpandTable productId={record.id} />;
   };
 
   const columns: ColumnsType<ProductResponse> = [
@@ -194,6 +205,35 @@ export default function ProductTable({
         </span>
       ),
     },
+    {
+      title: "Actions",
+      key: "actions",
+      width: 150,
+      fixed: "right",
+      render: (_, record) => (
+        <Space size="small">
+          <Button
+            type="link"
+            onClick={() => onEdit(record)}
+            className="text-blue-600 hover:text-blue-700"
+          >
+            Edit
+          </Button>
+          <Popconfirm
+            title="Delete Product?"
+            description="Are you sure you want to delete this warehouse location?"
+            onConfirm={() => onDelete(record.id!)}
+            okText="Yes"
+            cancelText="No"
+            okButtonProps={{ danger: true, loading: deleting }}
+          >
+            <Button type="link" danger loading={deleting}>
+              Delete
+            </Button>
+          </Popconfirm>
+        </Space>
+      ),
+    },
   ];
 
   return (
@@ -209,8 +249,11 @@ export default function ProductTable({
         onExpandedRowsChange: (keys) => setExpandedRowKeys(keys as string[]),
       }}
       pagination={{
-        pageSize: 10,
+        current: currentPage,
+        pageSize,
+        total,
         showSizeChanger: true,
+        onChange: onPaginationChange,
         showTotal: (total, range) =>
           `${range[0]}-${range[1]} of ${total} items`,
       }}

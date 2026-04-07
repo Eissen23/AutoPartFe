@@ -1,28 +1,142 @@
-import { Card, Typography, Button, Space } from "antd";
-import { ProductTable } from "./components";
-import { useProducts } from "./hooks";
-import type { CategoryNameDto } from "#src/openapi";
+import { Card, Typography, Button, Space, Input } from "antd";
+import { ProductFormModal, ProductTable } from "./components";
+import { useMemo, useState } from "react";
+import type {
+  ProductCreateRequest,
+  ProductResponse,
+  ProductSearchRequest,
+  ProductUpdateRequest,
+} from "#src/apis/products";
+import {
+  useCreateProduct,
+  useDeleteProduct,
+  useProductQuery,
+  useUpdateProduct,
+} from "#src/hooks/product";
+import { useCategoryMap } from "#src/hooks/categories";
 
 const { Title } = Typography;
 
-const MOCK_CATEGORIES: CategoryNameDto[] = [
-  { id: "cat-1", name: "Electrical" },
-  { id: "cat-2", name: "Braking" },
-  { id: "cat-3", name: "Filters" },
-];
-
 export default function ProductsPage() {
+  const [showProductModal, setShowProductModal] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<ProductResponse | null>(
+    null,
+  );
+  const [searchParams, setSearchParams] = useState<ProductSearchRequest>({
+    pageNumber: 1,
+    pageSize: 10,
+  });
+
   const {
-    productsData,
+    data: productsData,
     isLoading: isLoadingProducts,
     refetch: refetchProducts,
-    getProductById,
-  } = useProducts();
+  } = useProductQuery(searchParams);
+  const { data: categoryMap, isLoading: loadingCategories } = useCategoryMap();
 
-  const loadingCategories = false;
+  const createMutation = useCreateProduct();
+  const updateMutation = useUpdateProduct();
+  const deleteMutation = useDeleteProduct();
+
+  const paginationCurrentPage =
+    productsData?.currentPage || searchParams?.pageNumber || 1;
+
+  const paginationPageSize =
+    productsData?.pageSize || searchParams?.pageSize || 10;
+
+  const paginationTotal = productsData?.totalCount || 0;
+
+  const data = useMemo(() => productsData?.data, [productsData]);
+  const searchKeyword = searchParams?.advanceSearches?.keyword ?? "";
+
+  const applyFilters = () => {
+    setSearchParams((prev) => ({
+      ...prev,
+      pageNumber: 1,
+    }));
+  };
+
+  const resetFilters = () => {
+    setSearchParams((prev) => ({
+      ...prev,
+      pageNumber: 1,
+      advanceSearches: undefined,
+      advanceFilter: undefined,
+    }));
+  };
+
+  const handleSubmitProduct = async (
+    values: ProductCreateRequest | ProductUpdateRequest,
+  ) => {
+    if (editingProduct) {
+      updateMutation.mutate({
+        id: editingProduct.id!,
+        data: values as ProductUpdateRequest,
+      });
+    } else {
+      createMutation.mutate(values as ProductCreateRequest);
+    }
+    setShowProductModal(false);
+    setEditingProduct(null);
+  };
+
+  const handleAddProduct = () => {
+    setEditingProduct(null);
+    setShowProductModal(true);
+  };
+
+  const handleEditProduct = (record: ProductResponse) => {
+    setEditingProduct(record);
+    setShowProductModal(true);
+  };
+
+  const handleDeleteProduct = (id: string) => {
+    deleteMutation.mutate(id);
+  };
+
+  const handlePaginationChange = (page: number, pageSize: number) => {
+    setSearchParams((prev) => ({
+      ...prev,
+      pageNumber: page,
+      pageSize,
+    }));
+  };
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
+      <Card className="mb-6! shadow-sm">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <Input
+            allowClear
+            value={searchKeyword}
+            placeholder="Search by zone code or bin"
+            onChange={(event) => {
+              const value = event.target.value;
+              const trimmed = value.trim();
+
+              setSearchParams((prev) => ({
+                ...prev,
+                pageNumber: 1,
+                advanceSearches: trimmed
+                  ? {
+                      fields: ["zoneCode", "bin"],
+                      keyword: value,
+                    }
+                  : undefined,
+              }));
+            }}
+            onPressEnter={applyFilters}
+          />
+
+          <div className="flex gap-2">
+            <Button type="primary" onClick={applyFilters}>
+              Apply Filters
+            </Button>
+            <Button onClick={resetFilters}>Reset</Button>
+          </div>
+        </div>
+      </Card>
+
       {/* Products Section */}
       <Card className="mb-6! shadow-sm">
         <div className="flex justify-between items-center">
@@ -35,12 +149,15 @@ export default function ProductsPage() {
             </p>
           </div>
           <Space>
+            <Button type="primary" onClick={handleAddProduct}>
+              Create Product
+            </Button>
             <Button
               onClick={() => {
                 refetchProducts();
               }}
               loading={isLoadingProducts || loadingCategories}
-              size="small"
+              size="medium"
             >
               Refresh
             </Button>
@@ -49,10 +166,28 @@ export default function ProductsPage() {
       </Card>
 
       <ProductTable
-        data={productsData || []}
+        data={data || []}
         loading={isLoadingProducts || loadingCategories}
-        categoryMap={MOCK_CATEGORIES}
-        onExpand={getProductById}
+        categoryMap={categoryMap || []}
+        onEdit={handleEditProduct}
+        onDelete={handleDeleteProduct}
+        deleting={deleteMutation.isPending}
+        currentPage={paginationCurrentPage}
+        pageSize={paginationPageSize}
+        total={paginationTotal}
+        onPaginationChange={handlePaginationChange}
+      />
+
+      <ProductFormModal
+        open={showProductModal}
+        onCancel={() => {
+          setShowProductModal(false);
+          setEditingProduct(null);
+        }}
+        onSubmit={handleSubmitProduct}
+        editingProduct={editingProduct}
+        loading={createMutation.isPending || updateMutation.isPending}
+        categoryMap={categoryMap || []}
       />
     </div>
   );

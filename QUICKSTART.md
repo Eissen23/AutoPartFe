@@ -1,260 +1,286 @@
-# Quick Start Guide
+# QUICKSTART — AutoPartFe
 
-## Step 1: Environment Configuration
+This quickstart explains the project structure, application layers, and how to add a new page + use a new backend endpoint. It assumes TypeScript, Tailwind CSS and the `#src` import alias are used across the project.
 
-Create a `.env` file in the project root:
+---
 
-```env
-VITE_API_BASE_URL=http://localhost:5000
-```
+## Quick facts
+- Framework: React (v19) + TypeScript + Vite
+- Styling: Tailwind CSS
+- UI: Ant Design
+- Router: React Router v7 (createBrowserRouter + lazy routes)
+- Server state: @tanstack/react-query
+- HTTP client / OpenAPI: axios + generated OpenAPI client in `src/openapi`
+- Local state: Redux Toolkit (small `user` slice for auth)
+- Dev scripts:
+  - `pnpm run dev` — start dev server
+  - `pnpm run build` — build (runs `tsc -b && vite build`)
+  - `pnpm run gen:api` — regenerate OpenAPI client (openapi-generator-cli)
 
-## Step 2: Wrap Your App with ApiProvider
+---
 
-Update your `src/main.tsx`:
+## 1) Project folder structure (key files)
 
-```typescript
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import { ApiProvider } from './utils/api/provider';
-import './index.css';
+Top-level layout:
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <ApiProvider>
-      <App />
-    </ApiProvider>
-  </React.StrictMode>
-);
-```
+- `public/` — static assets (images, icons)
+- `src/` — application source
+  - `src/main.tsx` — app entry, mounts React
+  - `src/App.tsx` — root app wiring (Redux Provider, ApiProvider, MessageProvider, Router)
+  - `src/routes/` — route configuration
+    - `src/routes/index.ts` — root router; imports `coreRoutes`
+    - `src/routes/core/` — logical route groups: `auth.ts`, `dashboard.ts`, `index.ts`
+  - `src/pages/` — pages (top-level and feature pages)
+    - `src/pages/auths/` — login/signup pages
+    - `src/pages/admin/` — admin pages (products, warehouses)
+    - `src/pages/HomePage.tsx`, `src/pages/NotFoundPage.tsx`
+  - `src/components/` — small reusable UI and layout components
+    - `src/components/layouts/` — `RootLayout`, `DashboardLayout`, `ProtectedDashboardLayout`
+  - `src/apis/` — thin API wrappers that call the generated OpenAPI client (do not edit `src/openapi` manually)
+    - e.g. `src/apis/products/index.ts`, `src/apis/warehouses/index.ts`
+  - `src/openapi/` — generated OpenAPI client (auto-generated, don't edit by hand)
+  - `src/hooks/` — domain hooks that encapsulate data fetching and mutations (use react-query hooks)
+    - `src/hooks/product`, `src/hooks/warehouses`, `src/hooks/categories`, `src/hooks/auth` etc.
+  - `src/store/` — Redux Toolkit store and slices (currently `userSlice`)
+  - `src/utils/` — shared helpers
+    - `src/utils/api/` — axios instance, token manager, `useFetch` and `useApiMutation`, React Query `queryClient`, `ApiProvider`
+    - `src/utils/message/` — centralized message utilities
+  - `src/styles/` — Tailwind entry and some global classes
 
-## Step 3: Start Using the API
+Files at repo root you will likely use:
+- `vite.config.ts` — resolves `#src` alias
+- `openapitools.json` — config for `openapi-generator-cli` used by `pnpm run gen:api`
 
-### Example 1: Login Page
+---
 
-```typescript
-// src/pages/Login.tsx
-import { useState } from 'react';
-import { login } from '@/utils/api';
-import { useNavigate } from 'react-router';
+## 2) Application structure & layers (conceptual)
 
-export function LoginPage() {
-  const navigate = useNavigate();
-  const [credentials, setCredentials] = useState({
-    loginCredentials: '',
-    password: ''
-  });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+The code follows a common layered approach:
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+- Presentation (UI)
+  - `src/pages/*` and `src/components/*` contain the UI. Keep components small and presentational.
+  - Layouts (RootLayout, DashboardLayout) wrap pages and create consistent navigation.
 
-    try {
-      await login(credentials);
-      navigate('/dashboard');
-    } catch (err: any) {
-      setError(err.message || 'Login failed');
-    } finally {
-      setLoading(false);
-    }
-  };
+- Routing
+  - `src/routes` configures routes with lazy-loaded components. Protect routes with `ProtectedDashboardLayout` / auth guard.
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="Username or Email"
-        value={credentials.loginCredentials}
-        onChange={(e) => setCredentials({
-          ...credentials,
-          loginCredentials: e.target.value
-        })}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={credentials.password}
-        onChange={(e) => setCredentials({
-          ...credentials,
-          password: e.target.value
-        })}
-      />
-      <button type="submit" disabled={loading}>
-        {loading ? 'Logging in...' : 'Login'}
-      </button>
-      {error && <div className="error">{error}</div>}
-    </form>
-  );
-}
-```
+- Domain/hooks
+  - `src/hooks/*` implement domain-specific data fetching and mutation logic (wrap `useFetch` / `useApiMutation`). They handle query invalidation and user-facing messages.
 
-### Example 2: Fetch and Display Data
+- API layer
+  - `src/apis/*` are thin wrappers around the generated client in `src/openapi`. They expose typed functions (createProduct, searchProducts, etc.) returning `data`.
+  - `src/openapi` is regenerated from the backend's OpenAPI/Swagger spec — do not hand-edit.
+  - `src/utils/api` creates a shared Axios instance (with interceptors) and a token manager.
 
-```typescript
-// src/components/CustomersList.tsx
-import { useFetch, api } from '@/utils/api';
+- State management
+  - Server state / caching: React Query (`queryClient`) is used for caching, refetching and mutation orchestration.
+  - Client auth state: Redux Toolkit (`src/store/userSlice.ts`) stores token and isAuthenticated flag.
 
-export function CustomersList() {
-  const { data, isLoading, error, refetch } = useFetch({
-    queryKey: ['customers'],
-    queryFn: () => api.customers.apiV1CustomersGet(),
-  });
+- Cross-cutting utilities
+  - Notifications via `src/utils/message` (Ant Design message wrapper)
+  - Token handling via `src/utils/api/tokenManager` and axios interceptors (automatic refresh logic)
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+---
 
-  return (
-    <div>
-      <h2>Customers</h2>
-      <button onClick={() => refetch()}>Refresh</button>
-      <ul>
-        {data?.map((customer) => (
-          <li key={customer.id}>{customer.name}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-```
+## 3) How to add a new page + use a new backend endpoint (step-by-step)
 
-### Example 3: Create/Update Data
+Below is a minimal, reproducible workflow. Keep to the project conventions:
+- Use TypeScript for all new files.
+- Use the `#src` alias for imports (never relative backtracks like `../../../`).
+- Use `useFetch` and `useApiMutation` from `#src/utils/api` for queries and mutations.
+- Keep API shape types from `#src/openapi` and thin wrappers in `src/apis`.
 
-```typescript
-// src/components/CreateCustomer.tsx
-import { useState } from 'react';
-import { useApiMutation, api } from '@/utils/api';
-import { useQueryClient } from '@tanstack/react-query';
-import type { CreateCustomerRequest } from '@/openapi';
+Example feature: "Widgets" (list + create). Steps:
 
-export function CreateCustomer() {
-  const queryClient = useQueryClient();
-  const [formData, setFormData] = useState<CreateCustomerRequest>({
-    name: '',
-    email: '',
-    phoneNumber: '',
-  });
+1) Add or expose endpoint on backend + update OpenAPI spec
+   - Update backend OpenAPI (Swagger) to add `/api/v1/widgets` endpoints.
+   - Confirm backend swagger URL is correct (default in `openapitools.json` is `http://localhost:5026/swagger/v1/swagger.json`).
 
-  const { mutate, isPending, error } = useApiMutation({
-    mutationFn: (data: CreateCustomerRequest) =>
-      api.customers.apiV1CustomersPost({ createCustomerRequest: data }),
-    onSuccess: () => {
-      // Refetch customers list
-      queryClient.invalidateQueries({ queryKey: ['customers'] });
-      // Reset form
-      setFormData({ name: '', email: '', phoneNumber: '' });
-      alert('Customer created!');
-    },
-  });
+2) Regenerate OpenAPI client
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    mutate(formData);
-  };
+   ```bash
+   pnpm install         # if dependencies not installed
+   pnpm run gen:api     # runs openapi-generator-cli generate
+   ```
 
-  return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="Name"
-        value={formData.name || ''}
-        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        value={formData.email || ''}
-        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-      />
-      <button type="submit" disabled={isPending}>
-        {isPending ? 'Creating...' : 'Create'}
-      </button>
-      {error && <div>Error: {error.message}</div>}
-    </form>
-  );
-}
-```
+   - This overwrites `src/openapi` with new typed clients. If the generator fails, check that your backend swagger URL is reachable and adjust `openapitools.json`.
 
-## Available API Clients
+3) Add a thin API wrapper in `src/apis/widgets/index.ts`
 
-Access all API endpoints through the `api` object:
+   - Create `src/apis/widgets/index.ts` with the same pattern used by `src/apis/products` and `src/apis/warehouses`.
 
-```typescript
-import { api } from "@/utils/api";
+   Example (template):
 
-// Available clients:
-api.customers; // Customer operations
-api.departments; // Department operations
-api.invoiceItems; // Invoice item operations
-api.invoices; // Invoice operations
-api.jobPositions; // Job position operations
-api.partLocations; // Part location operations
-api.products; // Product operations
-api.token; // Authentication
-api.user; // User operations
-api.warehouses; // Warehouse operations
-```
+   ```ts
+   // src/apis/widgets/index.ts
+   import type {
+     WidgetDto,
+     WidgetsApiApiV1WidgetsSearchPostRequest,
+   } from '#src/openapi';
+   import { apiClients } from '#src/utils/api';
 
-## Authentication Flow
+   export type WidgetSearchRequest = WidgetsApiApiV1WidgetsSearchPostRequest['searchWidgetRequest'];
+   export type WidgetResponse = WidgetDto;
 
-```typescript
-import { login, logout, isAuthenticated } from "@/utils/api";
+   export const searchWidgets = async (request?: WidgetSearchRequest) => {
+     const result = await apiClients.widgets.apiV1WidgetsSearchPost({
+       searchWidgetRequest: request,
+     });
+     return result.data; // keep consistent with other wrappers
+   };
 
-// Login
-await login({
-  loginCredentials: "user@example.com",
-  password: "pass123",
-});
+   export const getWidget = async (id: string) => {
+     const result = await apiClients.widgets.apiV1WidgetsIdGet({ id });
+     return result.data;
+   };
 
-// Check auth status
-if (isAuthenticated()) {
-  // User is logged in
-}
+   export const createWidget = async (request?: any) => {
+     const result = await apiClients.widgets.apiV1WidgetsPost({ createWidgetRequest: request });
+     return result.data;
+   };
+   ```
 
-// Logout
-await logout();
-```
+   - Replace `any` with the correct `CreateWidgetRequest` type exported from `#src/openapi`.
 
-## Error Handling
+4) Add domain hooks in `src/hooks/widgets/index.ts`
 
-All errors are normalized to the `ApiError` type:
+   - Hooks should wrap `useFetch` and `useApiMutation` and manage query invalidation and messages.
 
-```typescript
-import type { ApiError } from "@/utils/api";
+   Example:
 
-try {
-  await api.customers.apiV1CustomersGet();
-} catch (error) {
-  const apiError = error as ApiError;
-  console.error(apiError.message);
-  console.error(apiError.status); // HTTP status code
-}
-```
+   ```ts
+   // src/hooks/widgets/index.ts
+   import { useFetch, useApiMutation } from '#src/utils/api';
+   import { useQueryClient } from '@tanstack/react-query';
+   import { useMessage } from '#src/utils/message';
+   import { searchWidgets, createWidget, getWidget } from '#src/apis/widgets';
 
-## Best Practices
+   export function useWidgetsQuery(payload?: any) {
+     return useFetch({
+       queryKey: ['widgets', payload],
+       queryFn: async () => {
+         const result = await searchWidgets(payload);
+         return result.data || result; // match other hooks
+       },
+       staleTime: 1000 * 60,
+     });
+   }
 
-1. **Use `useFetch`** for GET requests and data fetching
-2. **Use `useApiMutation`** for POST/PUT/DELETE operations
-3. **Invalidate queries** after mutations to keep data fresh
-4. **Use proper query keys** to enable caching (include IDs and filters)
-5. **Handle loading and error states** in your UI
-6. **Use TypeScript** - all types are auto-generated from your API
+   export function useCreateWidget() {
+     const qc = useQueryClient();
+     const message = useMessage();
+     return useApiMutation({
+       mutationFn: async (payload: any) => {
+         const resp = await createWidget(payload);
+         return resp;
+       },
+       onSuccess: () => {
+         message.success('Widget created');
+         qc.invalidateQueries({ queryKey: ['widgets'] });
+       },
+       onError: () => message.error('Failed to create widget'),
+     });
+   }
+   ```
 
-## Need Help?
+   - Replace `any` types with proper types from `#src/openapi`.
 
-- Check the full [README.md](./README.md) for detailed documentation
-- See [examples.tsx](./examples.tsx) for more code examples
-- Review the OpenAPI types in `src/openapi/api.ts`
+5) Create the page component `src/pages/admin/widgets/index.tsx`
 
-## Troubleshooting
+   - Use pattern from `src/pages/admin/products/index.tsx` or `warehouses/index.tsx`.
+   - Use Ant Design components and Tailwind classes for layout.
+   - Use hooks created earlier to fetch and mutate data.
 
-**Q: Getting 401 errors?**  
-A: Make sure you're logged in and tokens are stored. Check browser localStorage for `auth_token`.
+   Minimal example:
 
-**Q: CORS errors?**  
-A: Ensure your backend API allows requests from your frontend origin.
+   ```tsx
+   // src/pages/admin/widgets/index.tsx
+   import { useState } from 'react';
+   import { Card, Button } from 'antd';
+   import { useWidgetsQuery, useCreateWidget } from '#src/hooks/widgets';
 
-**Q: Data not updating after mutation?**  
-A: Use `queryClient.invalidateQueries()` in your mutation's `onSuccess` callback.
+   export default function WidgetsPage() {
+     const [params, setParams] = useState({ pageNumber: 1, pageSize: 10 });
+     const { data, isLoading, refetch } = useWidgetsQuery(params);
+     const createMutation = useCreateWidget();
+
+     return (
+       <div className="p-6 bg-gray-50 min-h-screen">
+         <Card className="mb-4">
+           <div className="flex justify-between">
+             <h3>Widgets</h3>
+             <Button onClick={() => createMutation.mutate({ /* payload */ })}>Create</Button>
+           </div>
+         </Card>
+
+         {/* Render table or list using data */}
+         <pre>{JSON.stringify(data, null, 2)}</pre>
+       </div>
+     );
+   }
+   ```
+
+6) Add a route so the page is reachable
+
+   - If the page belongs to the dashboard area, add it to `src/routes/core/dashboard.ts` children array.
+   - The `DashboardLayout` builds its sidebar from the `dashboardRoutes` children metadata so adding a `handle.label` will show the nav automatically.
+
+   Example edit (append a child):
+
+   ```ts
+   // src/routes/core/dashboard.ts (partial)
+   import { lazy } from 'react';
+   const WidgetsPage = lazy(() => import('#src/pages/admin/widgets'));
+
+   export const dashboardRoutes: RouteObject[] = [
+     {
+       path: '/dashboard',
+       Component: ProtectedDashboardLayout,
+       children: [
+         // ...existing children
+         {
+           path: '/dashboard/widgets',
+           Component: WidgetsPage,
+           handle: { label: 'Widgets' },
+         },
+       ],
+     },
+   ];
+   ```
+
+   - Alternatively, create a new `src/routes/core/widgets.ts` and export a `RouteObject[]` then include it in `src/routes/core/index.ts` (preferred if the feature is large).
+
+7) Wire up auth / tokens (if needed)
+
+   - Login is handled by `src/hooks/auth` and `src/apis/auth`.
+   - `useLogin` stores tokens via `tokenManager.setToken` and updates `api.updateConfiguration()`.
+   - Axios interceptors automatically refresh tokens and redirect to `/login` on permanent auth failure.
+   - If your new page needs to call protected APIs, put it under `/dashboard` (protected by `ProtectedDashboardLayout`) or use `ProtectedRoute`.
+
+8) Run and test
+
+   ```bash
+   pnpm install
+   pnpm run dev
+   # open http://localhost:5173
+   # navigate to /dashboard/widgets (or the route you registered)
+   ```
+
+---
+
+## 4) Conventions & tips (do's and don'ts)
+- Use `#src` alias for imports: `import { useMessage } from '#src/utils/message'`.
+- Use TypeScript with explicit types (avoid `any`). Use types from `#src/openapi` whenever talking to backend APIs.
+- For data fetching prefer `useFetch` (wraps React Query) and `useApiMutation` (for create/update/delete).
+- Keep `src/openapi` generated. Add wrapper functions to `src/apis/*` and never call `src/openapi` directly from UI components — always use the `src/apis` wrappers and domain hooks.
+- For UI use Ant Design components and Tailwind utility classes (no CSS files besides `src/styles/*`).
+- For global notifications use `useMessage()` from `#src/utils/message`.
+- For protected pages place them under `/dashboard` and/or wrap with `ProtectedRoute`.
+
+---
+
+If you want, I can:
+- Add a minimal `widgets` feature implementation as a real code change (API wrapper + hook + page + route) to use as a concrete example.
+- Run `pnpm run gen:api` for you (requires backend to be reachable) and update `src/openapi`.
+
+Files changed: `./QUICKSTART.md` (this file).

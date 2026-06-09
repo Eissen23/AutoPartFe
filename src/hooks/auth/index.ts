@@ -6,23 +6,12 @@
  */
 
 import { useState, useCallback } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 import { useSelector, useDispatch } from "react-redux";
-import type { AxiosResponse } from "axios";
-import type { UseApiMutationOptions, ApiError } from "#src/utils/api";
-import {
-  useApiMutation,
-  tokenManager,
-  handleApiError,
-  api,
-} from "#src/utils/api";
+import type { ApiError } from "#src/utils/api";
+import { tokenManager, handleApiError, api } from "#src/utils/api";
 import * as authApi from "#src/apis/auth";
 import type { RootState, AppDispatch } from "#src/store";
-import {
-  setCredentials,
-  clearCredentials,
-  syncAuth,
-} from "#src/store/userSlice";
+import { setCredentials, syncAuth } from "#src/store/userSlice";
 
 // ===========================
 // Re-export from apis/auth
@@ -105,36 +94,6 @@ export const isAuthenticated = (): boolean => {
  * }
  * ```
  */
-export function useLogin(
-  options?: UseApiMutationOptions<authApi.LoginResponse, authApi.LoginInfo>,
-) {
-  const queryClient = useQueryClient();
-  const dispatch = useDispatch<AppDispatch>();
-  const userOnSuccess = options?.onSuccess;
-
-  return useApiMutation<authApi.LoginResponse, authApi.LoginInfo>({
-    ...options,
-    mutationFn: async (credentials: authApi.LoginInfo) =>
-      ({
-        data: await authApi.login(credentials),
-      }) as AxiosResponse<authApi.LoginResponse>,
-    onSuccess: (data) => {
-      storeAuthTokens(data);
-      if (data.data?.token) {
-        dispatch(
-          setCredentials({
-            token: data.data.token,
-            refreshToken: data.data.refreshToken ?? undefined,
-          }),
-        );
-      }
-      queryClient.invalidateQueries();
-      if (userOnSuccess) {
-        (userOnSuccess as (data: authApi.LoginResponse) => void)(data);
-      }
-    },
-  });
-}
 
 /**
  * Hook for logout with React Query mutation
@@ -154,29 +113,6 @@ export function useLogin(
  * }
  * ```
  */
-export function useLogout(
-  options?: UseApiMutationOptions<authApi.LogoutResponse, void>,
-) {
-  const queryClient = useQueryClient();
-  const dispatch = useDispatch<AppDispatch>();
-  const userOnSuccess = options?.onSuccess;
-
-  return useApiMutation<authApi.LogoutResponse, void>({
-    ...options,
-    mutationFn: async () =>
-      ({
-        data: await authApi.logout(),
-      }) as AxiosResponse<authApi.LogoutResponse>,
-    onSuccess: (data) => {
-      clearAuthTokens();
-      dispatch(clearCredentials());
-      queryClient.clear();
-      if (userOnSuccess) {
-        (userOnSuccess as (data: authApi.LogoutResponse) => void)(data);
-      }
-    },
-  });
-}
 
 /**
  * Hook for signup with React Query mutation
@@ -200,17 +136,6 @@ export function useLogout(
  * }
  * ```
  */
-export function useSignup(
-  options?: UseApiMutationOptions<authApi.SignupResponse, authApi.SignupInfo>,
-) {
-  return useApiMutation<authApi.SignupResponse, authApi.SignupInfo>({
-    mutationFn: async (signupInfo: authApi.SignupInfo) =>
-      ({
-        data: await authApi.signup(signupInfo),
-      }) as AxiosResponse<authApi.SignupResponse>,
-    ...options,
-  });
-}
 
 /**
  * Hook for managing authentication state
@@ -337,3 +262,5 @@ export { tokenManager };
 
 // Re-export types
 export type { ApiError };
+
+export { clearAuthTokens };

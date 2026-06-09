@@ -1,5 +1,3 @@
-/* tslint:disable */
-/* eslint-disable */
 /**
  * AutoPart API
  * An ASP.NET Core Web API for managing AutoPart warehouse and sales
@@ -12,7 +10,5 @@
  * Do not edit the class manually.
  */
 
-
 export * from "./api";
 export * from "./configuration";
-

@@ -312,6 +312,12 @@ export interface CreateCategoryRequest {
      * @type {string}
      * @memberof CreateCategoryRequest
      */
+    'categoryCode'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateCategoryRequest
+     */
     'name'?: string | null;
     /**
      * 
@@ -330,7 +336,7 @@ export interface CreateCategoryRequest {
      * @type {number}
      * @memberof CreateCategoryRequest
      */
-    'defaultMarkupPercentage'?: number | null;
+    'defaultMarkupPercentage'?: number;
 }
 
 
@@ -2576,6 +2582,12 @@ export interface UpdateCategoryRequest {
      * @type {string}
      * @memberof UpdateCategoryRequest
      */
+    'categoryCode'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateCategoryRequest
+     */
     'name'?: string | null;
     /**
      * 
@@ -2637,12 +2649,6 @@ export interface UpdateCustomerRequest {
  * @interface UpdateDepartmentRequest
  */
 export interface UpdateDepartmentRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateDepartmentRequest
-     */
-    'id'?: string;
     /**
      * 
      * @type {string}
@@ -2730,12 +2736,6 @@ export interface UpdateInvoiceRequest {
  * @interface UpdateJobPositionRequest
  */
 export interface UpdateJobPositionRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateJobPositionRequest
-     */
-    'id'?: string;
     /**
      * 
      * @type {string}

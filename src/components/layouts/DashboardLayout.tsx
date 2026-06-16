@@ -1,48 +1,18 @@
-import { Outlet, useLocation } from "react-router";
-import { dashboardRoutes } from "#src/routes/core/dashboard";
+import { Outlet, NavLink } from "react-router";
+import { dashboardNavItems } from "#src/config/dashboardNav";
 
 /**
- * Interface for dashboard route with navigation metadata
- */
-interface DashboardRoute {
-  path?: string;
-  index?: boolean;
-  handle?: {
-    label?: string;
-  };
-}
-
-/**
- * Dashboard Layout Component
- * Acts as a wrapper for dashboard routes with top navigation and sidebar
- * Dark and yellow theme
+ * Dashboard Layout
+ *
+ * Sidebar navigation is driven entirely by `dashboardNavItems` in
+ * src/config/dashboardNav.tsx — edit that file to add, remove, or
+ * reorder sidebar entries. Each entry carries its own icon so no
+ * mapping logic is needed here.
  */
 export default function DashboardLayout() {
-  const location = useLocation();
-
-  // Get child routes from the dashboard routes configuration
-  const dashboardRoute = dashboardRoutes.find(
-    (route) => route.path === "/dashboard",
-  );
-  const childRoutes = (dashboardRoute?.children || []) as DashboardRoute[];
-
-  // Filter and map child routes to navigation items
-  const navItems = childRoutes
-    .filter((route) => route.path || route.index)
-    .map((route) => {
-      const label =
-        route.handle?.label ||
-        (route.path
-          ? route.path.charAt(0).toUpperCase() + route.path.slice(1)
-          : "Home");
-      const href = route.path ? `${route.path}` : "/dashboard";
-
-      return { label, href };
-    });
-
   return (
     <div className="dashboard-container">
-      {/* Top Navigation */}
+      {/* Top bar */}
       <nav className="dashboard-top">
         <div className="dashboard-top-left">
           <div className="logo-placeholder">Logo</div>
@@ -57,26 +27,30 @@ export default function DashboardLayout() {
         </div>
       </nav>
 
-      {/* Main Content Area */}
+      {/* Body */}
       <div className="dashboard-main">
-        {/* Sidebar Navigation */}
+        {/* Sidebar */}
         <aside className="dashboard-sidebar">
           <nav className="sidebar-nav">
-            {navItems.map((item) => (
-              <a
+            {dashboardNavItems.map((item) => (
+              <NavLink
                 key={item.href}
-                href={item.href}
-                className={`nav-item ${
-                  location.pathname === item.href ? "nav-item-active" : ""
-                }`}
+                to={item.href}
+                end={item.href === "/dashboard"}
+                className={({ isActive }) =>
+                  `nav-item${isActive ? " nav-item-active" : ""}`
+                }
               >
-                {item.label}
-              </a>
+                {item.icon && (
+                  <span className="nav-item-icon">{item.icon}</span>
+                )}
+                <span>{item.label}</span>
+              </NavLink>
             ))}
           </nav>
         </aside>
 
-        {/* Content Area */}
+        {/* Page content */}
         <div className="dashboard-content">
           <Outlet />
         </div>

@@ -1,95 +1,99 @@
 @layer components {
-  .page-container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+    .page-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-  .error-page {
-    justify-content: center;
-    display: flex;
-    background-color: #fffff6;
-    height: 100%;
-  }
+    .error-page {
+        justify-content: center;
+        display: flex;
+        background-color: #fffff6;
+        height: 100%;
+    }
 
-  .dimming {
-    height: 100vh;
-    width: 100%;
-    opacity: 1;
-    position: absolute;
-    filter: brightness(50%);
-    object-fit: cover;
-  }
+    .dimming {
+        height: 100vh;
+        width: 100%;
+        opacity: 1;
+        position: absolute;
+        filter: brightness(50%);
+        object-fit: cover;
+    }
 
-  /* Dashboard Layout Styles - Dark and Yellow Theme */
-  .dashboard-container {
-    @apply h-screen w-full flex flex-col;
-  }
+    /* Dashboard Layout Styles - Dark and Yellow Theme */
+    .dashboard-container {
+        @apply h-screen w-full flex flex-col;
+    }
 
-  .dashboard-top {
-    @apply sticky top-0 z-50 flex items-center justify-between border-b  h-16 px-6;
-  }
+    .dashboard-top {
+        @apply sticky top-0 z-50 flex items-center justify-between border-b  h-16 px-6;
+    }
 
-  .dashboard-top-left {
-    @apply flex items-center;
-  }
+    .dashboard-top-left {
+        @apply flex items-center;
+    }
 
-  .logo-placeholder {
-    @apply text-2xl font-bold border-blue-500 text-blue-500 transition-colors cursor-pointer;
-  }
+    .logo-placeholder {
+        @apply text-2xl font-bold border-blue-500 text-blue-500 transition-colors cursor-pointer;
+    }
 
-  .dashboard-top-right {
-    @apply flex items-center gap-3;
-  }
+    .dashboard-top-right {
+        @apply flex items-center gap-3;
+    }
 
-  .search-input {
-    @apply px-4 py-2 rounded-lg bg-white  placeholder-slate-400 border border-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors;
-    width: 300px;
-  }
+    .search-input {
+        @apply px-4 py-2 rounded-lg bg-white  placeholder-slate-400 border border-slate-400 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-colors;
+        width: 300px;
+    }
 
-  .search-input::placeholder {
-    @apply text-slate-400;
-  }
+    .search-input::placeholder {
+        @apply text-slate-400;
+    }
 
-  .dashboard-main {
-    @apply flex flex-1 overflow-hidden;
-  }
+    .dashboard-main {
+        @apply flex flex-1 overflow-hidden;
+    }
 
-  .dashboard-sidebar {
-    @apply w-64 bg-white border-r overflow-y-auto;
-  }
+    .dashboard-sidebar {
+        @apply w-64 bg-white border-r overflow-y-auto;
+    }
 
-  .sidebar-nav {
-    @apply flex flex-col gap-2 py-4;
-  }
+    .sidebar-nav {
+        @apply flex flex-col gap-2 py-4;
+    }
 
-  .nav-item {
-    @apply px-4 py-3 font-medium hover:bg-slate-700 hover:text-yellow-400 transition-colors duration-200;
-  }
+    .nav-item {
+        @apply flex items-center gap-3 px-4 py-3 font-medium hover:bg-slate-700 hover:text-yellow-400 transition-colors duration-200;
+    }
 
-  .nav-item:hover,
-  .nav-item-active {
-    @apply bg-slate-200 text-blue-800;
-    border-right: 5px solid;
-    border-image: linear-gradient(to bottom, darkblue, red) 1;
-  }
+    .nav-item-icon {
+        @apply shrink-0 flex items-center;
+    }
 
-  .dashboard-content {
-    @apply flex-1 overflow-y-auto bg-slate-200;
-  }
+    .nav-item:hover,
+    .nav-item-active {
+        @apply bg-slate-200 text-blue-800;
+        border-right: 5px solid;
+        border-image: linear-gradient(to bottom, darkblue, red) 1;
+    }
+
+    .dashboard-content {
+        @apply flex-1 overflow-y-auto bg-slate-200;
+    }
 }
 
 @layer base {
-  .app-container {
-    display: grid;
-    min-height: 100%;
-    grid-template-columns: auto;
-    grid-template-rows: auto;
-  }
+    .app-container {
+        display: grid;
+        min-height: 100%;
+        grid-template-columns: auto;
+        grid-template-rows: auto;
+    }
 
-  .app-content {
-    grid-area: cn;
-  }
+    .app-content {
+        grid-area: cn;
+    }
 }

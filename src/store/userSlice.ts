@@ -24,10 +24,12 @@ const userSlice = createSlice({
     ) {
       state.isAuthenticated = true;
       state.token = action.payload.token;
+      state.refreshToken = action.payload.refreshToken ?? null;
     },
     clearCredentials(state) {
       state.isAuthenticated = false;
       state.token = null;
+      state.refreshToken = null;
     },
     syncAuth(state) {
       state.isAuthenticated = tokenManager.hasToken();

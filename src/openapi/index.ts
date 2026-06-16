@@ -1,3 +1,4 @@
+/* tslint:disable */
 /**
  * AutoPart API
  * An ASP.NET Core Web API for managing AutoPart warehouse and sales

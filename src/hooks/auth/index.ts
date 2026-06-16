@@ -7,11 +7,21 @@
 
 import { useState, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import type { ApiError } from "#src/utils/api";
-import { tokenManager, handleApiError, api } from "#src/utils/api";
+import type { ApiError, UseApiMutationOptions } from "#src/utils/api";
+import {
+  tokenManager,
+  handleApiError,
+  useApiMutation,
+  api,
+} from "#src/utils/api";
 import * as authApi from "#src/apis/auth";
+import type { RefreshTokenRequest } from "#src/openapi";
 import type { RootState, AppDispatch } from "#src/store";
-import { setCredentials, syncAuth } from "#src/store/userSlice";
+import {
+  setCredentials,
+  clearCredentials,
+  syncAuth,
+} from "#src/store/userSlice";
 
 // ===========================
 // Re-export from apis/auth
@@ -94,6 +104,28 @@ export const isAuthenticated = (): boolean => {
  * }
  * ```
  */
+export function useLogin(
+  options?: UseApiMutationOptions<authApi.LoginResponse, authApi.LoginInfo>,
+) {
+  const dispatch = useDispatch<AppDispatch>();
+
+  return useApiMutation<authApi.LoginResponse, authApi.LoginInfo>({
+    ...options,
+    mutationFn: async (credentials) => {
+      const response = await authApi.login(credentials);
+      storeAuthTokens(response);
+      if (response.data?.token) {
+        dispatch(
+          setCredentials({
+            token: response.data.token,
+            refreshToken: response.data.refreshToken ?? undefined,
+          }),
+        );
+      }
+      return response;
+    },
+  });
+}
 
 /**
  * Hook for logout with React Query mutation
@@ -113,6 +145,58 @@ export const isAuthenticated = (): boolean => {
  * }
  * ```
  */
+export function useLogout(
+  options?: UseApiMutationOptions<authApi.LogoutResponse, void>,
+) {
+  const dispatch = useDispatch<AppDispatch>();
+
+  return useApiMutation<authApi.LogoutResponse, void>({
+    ...options,
+    mutationFn: async () => {
+      const response = await authApi.logout();
+      clearAuthTokens();
+      dispatch(clearCredentials());
+      return response;
+    },
+  });
+}
+
+/**
+ * Hook for token refresh with React Query mutation.
+ * Stores the new tokens and updates Redux state on success.
+ *
+ * @example
+ * ```tsx
+ * function SomeComponent() {
+ *   const { mutate: refresh } = useRefreshToken();
+ *
+ *   // Manually trigger a token refresh
+ *   refresh({ refreshToken: storedRefreshToken });
+ * }
+ * ```
+ */
+export function useRefreshToken(
+  options?: UseApiMutationOptions<authApi.LoginResponse, RefreshTokenRequest>,
+) {
+  const dispatch = useDispatch<AppDispatch>();
+
+  return useApiMutation<authApi.LoginResponse, RefreshTokenRequest>({
+    ...options,
+    mutationFn: async (payload) => {
+      const response = await authApi.refreshLogin(payload);
+      storeAuthTokens(response);
+      if (response.data?.token) {
+        dispatch(
+          setCredentials({
+            token: response.data.token,
+            refreshToken: response.data.refreshToken ?? undefined,
+          }),
+        );
+      }
+      return response;
+    },
+  });
+}
 
 /**
  * Hook for signup with React Query mutation
@@ -136,6 +220,14 @@ export const isAuthenticated = (): boolean => {
  * }
  * ```
  */
+export function useSignup(
+  options?: UseApiMutationOptions<authApi.SignupResponse, authApi.SignupInfo>,
+) {
+  return useApiMutation<authApi.SignupResponse, authApi.SignupInfo>({
+    ...options,
+    mutationFn: (payload) => authApi.signup(payload),
+  });
+}
 
 /**
  * Hook for managing authentication state
@@ -255,7 +347,7 @@ export function useLoginManual() {
 // ===========================
 
 // Re-export base API functions
-export { login, logout, signup } from "#src/apis/auth";
+export { login, logout, signup, refreshLogin } from "#src/apis/auth";
 
 // Re-export token manager for convenience
 export { tokenManager };

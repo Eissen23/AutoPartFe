@@ -1,18 +1,18 @@
+import type {
+  CreatePartLocationRequest,
+  PartLocationDto,
+  UpdatePartLocationRequest,
+} from "#src/openapi";
 import { Modal, Form, Input, InputNumber } from "antd";
 import { useEffect } from "react";
-import type {
-  PartLocationResponse,
-  PartLocationCreateRequest,
-  PartLocationUpdateRequest,
-} from "#src/apis/warehouses";
 
 interface PartLocationFormModalProps {
   open: boolean;
   onCancel: () => void;
   onSubmit: (
-    values: PartLocationCreateRequest | PartLocationUpdateRequest,
+    values: CreatePartLocationRequest | UpdatePartLocationRequest,
   ) => Promise<void>;
-  editingPartLocation: PartLocationResponse | null;
+  editingPartLocation: PartLocationDto | null;
   loading: boolean;
 }
 
@@ -53,7 +53,7 @@ export default function PartLocationFormModal({
     try {
       const values = await form.validateFields();
 
-      let submitData: PartLocationCreateRequest | PartLocationUpdateRequest;
+      let submitData: CreatePartLocationRequest | UpdatePartLocationRequest;
 
       if (isEditing) {
         submitData = {
@@ -61,13 +61,13 @@ export default function PartLocationFormModal({
           partId: values.partId,
           warehouseLocationId: values.warehouseLocationId,
           quantityAtLocation: values.quantityAtLocation,
-        } as PartLocationUpdateRequest;
+        } as UpdatePartLocationRequest;
       } else {
         submitData = {
           partId: values.partId,
           warehouseLocationId: values.warehouseLocationId,
           quantityAtLocation: values.quantityAtLocation || 0,
-        } as PartLocationCreateRequest;
+        } as CreatePartLocationRequest;
       }
 
       await onSubmit(submitData);

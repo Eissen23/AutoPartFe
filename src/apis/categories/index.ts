@@ -1,77 +1,16 @@
 import type {
-  CategoryDto,
-  CategoryDtoPaginatedResponse,
-  CategoriesApiApiV1CategoriesIdDeleteRequest,
-  CategoriesApiApiV1CategoriesIdGetRequest,
-  CategoriesApiApiV1CategoriesIdPutRequest,
-  CategoriesApiApiV1CategoriesPostRequest,
-  CategoriesApiApiV1CategoriesSearchPostRequest,
+  CreateCategoryRequest,
+  SearchCategoryRequest,
+  UpdateCategoryRequest,
 } from "../../openapi";
 import { apiClients } from "../../utils/api";
-
-// ===========================
-// Types - Category Request Objects
-// ===========================
-
-/**
- * Category - Create Request
- * API request for creating a new category
- */
-export type CategoryCreateRequest =
-  CategoriesApiApiV1CategoriesPostRequest["createCategoryRequest"];
-
-/**
- * Category - Get Request
- * API request for retrieving a specific category
- */
-export type CategoryGetRequest = CategoriesApiApiV1CategoriesIdGetRequest;
-
-/**
- * Category - Update Request
- * API request for updating an existing category
- */
-export type CategoryUpdateRequest =
-  CategoriesApiApiV1CategoriesIdPutRequest["updateCategoryRequest"];
-
-/**
- * Category - Delete Request
- * API request for deleting a category
- */
-export type CategoryDeleteRequest = CategoriesApiApiV1CategoriesIdDeleteRequest;
-
-/**
- * Category - Search Request
- * API request for searching categories
- */
-export type CategorySearchRequest =
-  CategoriesApiApiV1CategoriesSearchPostRequest["searchCategoryRequest"];
-
-// ===========================
-// Types - Category Response Objects
-// ===========================
-
-/**
- * Category response
- * Contains category details
- */
-export type CategoryResponse = CategoryDto;
-
-/**
- * Paginated categories response
- * List of categories with pagination info
- */
-export type CategoryListResponse = CategoryDtoPaginatedResponse;
-
-// ===========================
-// Category Functions
-// ===========================
 
 /**
  * Create a new category
  * POST /api/v1/categories
  * Add a new category to the system
  */
-export const createCategory = async (request?: CategoryCreateRequest) => {
+export const createCategory = async (request?: CreateCategoryRequest) => {
   const result = await apiClients.categories.apiV1CategoriesPost({
     createCategoryRequest: request,
   });
@@ -97,7 +36,7 @@ export const getCategory = async (id: string) => {
  */
 export const updateCategory = async (
   id: string,
-  request?: CategoryUpdateRequest,
+  request?: UpdateCategoryRequest,
 ) => {
   const result = await apiClients.categories.apiV1CategoriesIdPut({
     id,
@@ -111,8 +50,10 @@ export const updateCategory = async (
  * DELETE /api/v1/categories/{id}
  * Remove a category from the system
  */
-export const deleteCategory = async (request: CategoryDeleteRequest) => {
-  const result = await apiClients.categories.apiV1CategoriesIdDelete(request);
+export const deleteCategory = async (id: string) => {
+  const result = await apiClients.categories.apiV1CategoriesIdDelete({
+    id,
+  });
   return result.data;
 };
 
@@ -121,7 +62,7 @@ export const deleteCategory = async (request: CategoryDeleteRequest) => {
  * POST /api/v1/categories/search
  * Query categories with filters and pagination
  */
-export const searchCategories = async (request?: CategorySearchRequest) => {
+export const searchCategories = async (request?: SearchCategoryRequest) => {
   const result = await apiClients.categories.apiV1CategoriesSearchPost({
     searchCategoryRequest: request,
   });

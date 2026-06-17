@@ -1,11 +1,5 @@
 import { useState } from "react";
 import { Button, Typography, Card, Input, Select } from "antd";
-import type {
-  WarehouseLocationResponse,
-  WarehouseLocationCreateRequest,
-  WarehouseLocationUpdateRequest,
-  WarehouseLocationSearchRequest,
-} from "#src/apis/warehouses";
 import { WarehouseTable, WarehouseFormModal } from "./components";
 import {
   useCreateWarehouse,
@@ -13,20 +7,26 @@ import {
   useUpdateWarehouse,
   useWarehousesQuery,
 } from "#src/hooks/warehouses";
+import type {
+  CreateWarehouseLocationRequest,
+  SearchWarehouseLocationRequest,
+  UpdateWarehouseLocationRequest,
+  WarehouseLocationDto,
+} from "#src/openapi";
 
 const { Title } = Typography;
 
 export default function WarehousesPage() {
   // Warehouse state
   const [searchParams, setSearchParams] =
-    useState<WarehouseLocationSearchRequest>({
+    useState<SearchWarehouseLocationRequest>({
       pageNumber: 1,
       pageSize: 10,
     });
 
   const [isWarehouseModalOpen, setIsWarehouseModalOpen] = useState(false);
   const [editingWarehouse, setEditingWarehouse] =
-    useState<WarehouseLocationResponse | null>(null);
+    useState<WarehouseLocationDto | null>(null);
 
   const {
     data: warehousesResult,
@@ -75,7 +75,7 @@ export default function WarehousesPage() {
     setIsWarehouseModalOpen(true);
   };
 
-  const handleEditWarehouse = (record: WarehouseLocationResponse) => {
+  const handleEditWarehouse = (record: WarehouseLocationDto) => {
     setEditingWarehouse(record);
     setIsWarehouseModalOpen(true);
   };
@@ -85,15 +85,15 @@ export default function WarehousesPage() {
   };
 
   const handleSubmitWarehouse = async (
-    values: WarehouseLocationCreateRequest | WarehouseLocationUpdateRequest,
+    values: CreateWarehouseLocationRequest | UpdateWarehouseLocationRequest,
   ) => {
     if (editingWarehouse) {
       updateMutation.mutate({
         id: editingWarehouse.id!,
-        data: values as WarehouseLocationUpdateRequest,
+        data: values as UpdateWarehouseLocationRequest,
       });
     } else {
-      createMutation.mutate(values as WarehouseLocationCreateRequest);
+      createMutation.mutate(values as CreateWarehouseLocationRequest);
     }
     setIsWarehouseModalOpen(false);
     setEditingWarehouse(null);

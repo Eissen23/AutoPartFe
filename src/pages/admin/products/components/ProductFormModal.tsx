@@ -1,19 +1,19 @@
 import { Modal, Form, Input, InputNumber, Select } from "antd";
 import { useEffect } from "react";
 import type {
-  ProductCreateRequest,
-  ProductResponse,
-  ProductUpdateRequest,
-} from "#src/apis/products";
-import type { CategoryNameDto } from "#src/openapi";
+  CategoryNameDto,
+  CreateProductRequest,
+  ProductDto,
+  UpdateProductRequest,
+} from "#src/openapi";
 
 interface ProductFormModalProps {
   open: boolean;
   onCancel: () => void;
   onSubmit: (
-    values: ProductCreateRequest | ProductUpdateRequest,
+    values: CreateProductRequest | UpdateProductRequest,
   ) => Promise<void>;
-  editingProduct: ProductResponse | null;
+  editingProduct: ProductDto | null;
   loading: boolean;
   categoryMap: CategoryNameDto[];
 }
@@ -59,7 +59,7 @@ export default function ProductFormModal({
     try {
       const values = await form.validateFields();
 
-      const submitData: ProductCreateRequest | ProductUpdateRequest = {
+      const submitData: CreateProductRequest | UpdateProductRequest = {
         partNumber: values.partNumber || null,
         name: values.name || null,
         description: values.description || null,

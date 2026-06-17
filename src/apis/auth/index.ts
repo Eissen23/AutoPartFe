@@ -75,3 +75,22 @@ export const getProfile = async () => {
 
   return result?.data;
 };
+
+export {
+  createRole,
+  deleteRole,
+  getRole,
+  searchRole,
+  updateRole,
+  assignRolePermission,
+  removeRolePermission,
+  viewRolePermission,
+} from "./role";
+
+export {
+  createPermission,
+  deletePermission,
+  getPermission,
+  searchPermission,
+  updatePermission,
+} from "./permission";

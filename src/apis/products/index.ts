@@ -1,84 +1,16 @@
 import type {
-  ProductDetailDto,
-  ProductDto,
-  ProductDtoPaginatedResponse,
-  ProductsApiApiV1ProductsIdDeleteRequest,
-  ProductsApiApiV1ProductsIdGetRequest,
-  ProductsApiApiV1ProductsIdPutRequest,
-  ProductsApiApiV1ProductsPostRequest,
-  ProductsApiApiV1ProductsSearchPostRequest,
+  CreateProductRequest,
+  SearchProductRequest,
+  UpdateProductRequest,
 } from "#src/openapi";
 import { apiClients } from "#src/utils/api";
-
-// ===========================
-// Types - Product Request Objects
-// ===========================
-
-/**
- * Product - Create Request
- * API request for creating a new product
- */
-export type ProductCreateRequest =
-  ProductsApiApiV1ProductsPostRequest["createProductRequest"];
-
-/**
- * Product - Get Request
- * API request for retrieving a specific product
- */
-export type ProductGetRequest = ProductsApiApiV1ProductsIdGetRequest;
-
-/**
- * Product - Update Request
- * API request for updating an existing product
- */
-export type ProductUpdateRequest =
-  ProductsApiApiV1ProductsIdPutRequest["updateProductRequest"];
-
-/**
- * Product - Delete Request
- * API request for deleting a product
- */
-export type ProductDeleteRequest = ProductsApiApiV1ProductsIdDeleteRequest;
-
-/**
- * Product - Search Request
- * API request for searching products
- */
-export type ProductSearchRequest =
-  ProductsApiApiV1ProductsSearchPostRequest["searchProductRequest"];
-
-// ===========================
-// Types - Product Response Objects
-// ===========================
-
-/**
- * Product response
- * Contains product details
- */
-export type ProductResponse = ProductDto;
-
-/**
- * Product response
- * Contains product details
- */
-export type ProductDetailResponse = ProductDetailDto;
-
-/**
- * Paginated products response
- * List of products with pagination info
- */
-export type ProductListResponse = ProductDtoPaginatedResponse;
-
-// ===========================
-// Product Functions
-// ===========================
 
 /**
  * Create a new product
  * POST /api/v1/products
  * Add a new product to the system
  */
-export const createProduct = async (request?: ProductCreateRequest) => {
+export const createProduct = async (request?: CreateProductRequest) => {
   const result = await apiClients.products.apiV1ProductsPost({
     createProductRequest: request,
   });
@@ -104,7 +36,7 @@ export const getProduct = async (id: string) => {
  */
 export const updateProduct = async (
   id: string,
-  request?: ProductUpdateRequest,
+  request?: UpdateProductRequest,
 ) => {
   const result = await apiClients.products.apiV1ProductsIdPut({
     id,
@@ -130,7 +62,7 @@ export const deleteProduct = async (id: string) => {
  * POST /api/v1/products/search
  * Query products with filters and pagination
  */
-export const searchProducts = async (request?: ProductSearchRequest) => {
+export const searchProducts = async (request?: SearchProductRequest) => {
   const result = await apiClients.products.apiV1ProductsSearchPost({
     searchProductRequest: request,
   });

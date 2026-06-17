@@ -1,17 +1,20 @@
 import { useState } from "react";
 import { Button, Popconfirm, Space, Table, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import type { ProductResponse } from "#src/apis/products";
-import type { CategoryNameDto, WarehouseStockDto } from "#src/openapi";
+import type {
+  CategoryNameDto,
+  ProductDto,
+  WarehouseStockDto,
+} from "#src/openapi";
 import { useProductById } from "#src/hooks/product";
 
 const { Text } = Typography;
 
 interface ProductTableProps {
-  data: ProductResponse[];
+  data: ProductDto[];
   loading: boolean;
   categoryMap: CategoryNameDto[];
-  onEdit: (record: ProductResponse) => void;
+  onEdit: (record: ProductDto) => void;
   onDelete: (id: string) => void;
   deleting: boolean;
   currentPage: number;
@@ -122,7 +125,7 @@ export default function ProductTable({
 }: ProductTableProps) {
   const [expandedRowKeys, setExpandedRowKeys] = useState<string[]>([]);
 
-  const handleExpand = async (expanded: boolean, record: ProductResponse) => {
+  const handleExpand = async (expanded: boolean, record: ProductDto) => {
     if (!record.id) {
       return;
     }
@@ -137,7 +140,7 @@ export default function ProductTable({
   // Inner table columns for warehouse stocks
 
   // Expandable row render
-  const expandedRowRender = (record: ProductResponse) => {
+  const expandedRowRender = (record: ProductDto) => {
     if (!record.id) {
       return null;
     }
@@ -145,7 +148,7 @@ export default function ProductTable({
     return <ExpandTable productId={record.id} />;
   };
 
-  const columns: ColumnsType<ProductResponse> = [
+  const columns: ColumnsType<ProductDto> = [
     {
       title: "Part Number",
       dataIndex: "partNumber",

@@ -1,12 +1,6 @@
 import { Card, Typography, Button, Space, Input } from "antd";
 import { ProductFormModal, ProductTable } from "./components";
 import { useMemo, useState } from "react";
-import type {
-  ProductCreateRequest,
-  ProductResponse,
-  ProductSearchRequest,
-  ProductUpdateRequest,
-} from "#src/apis/products";
 import {
   useCreateProduct,
   useDeleteProduct,
@@ -14,15 +8,19 @@ import {
   useUpdateProduct,
 } from "#src/hooks/product";
 import { useCategoryMap } from "#src/hooks/categories";
+import type {
+  CreateProductRequest,
+  ProductDto,
+  SearchProductRequest,
+  UpdateProductRequest,
+} from "#src/openapi";
 
 const { Title } = Typography;
 
 export default function ProductsPage() {
   const [showProductModal, setShowProductModal] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<ProductResponse | null>(
-    null,
-  );
-  const [searchParams, setSearchParams] = useState<ProductSearchRequest>({
+  const [editingProduct, setEditingProduct] = useState<ProductDto | null>(null);
+  const [searchParams, setSearchParams] = useState<SearchProductRequest>({
     pageNumber: 1,
     pageSize: 10,
   });
@@ -66,15 +64,15 @@ export default function ProductsPage() {
   };
 
   const handleSubmitProduct = async (
-    values: ProductCreateRequest | ProductUpdateRequest,
+    values: CreateProductRequest | UpdateProductRequest,
   ) => {
     if (editingProduct) {
       updateMutation.mutate({
         id: editingProduct.id!,
-        data: values as ProductUpdateRequest,
+        data: values as UpdateProductRequest,
       });
     } else {
-      createMutation.mutate(values as ProductCreateRequest);
+      createMutation.mutate(values as CreateProductRequest);
     }
     setShowProductModal(false);
     setEditingProduct(null);
@@ -85,7 +83,7 @@ export default function ProductsPage() {
     setShowProductModal(true);
   };
 
-  const handleEditProduct = (record: ProductResponse) => {
+  const handleEditProduct = (record: ProductDto) => {
     setEditingProduct(record);
     setShowProductModal(true);
   };

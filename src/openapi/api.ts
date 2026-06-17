@@ -80,6 +80,19 @@ export interface ApiResponse {
 /**
  * 
  * @export
+ * @interface AssignPermissionsToRoleRequest
+ */
+export interface AssignPermissionsToRoleRequest {
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof AssignPermissionsToRoleRequest
+     */
+    'permissionIds'?: Array<string> | null;
+}
+/**
+ * 
+ * @export
  * @interface CategoryDto
  */
 export interface CategoryDto {
@@ -521,6 +534,25 @@ export interface CreatePartLocationRequest {
 /**
  * 
  * @export
+ * @interface CreatePermissionRequest
+ */
+export interface CreatePermissionRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePermissionRequest
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreatePermissionRequest
+     */
+    'description'?: string | null;
+}
+/**
+ * 
+ * @export
  * @interface CreateProductRequest
  */
 export interface CreateProductRequest {
@@ -560,6 +592,43 @@ export interface CreateProductRequest {
      * @memberof CreateProductRequest
      */
     'categoryId'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface CreateRoleRequest
+ */
+export interface CreateRoleRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateRoleRequest
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof CreateRoleRequest
+     */
+    'description'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof CreateRoleRequest
+     */
+    'accessLevel'?: number | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof CreateRoleRequest
+     */
+    'isSystemRole'?: boolean | null;
+    /**
+     * 
+     * @type {Array<string>}
+     * @memberof CreateRoleRequest
+     */
+    'permissionIds'?: Array<string> | null;
 }
 /**
  * 
@@ -1798,6 +1867,191 @@ export interface PartLocationDtoPaginatedResponseApiResponse {
 /**
  * 
  * @export
+ * @interface PermissionDto
+ */
+export interface PermissionDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof PermissionDto
+     */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PermissionDto
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof PermissionDto
+     */
+    'description'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface PermissionDtoApiResponse
+ */
+export interface PermissionDtoApiResponse {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PermissionDtoApiResponse
+     */
+    'isSuccess'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof PermissionDtoApiResponse
+     */
+    'message'?: string | null;
+    /**
+     * 
+     * @type {PermissionDto}
+     * @memberof PermissionDtoApiResponse
+     */
+    'data'?: PermissionDto;
+    /**
+     * 
+     * @type {number}
+     * @memberof PermissionDtoApiResponse
+     */
+    'statusCode'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PermissionDtoApiResponse
+     */
+    'timestamp'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface PermissionDtoListApiResponse
+ */
+export interface PermissionDtoListApiResponse {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PermissionDtoListApiResponse
+     */
+    'isSuccess'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof PermissionDtoListApiResponse
+     */
+    'message'?: string | null;
+    /**
+     * 
+     * @type {Array<PermissionDto>}
+     * @memberof PermissionDtoListApiResponse
+     */
+    'data'?: Array<PermissionDto> | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof PermissionDtoListApiResponse
+     */
+    'statusCode'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PermissionDtoListApiResponse
+     */
+    'timestamp'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface PermissionDtoPaginatedResponse
+ */
+export interface PermissionDtoPaginatedResponse {
+    /**
+     * 
+     * @type {Array<PermissionDto>}
+     * @memberof PermissionDtoPaginatedResponse
+     */
+    'data'?: Array<PermissionDto> | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof PermissionDtoPaginatedResponse
+     */
+    'currentPage'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PermissionDtoPaginatedResponse
+     */
+    'totalPages'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PermissionDtoPaginatedResponse
+     */
+    'totalCount'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof PermissionDtoPaginatedResponse
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PermissionDtoPaginatedResponse
+     */
+    'hasPreviousPage'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PermissionDtoPaginatedResponse
+     */
+    'hasNextPage'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface PermissionDtoPaginatedResponseApiResponse
+ */
+export interface PermissionDtoPaginatedResponseApiResponse {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof PermissionDtoPaginatedResponseApiResponse
+     */
+    'isSuccess'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof PermissionDtoPaginatedResponseApiResponse
+     */
+    'message'?: string | null;
+    /**
+     * 
+     * @type {PermissionDtoPaginatedResponse}
+     * @memberof PermissionDtoPaginatedResponseApiResponse
+     */
+    'data'?: PermissionDtoPaginatedResponse;
+    /**
+     * 
+     * @type {number}
+     * @memberof PermissionDtoPaginatedResponseApiResponse
+     */
+    'statusCode'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof PermissionDtoPaginatedResponseApiResponse
+     */
+    'timestamp'?: string;
+}
+/**
+ * 
+ * @export
  * @interface ProductDetailDto
  */
 export interface ProductDetailDto {
@@ -2040,6 +2294,172 @@ export interface RefreshTokenRequest {
      * @memberof RefreshTokenRequest
      */
     'refreshToken'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface RoleDto
+ */
+export interface RoleDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof RoleDto
+     */
+    'id'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RoleDto
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof RoleDto
+     */
+    'description'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof RoleDto
+     */
+    'accessLevel'?: number | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof RoleDto
+     */
+    'isSystemRole'?: boolean;
+    /**
+     * 
+     * @type {Array<PermissionDto>}
+     * @memberof RoleDto
+     */
+    'permissions'?: Array<PermissionDto> | null;
+}
+/**
+ * 
+ * @export
+ * @interface RoleDtoApiResponse
+ */
+export interface RoleDtoApiResponse {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof RoleDtoApiResponse
+     */
+    'isSuccess'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof RoleDtoApiResponse
+     */
+    'message'?: string | null;
+    /**
+     * 
+     * @type {RoleDto}
+     * @memberof RoleDtoApiResponse
+     */
+    'data'?: RoleDto;
+    /**
+     * 
+     * @type {number}
+     * @memberof RoleDtoApiResponse
+     */
+    'statusCode'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof RoleDtoApiResponse
+     */
+    'timestamp'?: string;
+}
+/**
+ * 
+ * @export
+ * @interface RoleDtoPaginatedResponse
+ */
+export interface RoleDtoPaginatedResponse {
+    /**
+     * 
+     * @type {Array<RoleDto>}
+     * @memberof RoleDtoPaginatedResponse
+     */
+    'data'?: Array<RoleDto> | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof RoleDtoPaginatedResponse
+     */
+    'currentPage'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof RoleDtoPaginatedResponse
+     */
+    'totalPages'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof RoleDtoPaginatedResponse
+     */
+    'totalCount'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof RoleDtoPaginatedResponse
+     */
+    'pageSize'?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof RoleDtoPaginatedResponse
+     */
+    'hasPreviousPage'?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof RoleDtoPaginatedResponse
+     */
+    'hasNextPage'?: boolean;
+}
+/**
+ * 
+ * @export
+ * @interface RoleDtoPaginatedResponseApiResponse
+ */
+export interface RoleDtoPaginatedResponseApiResponse {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof RoleDtoPaginatedResponseApiResponse
+     */
+    'isSuccess'?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof RoleDtoPaginatedResponseApiResponse
+     */
+    'message'?: string | null;
+    /**
+     * 
+     * @type {RoleDtoPaginatedResponse}
+     * @memberof RoleDtoPaginatedResponseApiResponse
+     */
+    'data'?: RoleDtoPaginatedResponse;
+    /**
+     * 
+     * @type {number}
+     * @memberof RoleDtoPaginatedResponseApiResponse
+     */
+    'statusCode'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof RoleDtoPaginatedResponseApiResponse
+     */
+    'timestamp'?: string;
 }
 /**
  * 
@@ -2322,6 +2742,43 @@ export interface SearchPartLocationRequest {
 /**
  * 
  * @export
+ * @interface SearchPermissionsRequest
+ */
+export interface SearchPermissionsRequest {
+    /**
+     * 
+     * @type {Search}
+     * @memberof SearchPermissionsRequest
+     */
+    'advanceSearches'?: Search;
+    /**
+     * 
+     * @type {Filter}
+     * @memberof SearchPermissionsRequest
+     */
+    'advanceFilter'?: Filter;
+    /**
+     * 
+     * @type {Sort}
+     * @memberof SearchPermissionsRequest
+     */
+    'advanceSort'?: Sort;
+    /**
+     * 
+     * @type {number}
+     * @memberof SearchPermissionsRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof SearchPermissionsRequest
+     */
+    'pageSize'?: number;
+}
+/**
+ * 
+ * @export
  * @interface SearchProductRequest
  */
 export interface SearchProductRequest {
@@ -2353,6 +2810,43 @@ export interface SearchProductRequest {
      * 
      * @type {number}
      * @memberof SearchProductRequest
+     */
+    'pageSize'?: number;
+}
+/**
+ * 
+ * @export
+ * @interface SearchRolesRequest
+ */
+export interface SearchRolesRequest {
+    /**
+     * 
+     * @type {Search}
+     * @memberof SearchRolesRequest
+     */
+    'advanceSearches'?: Search;
+    /**
+     * 
+     * @type {Filter}
+     * @memberof SearchRolesRequest
+     */
+    'advanceFilter'?: Filter;
+    /**
+     * 
+     * @type {Sort}
+     * @memberof SearchRolesRequest
+     */
+    'advanceSort'?: Sort;
+    /**
+     * 
+     * @type {number}
+     * @memberof SearchRolesRequest
+     */
+    'pageNumber'?: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof SearchRolesRequest
      */
     'pageSize'?: number;
 }
@@ -2791,6 +3285,25 @@ export interface UpdatePartLocationRequest {
 /**
  * 
  * @export
+ * @interface UpdatePermissionRequest
+ */
+export interface UpdatePermissionRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePermissionRequest
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdatePermissionRequest
+     */
+    'description'?: string | null;
+}
+/**
+ * 
+ * @export
  * @interface UpdateProductRequest
  */
 export interface UpdateProductRequest {
@@ -2830,6 +3343,37 @@ export interface UpdateProductRequest {
      * @memberof UpdateProductRequest
      */
     'categoryId'?: string | null;
+}
+/**
+ * 
+ * @export
+ * @interface UpdateRoleRequest
+ */
+export interface UpdateRoleRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateRoleRequest
+     */
+    'name'?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateRoleRequest
+     */
+    'description'?: string | null;
+    /**
+     * 
+     * @type {number}
+     * @memberof UpdateRoleRequest
+     */
+    'accessLevel'?: number | null;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UpdateRoleRequest
+     */
+    'isSystemRole'?: boolean | null;
 }
 /**
  * 
@@ -6552,6 +7096,452 @@ export class PartLocationsApi extends BaseAPI {
 
 
 /**
+ * PermissionsApi - axios parameter creator
+ * @export
+ */
+export const PermissionsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1PermissionsIdDelete: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiV1PermissionsIdDelete', 'id', id)
+            const localVarPath = `/api/v1/permissions/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1PermissionsIdGet: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiV1PermissionsIdGet', 'id', id)
+            const localVarPath = `/api/v1/permissions/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {UpdatePermissionRequest} [updatePermissionRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1PermissionsIdPut: async (id: string, updatePermissionRequest?: UpdatePermissionRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiV1PermissionsIdPut', 'id', id)
+            const localVarPath = `/api/v1/permissions/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updatePermissionRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {CreatePermissionRequest} [createPermissionRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1PermissionsPost: async (createPermissionRequest?: CreatePermissionRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/permissions`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createPermissionRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {SearchPermissionsRequest} [searchPermissionsRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1PermissionsSearchPost: async (searchPermissionsRequest?: SearchPermissionsRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/permissions/search`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(searchPermissionsRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * PermissionsApi - functional programming interface
+ * @export
+ */
+export const PermissionsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = PermissionsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1PermissionsIdDelete(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GuidApiResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1PermissionsIdDelete(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PermissionsApi.apiV1PermissionsIdDelete']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1PermissionsIdGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PermissionDtoApiResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1PermissionsIdGet(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PermissionsApi.apiV1PermissionsIdGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {UpdatePermissionRequest} [updatePermissionRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1PermissionsIdPut(id: string, updatePermissionRequest?: UpdatePermissionRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GuidApiResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1PermissionsIdPut(id, updatePermissionRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PermissionsApi.apiV1PermissionsIdPut']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {CreatePermissionRequest} [createPermissionRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1PermissionsPost(createPermissionRequest?: CreatePermissionRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GuidApiResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1PermissionsPost(createPermissionRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PermissionsApi.apiV1PermissionsPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {SearchPermissionsRequest} [searchPermissionsRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1PermissionsSearchPost(searchPermissionsRequest?: SearchPermissionsRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PermissionDtoPaginatedResponseApiResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1PermissionsSearchPost(searchPermissionsRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['PermissionsApi.apiV1PermissionsSearchPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * PermissionsApi - factory interface
+ * @export
+ */
+export const PermissionsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = PermissionsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {PermissionsApiApiV1PermissionsIdDeleteRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1PermissionsIdDelete(requestParameters: PermissionsApiApiV1PermissionsIdDeleteRequest, options?: RawAxiosRequestConfig): AxiosPromise<GuidApiResponse> {
+            return localVarFp.apiV1PermissionsIdDelete(requestParameters.id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {PermissionsApiApiV1PermissionsIdGetRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1PermissionsIdGet(requestParameters: PermissionsApiApiV1PermissionsIdGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<PermissionDtoApiResponse> {
+            return localVarFp.apiV1PermissionsIdGet(requestParameters.id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {PermissionsApiApiV1PermissionsIdPutRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1PermissionsIdPut(requestParameters: PermissionsApiApiV1PermissionsIdPutRequest, options?: RawAxiosRequestConfig): AxiosPromise<GuidApiResponse> {
+            return localVarFp.apiV1PermissionsIdPut(requestParameters.id, requestParameters.updatePermissionRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {PermissionsApiApiV1PermissionsPostRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1PermissionsPost(requestParameters: PermissionsApiApiV1PermissionsPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<GuidApiResponse> {
+            return localVarFp.apiV1PermissionsPost(requestParameters.createPermissionRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {PermissionsApiApiV1PermissionsSearchPostRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1PermissionsSearchPost(requestParameters: PermissionsApiApiV1PermissionsSearchPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<PermissionDtoPaginatedResponseApiResponse> {
+            return localVarFp.apiV1PermissionsSearchPost(requestParameters.searchPermissionsRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * Request parameters for apiV1PermissionsIdDelete operation in PermissionsApi.
+ * @export
+ * @interface PermissionsApiApiV1PermissionsIdDeleteRequest
+ */
+export interface PermissionsApiApiV1PermissionsIdDeleteRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof PermissionsApiApiV1PermissionsIdDelete
+     */
+    readonly id: string
+}
+
+/**
+ * Request parameters for apiV1PermissionsIdGet operation in PermissionsApi.
+ * @export
+ * @interface PermissionsApiApiV1PermissionsIdGetRequest
+ */
+export interface PermissionsApiApiV1PermissionsIdGetRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof PermissionsApiApiV1PermissionsIdGet
+     */
+    readonly id: string
+}
+
+/**
+ * Request parameters for apiV1PermissionsIdPut operation in PermissionsApi.
+ * @export
+ * @interface PermissionsApiApiV1PermissionsIdPutRequest
+ */
+export interface PermissionsApiApiV1PermissionsIdPutRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof PermissionsApiApiV1PermissionsIdPut
+     */
+    readonly id: string
+
+    /**
+     * 
+     * @type {UpdatePermissionRequest}
+     * @memberof PermissionsApiApiV1PermissionsIdPut
+     */
+    readonly updatePermissionRequest?: UpdatePermissionRequest
+}
+
+/**
+ * Request parameters for apiV1PermissionsPost operation in PermissionsApi.
+ * @export
+ * @interface PermissionsApiApiV1PermissionsPostRequest
+ */
+export interface PermissionsApiApiV1PermissionsPostRequest {
+    /**
+     * 
+     * @type {CreatePermissionRequest}
+     * @memberof PermissionsApiApiV1PermissionsPost
+     */
+    readonly createPermissionRequest?: CreatePermissionRequest
+}
+
+/**
+ * Request parameters for apiV1PermissionsSearchPost operation in PermissionsApi.
+ * @export
+ * @interface PermissionsApiApiV1PermissionsSearchPostRequest
+ */
+export interface PermissionsApiApiV1PermissionsSearchPostRequest {
+    /**
+     * 
+     * @type {SearchPermissionsRequest}
+     * @memberof PermissionsApiApiV1PermissionsSearchPost
+     */
+    readonly searchPermissionsRequest?: SearchPermissionsRequest
+}
+
+/**
+ * PermissionsApi - object-oriented interface
+ * @export
+ * @class PermissionsApi
+ * @extends {BaseAPI}
+ */
+export class PermissionsApi extends BaseAPI {
+    /**
+     * 
+     * @param {PermissionsApiApiV1PermissionsIdDeleteRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PermissionsApi
+     */
+    public apiV1PermissionsIdDelete(requestParameters: PermissionsApiApiV1PermissionsIdDeleteRequest, options?: RawAxiosRequestConfig) {
+        return PermissionsApiFp(this.configuration).apiV1PermissionsIdDelete(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {PermissionsApiApiV1PermissionsIdGetRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PermissionsApi
+     */
+    public apiV1PermissionsIdGet(requestParameters: PermissionsApiApiV1PermissionsIdGetRequest, options?: RawAxiosRequestConfig) {
+        return PermissionsApiFp(this.configuration).apiV1PermissionsIdGet(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {PermissionsApiApiV1PermissionsIdPutRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PermissionsApi
+     */
+    public apiV1PermissionsIdPut(requestParameters: PermissionsApiApiV1PermissionsIdPutRequest, options?: RawAxiosRequestConfig) {
+        return PermissionsApiFp(this.configuration).apiV1PermissionsIdPut(requestParameters.id, requestParameters.updatePermissionRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {PermissionsApiApiV1PermissionsPostRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PermissionsApi
+     */
+    public apiV1PermissionsPost(requestParameters: PermissionsApiApiV1PermissionsPostRequest = {}, options?: RawAxiosRequestConfig) {
+        return PermissionsApiFp(this.configuration).apiV1PermissionsPost(requestParameters.createPermissionRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {PermissionsApiApiV1PermissionsSearchPostRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof PermissionsApi
+     */
+    public apiV1PermissionsSearchPost(requestParameters: PermissionsApiApiV1PermissionsSearchPostRequest = {}, options?: RawAxiosRequestConfig) {
+        return PermissionsApiFp(this.configuration).apiV1PermissionsSearchPost(requestParameters.searchPermissionsRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
  * ProductsApi - axios parameter creator
  * @export
  */
@@ -6992,6 +7982,713 @@ export class ProductsApi extends BaseAPI {
      */
     public apiV1ProductsSearchPost(requestParameters: ProductsApiApiV1ProductsSearchPostRequest = {}, options?: RawAxiosRequestConfig) {
         return ProductsApiFp(this.configuration).apiV1ProductsSearchPost(requestParameters.searchProductRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
+ * RolesApi - axios parameter creator
+ * @export
+ */
+export const RolesApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1RolesIdDelete: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiV1RolesIdDelete', 'id', id)
+            const localVarPath = `/api/v1/roles/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1RolesIdGet: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiV1RolesIdGet', 'id', id)
+            const localVarPath = `/api/v1/roles/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {AssignPermissionsToRoleRequest} [assignPermissionsToRoleRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1RolesIdPermissionsDelete: async (id: string, assignPermissionsToRoleRequest?: AssignPermissionsToRoleRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiV1RolesIdPermissionsDelete', 'id', id)
+            const localVarPath = `/api/v1/roles/{id}/permissions`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(assignPermissionsToRoleRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1RolesIdPermissionsGet: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiV1RolesIdPermissionsGet', 'id', id)
+            const localVarPath = `/api/v1/roles/{id}/permissions`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {AssignPermissionsToRoleRequest} [assignPermissionsToRoleRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1RolesIdPermissionsPost: async (id: string, assignPermissionsToRoleRequest?: AssignPermissionsToRoleRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiV1RolesIdPermissionsPost', 'id', id)
+            const localVarPath = `/api/v1/roles/{id}/permissions`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(assignPermissionsToRoleRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {UpdateRoleRequest} [updateRoleRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1RolesIdPut: async (id: string, updateRoleRequest?: UpdateRoleRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('apiV1RolesIdPut', 'id', id)
+            const localVarPath = `/api/v1/roles/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateRoleRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {CreateRoleRequest} [createRoleRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1RolesPost: async (createRoleRequest?: CreateRoleRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/roles`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createRoleRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {SearchRolesRequest} [searchRolesRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1RolesSearchPost: async (searchRolesRequest?: SearchRolesRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v1/roles/search`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(searchRolesRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * RolesApi - functional programming interface
+ * @export
+ */
+export const RolesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = RolesApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1RolesIdDelete(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GuidApiResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1RolesIdDelete(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RolesApi.apiV1RolesIdDelete']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1RolesIdGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RoleDtoApiResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1RolesIdGet(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RolesApi.apiV1RolesIdGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {AssignPermissionsToRoleRequest} [assignPermissionsToRoleRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1RolesIdPermissionsDelete(id: string, assignPermissionsToRoleRequest?: AssignPermissionsToRoleRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GuidApiResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1RolesIdPermissionsDelete(id, assignPermissionsToRoleRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RolesApi.apiV1RolesIdPermissionsDelete']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1RolesIdPermissionsGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PermissionDtoListApiResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1RolesIdPermissionsGet(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RolesApi.apiV1RolesIdPermissionsGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {AssignPermissionsToRoleRequest} [assignPermissionsToRoleRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1RolesIdPermissionsPost(id: string, assignPermissionsToRoleRequest?: AssignPermissionsToRoleRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GuidApiResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1RolesIdPermissionsPost(id, assignPermissionsToRoleRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RolesApi.apiV1RolesIdPermissionsPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {UpdateRoleRequest} [updateRoleRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1RolesIdPut(id: string, updateRoleRequest?: UpdateRoleRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GuidApiResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1RolesIdPut(id, updateRoleRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RolesApi.apiV1RolesIdPut']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {CreateRoleRequest} [createRoleRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1RolesPost(createRoleRequest?: CreateRoleRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GuidApiResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1RolesPost(createRoleRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RolesApi.apiV1RolesPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {SearchRolesRequest} [searchRolesRequest] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiV1RolesSearchPost(searchRolesRequest?: SearchRolesRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RoleDtoPaginatedResponseApiResponse>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1RolesSearchPost(searchRolesRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['RolesApi.apiV1RolesSearchPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+    }
+};
+
+/**
+ * RolesApi - factory interface
+ * @export
+ */
+export const RolesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = RolesApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {RolesApiApiV1RolesIdDeleteRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1RolesIdDelete(requestParameters: RolesApiApiV1RolesIdDeleteRequest, options?: RawAxiosRequestConfig): AxiosPromise<GuidApiResponse> {
+            return localVarFp.apiV1RolesIdDelete(requestParameters.id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {RolesApiApiV1RolesIdGetRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1RolesIdGet(requestParameters: RolesApiApiV1RolesIdGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<RoleDtoApiResponse> {
+            return localVarFp.apiV1RolesIdGet(requestParameters.id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {RolesApiApiV1RolesIdPermissionsDeleteRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1RolesIdPermissionsDelete(requestParameters: RolesApiApiV1RolesIdPermissionsDeleteRequest, options?: RawAxiosRequestConfig): AxiosPromise<GuidApiResponse> {
+            return localVarFp.apiV1RolesIdPermissionsDelete(requestParameters.id, requestParameters.assignPermissionsToRoleRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {RolesApiApiV1RolesIdPermissionsGetRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1RolesIdPermissionsGet(requestParameters: RolesApiApiV1RolesIdPermissionsGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<PermissionDtoListApiResponse> {
+            return localVarFp.apiV1RolesIdPermissionsGet(requestParameters.id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {RolesApiApiV1RolesIdPermissionsPostRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1RolesIdPermissionsPost(requestParameters: RolesApiApiV1RolesIdPermissionsPostRequest, options?: RawAxiosRequestConfig): AxiosPromise<GuidApiResponse> {
+            return localVarFp.apiV1RolesIdPermissionsPost(requestParameters.id, requestParameters.assignPermissionsToRoleRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {RolesApiApiV1RolesIdPutRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1RolesIdPut(requestParameters: RolesApiApiV1RolesIdPutRequest, options?: RawAxiosRequestConfig): AxiosPromise<GuidApiResponse> {
+            return localVarFp.apiV1RolesIdPut(requestParameters.id, requestParameters.updateRoleRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {RolesApiApiV1RolesPostRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1RolesPost(requestParameters: RolesApiApiV1RolesPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<GuidApiResponse> {
+            return localVarFp.apiV1RolesPost(requestParameters.createRoleRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {RolesApiApiV1RolesSearchPostRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiV1RolesSearchPost(requestParameters: RolesApiApiV1RolesSearchPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<RoleDtoPaginatedResponseApiResponse> {
+            return localVarFp.apiV1RolesSearchPost(requestParameters.searchRolesRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * Request parameters for apiV1RolesIdDelete operation in RolesApi.
+ * @export
+ * @interface RolesApiApiV1RolesIdDeleteRequest
+ */
+export interface RolesApiApiV1RolesIdDeleteRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof RolesApiApiV1RolesIdDelete
+     */
+    readonly id: string
+}
+
+/**
+ * Request parameters for apiV1RolesIdGet operation in RolesApi.
+ * @export
+ * @interface RolesApiApiV1RolesIdGetRequest
+ */
+export interface RolesApiApiV1RolesIdGetRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof RolesApiApiV1RolesIdGet
+     */
+    readonly id: string
+}
+
+/**
+ * Request parameters for apiV1RolesIdPermissionsDelete operation in RolesApi.
+ * @export
+ * @interface RolesApiApiV1RolesIdPermissionsDeleteRequest
+ */
+export interface RolesApiApiV1RolesIdPermissionsDeleteRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof RolesApiApiV1RolesIdPermissionsDelete
+     */
+    readonly id: string
+
+    /**
+     * 
+     * @type {AssignPermissionsToRoleRequest}
+     * @memberof RolesApiApiV1RolesIdPermissionsDelete
+     */
+    readonly assignPermissionsToRoleRequest?: AssignPermissionsToRoleRequest
+}
+
+/**
+ * Request parameters for apiV1RolesIdPermissionsGet operation in RolesApi.
+ * @export
+ * @interface RolesApiApiV1RolesIdPermissionsGetRequest
+ */
+export interface RolesApiApiV1RolesIdPermissionsGetRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof RolesApiApiV1RolesIdPermissionsGet
+     */
+    readonly id: string
+}
+
+/**
+ * Request parameters for apiV1RolesIdPermissionsPost operation in RolesApi.
+ * @export
+ * @interface RolesApiApiV1RolesIdPermissionsPostRequest
+ */
+export interface RolesApiApiV1RolesIdPermissionsPostRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof RolesApiApiV1RolesIdPermissionsPost
+     */
+    readonly id: string
+
+    /**
+     * 
+     * @type {AssignPermissionsToRoleRequest}
+     * @memberof RolesApiApiV1RolesIdPermissionsPost
+     */
+    readonly assignPermissionsToRoleRequest?: AssignPermissionsToRoleRequest
+}
+
+/**
+ * Request parameters for apiV1RolesIdPut operation in RolesApi.
+ * @export
+ * @interface RolesApiApiV1RolesIdPutRequest
+ */
+export interface RolesApiApiV1RolesIdPutRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof RolesApiApiV1RolesIdPut
+     */
+    readonly id: string
+
+    /**
+     * 
+     * @type {UpdateRoleRequest}
+     * @memberof RolesApiApiV1RolesIdPut
+     */
+    readonly updateRoleRequest?: UpdateRoleRequest
+}
+
+/**
+ * Request parameters for apiV1RolesPost operation in RolesApi.
+ * @export
+ * @interface RolesApiApiV1RolesPostRequest
+ */
+export interface RolesApiApiV1RolesPostRequest {
+    /**
+     * 
+     * @type {CreateRoleRequest}
+     * @memberof RolesApiApiV1RolesPost
+     */
+    readonly createRoleRequest?: CreateRoleRequest
+}
+
+/**
+ * Request parameters for apiV1RolesSearchPost operation in RolesApi.
+ * @export
+ * @interface RolesApiApiV1RolesSearchPostRequest
+ */
+export interface RolesApiApiV1RolesSearchPostRequest {
+    /**
+     * 
+     * @type {SearchRolesRequest}
+     * @memberof RolesApiApiV1RolesSearchPost
+     */
+    readonly searchRolesRequest?: SearchRolesRequest
+}
+
+/**
+ * RolesApi - object-oriented interface
+ * @export
+ * @class RolesApi
+ * @extends {BaseAPI}
+ */
+export class RolesApi extends BaseAPI {
+    /**
+     * 
+     * @param {RolesApiApiV1RolesIdDeleteRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RolesApi
+     */
+    public apiV1RolesIdDelete(requestParameters: RolesApiApiV1RolesIdDeleteRequest, options?: RawAxiosRequestConfig) {
+        return RolesApiFp(this.configuration).apiV1RolesIdDelete(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {RolesApiApiV1RolesIdGetRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RolesApi
+     */
+    public apiV1RolesIdGet(requestParameters: RolesApiApiV1RolesIdGetRequest, options?: RawAxiosRequestConfig) {
+        return RolesApiFp(this.configuration).apiV1RolesIdGet(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {RolesApiApiV1RolesIdPermissionsDeleteRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RolesApi
+     */
+    public apiV1RolesIdPermissionsDelete(requestParameters: RolesApiApiV1RolesIdPermissionsDeleteRequest, options?: RawAxiosRequestConfig) {
+        return RolesApiFp(this.configuration).apiV1RolesIdPermissionsDelete(requestParameters.id, requestParameters.assignPermissionsToRoleRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {RolesApiApiV1RolesIdPermissionsGetRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RolesApi
+     */
+    public apiV1RolesIdPermissionsGet(requestParameters: RolesApiApiV1RolesIdPermissionsGetRequest, options?: RawAxiosRequestConfig) {
+        return RolesApiFp(this.configuration).apiV1RolesIdPermissionsGet(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {RolesApiApiV1RolesIdPermissionsPostRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RolesApi
+     */
+    public apiV1RolesIdPermissionsPost(requestParameters: RolesApiApiV1RolesIdPermissionsPostRequest, options?: RawAxiosRequestConfig) {
+        return RolesApiFp(this.configuration).apiV1RolesIdPermissionsPost(requestParameters.id, requestParameters.assignPermissionsToRoleRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {RolesApiApiV1RolesIdPutRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RolesApi
+     */
+    public apiV1RolesIdPut(requestParameters: RolesApiApiV1RolesIdPutRequest, options?: RawAxiosRequestConfig) {
+        return RolesApiFp(this.configuration).apiV1RolesIdPut(requestParameters.id, requestParameters.updateRoleRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {RolesApiApiV1RolesPostRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RolesApi
+     */
+    public apiV1RolesPost(requestParameters: RolesApiApiV1RolesPostRequest = {}, options?: RawAxiosRequestConfig) {
+        return RolesApiFp(this.configuration).apiV1RolesPost(requestParameters.createRoleRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {RolesApiApiV1RolesSearchPostRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof RolesApi
+     */
+    public apiV1RolesSearchPost(requestParameters: RolesApiApiV1RolesSearchPostRequest = {}, options?: RawAxiosRequestConfig) {
+        return RolesApiFp(this.configuration).apiV1RolesSearchPost(requestParameters.searchRolesRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

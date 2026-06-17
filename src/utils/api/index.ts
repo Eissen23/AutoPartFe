@@ -17,6 +17,8 @@ import {
   TokenApi,
   UserApi,
   WarehousesApi,
+  RolesApi,
+  PermissionsApi,
 } from "../../openapi";
 import { useCallback, useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
@@ -271,6 +273,18 @@ class ApiClients {
 
   get user(): UserApi {
     return new UserApi(this.configuration, undefined, this.axiosInstance);
+  }
+
+  get roles(): RolesApi {
+    return new RolesApi(this.configuration, undefined, this.axiosInstance);
+  }
+
+  get permissions(): PermissionsApi {
+    return new PermissionsApi(
+      this.configuration,
+      undefined,
+      this.axiosInstance,
+    );
   }
 
   get warehouses(): WarehousesApi {

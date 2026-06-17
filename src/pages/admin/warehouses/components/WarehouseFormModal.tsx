@@ -1,18 +1,17 @@
+import type {
+  CreateWarehouseLocationRequest,
+  UpdateWarehouseLocationRequest,
+  WarehouseLocationDto,
+} from "#src/openapi";
 import { Modal, Form, Input, InputNumber, Switch } from "antd";
 import { useEffect } from "react";
-import type {
-  WarehouseLocationResponse,
-  WarehouseLocationCreateRequest,
-  WarehouseLocationUpdateRequest,
-} from "#src/apis/warehouses";
-
 interface WarehouseFormModalProps {
   open: boolean;
   onCancel: () => void;
   onSubmit: (
-    values: WarehouseLocationCreateRequest | WarehouseLocationUpdateRequest,
+    values: CreateWarehouseLocationRequest | UpdateWarehouseLocationRequest,
   ) => Promise<void>;
-  editingWarehouse: WarehouseLocationResponse | null;
+  editingWarehouse: WarehouseLocationDto | null;
   loading: boolean;
 }
 
@@ -57,8 +56,8 @@ export default function WarehouseFormModal({
       const values = await form.validateFields();
 
       let submitData:
-        | WarehouseLocationCreateRequest
-        | WarehouseLocationUpdateRequest;
+        | CreateWarehouseLocationRequest
+        | UpdateWarehouseLocationRequest;
 
       if (isEditing) {
         submitData = {
@@ -68,7 +67,7 @@ export default function WarehouseFormModal({
           shelf: values.shelf || null,
           bin: values.bin || null,
           isOverstocked: values.isOverstocked || null,
-        } as WarehouseLocationUpdateRequest;
+        } as UpdateWarehouseLocationRequest;
       } else {
         submitData = {
           zoneCode: values.zoneCode || null,
@@ -76,7 +75,7 @@ export default function WarehouseFormModal({
           shelf: values.shelf,
           bin: values.bin || null,
           isOverstocked: values.isOverstocked || false,
-        } as WarehouseLocationCreateRequest;
+        } as CreateWarehouseLocationRequest;
       }
 
       await onSubmit(submitData);

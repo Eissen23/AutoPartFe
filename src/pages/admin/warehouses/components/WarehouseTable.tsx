@@ -1,18 +1,16 @@
 import { useState } from "react";
 import { Table, Button, Space, Popconfirm, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import type {
-  WarehouseLocationResponse,
-  ExistingPartResponse,
-} from "#src/apis/warehouses";
+import type {} from "#src/apis/warehouses";
 import { useWarehouseById } from "#src/hooks/warehouses";
+import type { ExistingPart, WarehouseLocationDto } from "#src/openapi";
 
 const { Text } = Typography;
 
 interface WarehouseTableProps {
-  data: WarehouseLocationResponse[];
+  data: WarehouseLocationDto[];
   loading: boolean;
-  onEdit: (record: WarehouseLocationResponse) => void;
+  onEdit: (record: WarehouseLocationDto) => void;
   onDelete: (id: string) => void;
   deleting: boolean;
   currentPage: number;
@@ -43,7 +41,7 @@ function ExpandedPartsTable({ warehouseId }: { warehouseId: string }) {
     );
   }
 
-  const partLocationColumns: ColumnsType<ExistingPartResponse> = [
+  const partLocationColumns: ColumnsType<ExistingPart> = [
     {
       title: "Part Number",
       dataIndex: "partNumber",
@@ -94,10 +92,7 @@ export default function WarehouseTable({
   onPaginationChange,
 }: WarehouseTableProps) {
   const [expandedRowKeys, setExpandedRowKeys] = useState<string[]>([]);
-  const handleExpand = (
-    expanded: boolean,
-    record: WarehouseLocationResponse,
-  ) => {
+  const handleExpand = (expanded: boolean, record: WarehouseLocationDto) => {
     if (!record.id) {
       return;
     }
@@ -109,7 +104,7 @@ export default function WarehouseTable({
     );
   };
 
-  const expandedRowRender = (record: WarehouseLocationResponse) => {
+  const expandedRowRender = (record: WarehouseLocationDto) => {
     if (!record.id) {
       return null;
     }
@@ -117,7 +112,7 @@ export default function WarehouseTable({
     return <ExpandedPartsTable warehouseId={record.id} />;
   };
 
-  const columns: ColumnsType<WarehouseLocationResponse> = [
+  const columns: ColumnsType<WarehouseLocationDto> = [
     {
       title: "Zone Code",
       dataIndex: "zoneCode",

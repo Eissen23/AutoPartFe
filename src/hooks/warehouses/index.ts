@@ -1,13 +1,14 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useMessage } from "#src/utils/message";
-import type { SearchWarehouseLocationRequest } from "#src/openapi";
 import type {
-  WarehouseLocationCreateRequest,
-  WarehouseLocationUpdateRequest,
-  PartLocationSearchRequest,
-  PartLocationCreateRequest,
-  PartLocationUpdateRequest,
-} from "#src/apis/warehouses";
+  CreatePartLocationRequest,
+  CreateWarehouseLocationRequest,
+  SearchPartLocationRequest,
+  SearchWarehouseLocationRequest,
+  UpdatePartLocationRequest,
+  UpdateWarehouseLocationRequest,
+} from "#src/openapi";
+import type {} from "#src/apis/warehouses";
 import {
   createWarehouseLocation,
   updateWarehouseLocation,
@@ -41,7 +42,7 @@ export function useCreateWarehouse() {
   const qc = useQueryClient();
   const message = useMessage();
   return useApiMutation({
-    mutationFn: async (data: WarehouseLocationCreateRequest) => ({
+    mutationFn: async (data: CreateWarehouseLocationRequest) => ({
       data: await createWarehouseLocation(data),
     }),
     onSuccess: () => {
@@ -60,7 +61,7 @@ export function useUpdateWarehouse() {
   return useApiMutation({
     mutationFn: async (payload: {
       id: string;
-      data: WarehouseLocationUpdateRequest;
+      data: UpdateWarehouseLocationRequest;
     }) => ({
       data: await updateWarehouseLocation(payload.id, payload.data),
     }),
@@ -80,7 +81,7 @@ export function useDeleteWarehouse() {
   const message = useMessage();
   return useApiMutation({
     mutationFn: async (id: string) => ({
-      data: await deleteWarehouseLocation({ id }),
+      data: await deleteWarehouseLocation(id),
     }),
     onSuccess: () => {
       message.success("Warehouse location deleted successfully");
@@ -114,7 +115,7 @@ export function useWarehouseById(id: string | null | undefined) {
 /**
  * Fetch part locations
  */
-export function usePartLocationsQuery(payload?: PartLocationSearchRequest) {
+export function usePartLocationsQuery(payload?: SearchPartLocationRequest) {
   return useFetch({
     queryKey: ["part-locations", payload],
     queryFn: async () => {
@@ -132,7 +133,7 @@ export function useCreatePartLocation() {
   const message = useMessage();
 
   return useApiMutation({
-    mutationFn: async (data: PartLocationCreateRequest) => ({
+    mutationFn: async (data: CreatePartLocationRequest) => ({
       data: await createPartLocationApi(data),
     }),
     onSuccess: () => {
@@ -152,7 +153,7 @@ export function useUpdatePartLocation() {
   return useApiMutation({
     mutationFn: async (payload: {
       id: string;
-      data: PartLocationUpdateRequest;
+      data: UpdatePartLocationRequest;
     }) => ({ data: await updatePartLocationApi(payload.id, payload.data) }),
     onSuccess: () => {
       message.success("Part location updated successfully");
@@ -170,7 +171,7 @@ export function useDeletePartLocation() {
 
   return useApiMutation({
     mutationFn: async (id: string) => ({
-      data: await deletePartLocationApi({ id }),
+      data: await deletePartLocationApi(id),
     }),
     onSuccess: () => {
       message.success("Part location deleted successfully");

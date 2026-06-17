@@ -356,3 +356,6 @@ export { tokenManager };
 export type { ApiError };
 
 export { clearAuthTokens };
+
+export * from "./roles";
+export * from "./permissions";

@@ -1,11 +1,8 @@
-import {
-  getCategoryMap,
-  searchCategories,
-  type CategorySearchRequest,
-} from "#src/apis/categories";
+import { getCategoryMap, searchCategories } from "#src/apis/categories";
+import type { SearchCategoryRequest } from "#src/openapi";
 import { useFetch } from "#src/utils/api";
 
-export function useCategoriesQuery(payload: CategorySearchRequest) {
+export function useCategoriesQuery(payload: SearchCategoryRequest) {
   return useFetch({
     queryKey: ["categories", payload],
     queryFn: async () => {

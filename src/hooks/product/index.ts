@@ -4,15 +4,17 @@ import {
   getProduct,
   searchProducts,
   updateProduct,
-  type ProductCreateRequest,
-  type ProductSearchRequest,
-  type ProductUpdateRequest,
 } from "#src/apis/products";
 import { useApiMutation, useFetch } from "#src/utils/api";
 import { useQueryClient } from "@tanstack/react-query";
 import { useMessage } from "#src/utils/message";
+import type {
+  CreateProductRequest,
+  SearchProductRequest,
+  UpdateProductRequest,
+} from "#src/openapi";
 
-export function useProductQuery(payload: ProductSearchRequest) {
+export function useProductQuery(payload: SearchProductRequest) {
   return useFetch({
     queryKey: ["products", payload],
     queryFn: async () => {
@@ -39,7 +41,7 @@ export function useCreateProduct() {
   const message = useMessage();
 
   return useApiMutation({
-    mutationFn: async (payload: ProductCreateRequest) => {
+    mutationFn: async (payload: CreateProductRequest) => {
       const resp = await createProduct(payload);
 
       return resp.data;
@@ -59,7 +61,7 @@ export function useUpdateProduct() {
   const message = useMessage();
 
   return useApiMutation({
-    mutationFn: async (payload: { id: string; data: ProductUpdateRequest }) => {
+    mutationFn: async (payload: { id: string; data: UpdateProductRequest }) => {
       const resp = await updateProduct(payload.id, payload.data);
 
       return resp.data;

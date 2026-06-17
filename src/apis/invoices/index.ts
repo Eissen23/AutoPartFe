@@ -44,9 +44,9 @@ export const searchInvoice = async (request?: SearchInvoiceRequest) => {
   return result.data;
 };
 
-export const getInvoice = async (request?: SearchInvoiceRequest) => {
-  const result = await apiClients.invoices.apiV1InvoicesSearchPost({
-    searchInvoiceRequest: request,
+export const getInvoice = async (id: string) => {
+  const result = await apiClients.invoices.apiV1InvoicesIdGet({
+    id,
   });
 
   return result.data;

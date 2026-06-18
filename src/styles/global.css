@@ -58,7 +58,7 @@
     }
 
     .dashboard-sidebar {
-        @apply w-64 bg-slate-200 border-r overflow-y-auto;
+        @apply w-64 bg-slate-100 border-r overflow-y-auto;
     }
 
     .sidebar-nav {
@@ -66,7 +66,7 @@
     }
 
     .nav-item {
-        @apply flex items-center gap-3 px-4 py-3 mx-1.5 rounded-2xl font-medium hover:bg-slate-700 hover:text-yellow-400 transition-colors duration-200;
+        @apply flex items-center gap-3 px-4 py-3 mx-1.5 rounded-2xl text-black font-medium hover:bg-slate-700 hover:text-yellow-400 transition duration-200;
     }
 
     .nav-item-icon {

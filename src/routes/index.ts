@@ -1,10 +1,18 @@
-import { createBrowserRouter } from "react-router";
+import { createElement, lazy } from "react";
+import { Navigate, createBrowserRouter } from "react-router";
+import { useAuthContext } from "#src/contexts";
 import { coreRoutes } from "./core";
-import { lazy } from "react";
 
 const RootLayout = lazy(() => import("#src/components/layouts/RootLayout.tsx"));
-const HomePage = lazy(() => import("../pages/HomePage.tsx"));
-const NotFoundPage = lazy(() => import("#src/pages/NotFoundPage.tsx"));
+
+function EntryRedirect() {
+  const { isAuthenticated } = useAuthContext();
+
+  return createElement(Navigate, {
+    to: isAuthenticated ? "/dashboard" : "/login",
+    replace: true,
+  });
+}
 
 /**
  * Global root route configuration
@@ -17,14 +25,14 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        Component: HomePage,
+        Component: EntryRedirect,
       },
       ...coreRoutes,
     ],
   },
-  // Catch-all route for 404s
+  // Catch-all route redirects to dashboard/login by auth state
   {
     path: "*",
-    Component: NotFoundPage,
+    Component: EntryRedirect,
   },
 ]);

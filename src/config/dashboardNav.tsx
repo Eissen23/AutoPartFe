@@ -19,6 +19,7 @@ export interface DashboardNavItem {
   href: string;
   label: string;
   icon?: ReactElement;
+  children?: DashboardNavItem[];
 }
 
 /**

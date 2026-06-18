@@ -11,7 +11,7 @@
     "gen:api": "openapi-generator-cli generate"
   },
   "dependencies": {
-    "@ant-design/cssinjs": "^2.1.0",
+    "@ant-design/cssinjs": "2.1.2",
     "@reduxjs/toolkit": "^2.11.2",
     "@tailwindcss/vite": "^4.2.1",
     "@tanstack/react-query": "^5.90.21",

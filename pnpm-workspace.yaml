@@ -1,6 +1,9 @@
+overrides:
+  "@ant-design/cssinjs": 2.1.2
+
 allowBuilds:
-  '@nestjs/core': true
-  '@openapitools/openapi-generator-cli': true
+  "@nestjs/core": true
+  "@openapitools/openapi-generator-cli": true
   esbuild: true
 minimumReleaseAgeExclude:
   - basic-ftp@5.2.0
@@ -21,7 +24,7 @@ minimumReleaseAgeExclude:
   - follow-redirects@1.15.12
   - axios@1.15.0
   - postcss@8.5.10
-  - '@nestjs/core@11.1.18'
+  - "@nestjs/core@11.1.18"
   - basic-ftp@5.2.3
   - axios@1.15.1
   - axios@1.15.2
@@ -39,9 +42,9 @@ minimumReleaseAgeExclude:
   - form-data@4.0.6
   - vite@7.3.5
   - js-yaml@4.1.2
-  - '@babel/core@7.29.1'
+  - "@babel/core@7.29.1"
   - react-router@7.15.1
 onlyBuiltDependencies:
-  - '@nestjs/core'
-  - '@openapitools/openapi-generator-cli'
+  - "@nestjs/core"
+  - "@openapitools/openapi-generator-cli"
   - esbuild

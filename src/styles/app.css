@@ -1,4 +1,4 @@
-@layer theme, base, antd, components, utilities;
+@layer theme, base, antd, components, utilities, overrides;
 @import "tailwindcss";
 @layer theme {
     @import "./theme.css";
@@ -7,3 +7,4 @@
     @import "./base.css";
 }
 @import "./global.css";
+@import "./antd-overrides.css";

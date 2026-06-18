@@ -1,0 +1,11 @@
+@layer overrides {
+    /*
+      Put Ant Design CSS overrides here.
+      This layer is declared last, so it wins over `@layer antd`.
+
+      Example:
+      .my-select .ant-select-selector {
+          border-color: var(--color-blue-500);
+      }
+    */
+}

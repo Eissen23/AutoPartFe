@@ -5,6 +5,7 @@ import ProtectedDashboardLayout from "#src/components/layouts/ProtectedDashboard
 const HomePage = lazy(() => import("#src/pages/HomePage"));
 const WarehousesPage = lazy(() => import("#src/pages/admin/warehouses"));
 const ProductPage = lazy(() => import("#src/pages/admin/products"));
+const CategoriesPage = lazy(() => import("#src/pages/admin/categories"));
 
 export const dashboardRoutes: RouteObject[] = [
   {
@@ -25,6 +26,11 @@ export const dashboardRoutes: RouteObject[] = [
         path: "/dashboard/products",
         Component: ProductPage,
         handle: { label: "Product" },
+      },
+      {
+        path: "/dashboard/categories",
+        Component: CategoriesPage,
+        handle: { label: "Categories" },
       },
     ],
   },

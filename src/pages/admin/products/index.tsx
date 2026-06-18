@@ -1,5 +1,5 @@
 import { Card, Typography, Button, Space, Input } from "antd";
-import { ProductFormModal, ProductTable } from "./components";
+import { ProductFormModal, ProductTable } from "#src/components/products";
 import { useMemo, useState } from "react";
 import {
   useCreateProduct,

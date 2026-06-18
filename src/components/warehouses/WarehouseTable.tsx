@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Table, Button, Space, Popconfirm, Typography } from "antd";
+import { Table, Button, Popconfirm, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import type {} from "#src/apis/warehouses";
 import { useWarehouseById } from "#src/hooks/warehouses";
 import type { ExistingPart, WarehouseLocationDto } from "#src/openapi";
+import { SquarePen, Trash } from "lucide-react";
 
 const { Text } = Typography;
 
@@ -162,13 +163,13 @@ export default function WarehouseTable({
       width: 150,
       fixed: "right",
       render: (_, record) => (
-        <Space size="small">
+        <div className="flex gap-1">
           <Button
             type="link"
             onClick={() => onEdit(record)}
             className="text-blue-600 hover:text-blue-700"
           >
-            Edit
+            <SquarePen className="w-4 h-4" />
           </Button>
           <Popconfirm
             title="Delete Warehouse"
@@ -179,10 +180,10 @@ export default function WarehouseTable({
             okButtonProps={{ danger: true, loading: deleting }}
           >
             <Button type="link" danger loading={deleting}>
-              Delete
+              <Trash className="w-4 h-4" />
             </Button>
           </Popconfirm>
-        </Space>
+        </div>
       ),
     },
   ];

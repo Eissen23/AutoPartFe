@@ -1,4 +1,4 @@
-import { Home, Warehouse, Package } from "lucide-react";
+import { Home, Warehouse, Package, FolderTree } from "lucide-react";
 import type { ReactElement } from "react";
 
 /**
@@ -44,5 +44,10 @@ export const dashboardNavItems: DashboardNavItem[] = [
     href: "/dashboard/products",
     label: "Products",
     icon: <Package size={18} />,
+  },
+  {
+    href: "/dashboard/categories",
+    label: "Categories",
+    icon: <FolderTree size={18} />,
   },
 ];

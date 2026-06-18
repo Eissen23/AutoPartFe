@@ -37,14 +37,21 @@ export function useCategoryMap() {
   });
 }
 
-export function useCategoryById(id: string) {
+export function useCategoryById(id: string | null | undefined) {
+  const categoryId = id?.trim();
+
   return useFetch({
-    queryKey: ["categories", id],
+    queryKey: ["categories", categoryId],
     queryFn: async () => {
-      const result = await getCategory(id);
+      if (!categoryId) {
+        throw new Error("Category id is required");
+      }
+
+      const result = await getCategory(categoryId);
 
       return result?.data;
     },
+    enabled: !!categoryId,
   });
 }
 
@@ -84,7 +91,7 @@ export function useUpdateCategory() {
     onSuccess: (_data, variable) => {
       message.success("Category has been updated");
       qc.invalidateQueries({ queryKey: ["categories"] });
-      qc.invalidateQueries({ queryKey: ["category", variable.id] });
+      qc.invalidateQueries({ queryKey: ["categories", variable.id] });
     },
     onError: () => {
       message.error("Failed to update category");

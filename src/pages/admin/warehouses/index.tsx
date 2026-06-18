@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import { Button, Typography, Card, Input, Select } from "antd";
-import { WarehouseTable, WarehouseFormModal } from "./components";
 import {
   useCreateWarehouse,
   useDeleteWarehouse,
@@ -14,6 +13,7 @@ import type {
   UpdateWarehouseLocationRequest,
   WarehouseLocationDto,
 } from "#src/openapi";
+import { WarehouseFormModal, WarehouseTable } from "#src/components/warehouses";
 
 const { Title } = Typography;
 

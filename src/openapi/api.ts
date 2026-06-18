@@ -76,6 +76,12 @@ export interface ApiResponse {
      * @memberof ApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof ApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
@@ -171,92 +177,55 @@ export interface CategoryDtoApiResponse {
      * @memberof CategoryDtoApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof CategoryDtoApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
  * @export
- * @interface CategoryDtoPaginatedResponse
+ * @interface CategoryDtoListApiResponse
  */
-export interface CategoryDtoPaginatedResponse {
-    /**
-     * 
-     * @type {Array<CategoryDto>}
-     * @memberof CategoryDtoPaginatedResponse
-     */
-    'data'?: Array<CategoryDto> | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof CategoryDtoPaginatedResponse
-     */
-    'currentPage'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof CategoryDtoPaginatedResponse
-     */
-    'totalPages'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof CategoryDtoPaginatedResponse
-     */
-    'totalCount'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof CategoryDtoPaginatedResponse
-     */
-    'pageSize'?: number;
+export interface CategoryDtoListApiResponse {
     /**
      * 
      * @type {boolean}
-     * @memberof CategoryDtoPaginatedResponse
-     */
-    'hasPreviousPage'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CategoryDtoPaginatedResponse
-     */
-    'hasNextPage'?: boolean;
-}
-/**
- * 
- * @export
- * @interface CategoryDtoPaginatedResponseApiResponse
- */
-export interface CategoryDtoPaginatedResponseApiResponse {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CategoryDtoPaginatedResponseApiResponse
+     * @memberof CategoryDtoListApiResponse
      */
     'isSuccess'?: boolean;
     /**
      * 
      * @type {string}
-     * @memberof CategoryDtoPaginatedResponseApiResponse
+     * @memberof CategoryDtoListApiResponse
      */
     'message'?: string | null;
     /**
      * 
-     * @type {CategoryDtoPaginatedResponse}
-     * @memberof CategoryDtoPaginatedResponseApiResponse
+     * @type {Array<CategoryDto>}
+     * @memberof CategoryDtoListApiResponse
      */
-    'data'?: CategoryDtoPaginatedResponse;
+    'data'?: Array<CategoryDto> | null;
     /**
      * 
      * @type {number}
-     * @memberof CategoryDtoPaginatedResponseApiResponse
+     * @memberof CategoryDtoListApiResponse
      */
     'statusCode'?: number;
     /**
      * 
      * @type {string}
-     * @memberof CategoryDtoPaginatedResponseApiResponse
+     * @memberof CategoryDtoListApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof CategoryDtoListApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
@@ -313,6 +282,12 @@ export interface CategoryNameDtoListApiResponse {
      * @memberof CategoryNameDtoListApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof CategoryNameDtoListApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
@@ -882,92 +857,55 @@ export interface CustomerDtoApiResponse {
      * @memberof CustomerDtoApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof CustomerDtoApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
  * @export
- * @interface CustomerDtoPaginatedResponse
+ * @interface CustomerDtoListApiResponse
  */
-export interface CustomerDtoPaginatedResponse {
-    /**
-     * 
-     * @type {Array<CustomerDto>}
-     * @memberof CustomerDtoPaginatedResponse
-     */
-    'data'?: Array<CustomerDto> | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerDtoPaginatedResponse
-     */
-    'currentPage'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerDtoPaginatedResponse
-     */
-    'totalPages'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerDtoPaginatedResponse
-     */
-    'totalCount'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof CustomerDtoPaginatedResponse
-     */
-    'pageSize'?: number;
+export interface CustomerDtoListApiResponse {
     /**
      * 
      * @type {boolean}
-     * @memberof CustomerDtoPaginatedResponse
-     */
-    'hasPreviousPage'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CustomerDtoPaginatedResponse
-     */
-    'hasNextPage'?: boolean;
-}
-/**
- * 
- * @export
- * @interface CustomerDtoPaginatedResponseApiResponse
- */
-export interface CustomerDtoPaginatedResponseApiResponse {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof CustomerDtoPaginatedResponseApiResponse
+     * @memberof CustomerDtoListApiResponse
      */
     'isSuccess'?: boolean;
     /**
      * 
      * @type {string}
-     * @memberof CustomerDtoPaginatedResponseApiResponse
+     * @memberof CustomerDtoListApiResponse
      */
     'message'?: string | null;
     /**
      * 
-     * @type {CustomerDtoPaginatedResponse}
-     * @memberof CustomerDtoPaginatedResponseApiResponse
+     * @type {Array<CustomerDto>}
+     * @memberof CustomerDtoListApiResponse
      */
-    'data'?: CustomerDtoPaginatedResponse;
+    'data'?: Array<CustomerDto> | null;
     /**
      * 
      * @type {number}
-     * @memberof CustomerDtoPaginatedResponseApiResponse
+     * @memberof CustomerDtoListApiResponse
      */
     'statusCode'?: number;
     /**
      * 
      * @type {string}
-     * @memberof CustomerDtoPaginatedResponseApiResponse
+     * @memberof CustomerDtoListApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof CustomerDtoListApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
@@ -1050,92 +988,55 @@ export interface DepartmentDtoApiResponse {
      * @memberof DepartmentDtoApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof DepartmentDtoApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
  * @export
- * @interface DepartmentDtoPaginatedResponse
+ * @interface DepartmentDtoListApiResponse
  */
-export interface DepartmentDtoPaginatedResponse {
-    /**
-     * 
-     * @type {Array<DepartmentDto>}
-     * @memberof DepartmentDtoPaginatedResponse
-     */
-    'data'?: Array<DepartmentDto> | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof DepartmentDtoPaginatedResponse
-     */
-    'currentPage'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof DepartmentDtoPaginatedResponse
-     */
-    'totalPages'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof DepartmentDtoPaginatedResponse
-     */
-    'totalCount'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof DepartmentDtoPaginatedResponse
-     */
-    'pageSize'?: number;
+export interface DepartmentDtoListApiResponse {
     /**
      * 
      * @type {boolean}
-     * @memberof DepartmentDtoPaginatedResponse
-     */
-    'hasPreviousPage'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof DepartmentDtoPaginatedResponse
-     */
-    'hasNextPage'?: boolean;
-}
-/**
- * 
- * @export
- * @interface DepartmentDtoPaginatedResponseApiResponse
- */
-export interface DepartmentDtoPaginatedResponseApiResponse {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof DepartmentDtoPaginatedResponseApiResponse
+     * @memberof DepartmentDtoListApiResponse
      */
     'isSuccess'?: boolean;
     /**
      * 
      * @type {string}
-     * @memberof DepartmentDtoPaginatedResponseApiResponse
+     * @memberof DepartmentDtoListApiResponse
      */
     'message'?: string | null;
     /**
      * 
-     * @type {DepartmentDtoPaginatedResponse}
-     * @memberof DepartmentDtoPaginatedResponseApiResponse
+     * @type {Array<DepartmentDto>}
+     * @memberof DepartmentDtoListApiResponse
      */
-    'data'?: DepartmentDtoPaginatedResponse;
+    'data'?: Array<DepartmentDto> | null;
     /**
      * 
      * @type {number}
-     * @memberof DepartmentDtoPaginatedResponseApiResponse
+     * @memberof DepartmentDtoListApiResponse
      */
     'statusCode'?: number;
     /**
      * 
      * @type {string}
-     * @memberof DepartmentDtoPaginatedResponseApiResponse
+     * @memberof DepartmentDtoListApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof DepartmentDtoListApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
@@ -1241,6 +1142,12 @@ export interface GuidApiResponse {
      * @memberof GuidApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof GuidApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
@@ -1315,92 +1222,55 @@ export interface InvoiceDtoApiResponse {
      * @memberof InvoiceDtoApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof InvoiceDtoApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
  * @export
- * @interface InvoiceDtoPaginatedResponse
+ * @interface InvoiceDtoListApiResponse
  */
-export interface InvoiceDtoPaginatedResponse {
-    /**
-     * 
-     * @type {Array<InvoiceDto>}
-     * @memberof InvoiceDtoPaginatedResponse
-     */
-    'data'?: Array<InvoiceDto> | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof InvoiceDtoPaginatedResponse
-     */
-    'currentPage'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof InvoiceDtoPaginatedResponse
-     */
-    'totalPages'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof InvoiceDtoPaginatedResponse
-     */
-    'totalCount'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof InvoiceDtoPaginatedResponse
-     */
-    'pageSize'?: number;
+export interface InvoiceDtoListApiResponse {
     /**
      * 
      * @type {boolean}
-     * @memberof InvoiceDtoPaginatedResponse
-     */
-    'hasPreviousPage'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof InvoiceDtoPaginatedResponse
-     */
-    'hasNextPage'?: boolean;
-}
-/**
- * 
- * @export
- * @interface InvoiceDtoPaginatedResponseApiResponse
- */
-export interface InvoiceDtoPaginatedResponseApiResponse {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof InvoiceDtoPaginatedResponseApiResponse
+     * @memberof InvoiceDtoListApiResponse
      */
     'isSuccess'?: boolean;
     /**
      * 
      * @type {string}
-     * @memberof InvoiceDtoPaginatedResponseApiResponse
+     * @memberof InvoiceDtoListApiResponse
      */
     'message'?: string | null;
     /**
      * 
-     * @type {InvoiceDtoPaginatedResponse}
-     * @memberof InvoiceDtoPaginatedResponseApiResponse
+     * @type {Array<InvoiceDto>}
+     * @memberof InvoiceDtoListApiResponse
      */
-    'data'?: InvoiceDtoPaginatedResponse;
+    'data'?: Array<InvoiceDto> | null;
     /**
      * 
      * @type {number}
-     * @memberof InvoiceDtoPaginatedResponseApiResponse
+     * @memberof InvoiceDtoListApiResponse
      */
     'statusCode'?: number;
     /**
      * 
      * @type {string}
-     * @memberof InvoiceDtoPaginatedResponseApiResponse
+     * @memberof InvoiceDtoListApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof InvoiceDtoListApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
@@ -1475,92 +1345,55 @@ export interface InvoiceItemDtoApiResponse {
      * @memberof InvoiceItemDtoApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof InvoiceItemDtoApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
  * @export
- * @interface InvoiceItemDtoPaginatedResponse
+ * @interface InvoiceItemDtoListApiResponse
  */
-export interface InvoiceItemDtoPaginatedResponse {
-    /**
-     * 
-     * @type {Array<InvoiceItemDto>}
-     * @memberof InvoiceItemDtoPaginatedResponse
-     */
-    'data'?: Array<InvoiceItemDto> | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof InvoiceItemDtoPaginatedResponse
-     */
-    'currentPage'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof InvoiceItemDtoPaginatedResponse
-     */
-    'totalPages'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof InvoiceItemDtoPaginatedResponse
-     */
-    'totalCount'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof InvoiceItemDtoPaginatedResponse
-     */
-    'pageSize'?: number;
+export interface InvoiceItemDtoListApiResponse {
     /**
      * 
      * @type {boolean}
-     * @memberof InvoiceItemDtoPaginatedResponse
-     */
-    'hasPreviousPage'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof InvoiceItemDtoPaginatedResponse
-     */
-    'hasNextPage'?: boolean;
-}
-/**
- * 
- * @export
- * @interface InvoiceItemDtoPaginatedResponseApiResponse
- */
-export interface InvoiceItemDtoPaginatedResponseApiResponse {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof InvoiceItemDtoPaginatedResponseApiResponse
+     * @memberof InvoiceItemDtoListApiResponse
      */
     'isSuccess'?: boolean;
     /**
      * 
      * @type {string}
-     * @memberof InvoiceItemDtoPaginatedResponseApiResponse
+     * @memberof InvoiceItemDtoListApiResponse
      */
     'message'?: string | null;
     /**
      * 
-     * @type {InvoiceItemDtoPaginatedResponse}
-     * @memberof InvoiceItemDtoPaginatedResponseApiResponse
+     * @type {Array<InvoiceItemDto>}
+     * @memberof InvoiceItemDtoListApiResponse
      */
-    'data'?: InvoiceItemDtoPaginatedResponse;
+    'data'?: Array<InvoiceItemDto> | null;
     /**
      * 
      * @type {number}
-     * @memberof InvoiceItemDtoPaginatedResponseApiResponse
+     * @memberof InvoiceItemDtoListApiResponse
      */
     'statusCode'?: number;
     /**
      * 
      * @type {string}
-     * @memberof InvoiceItemDtoPaginatedResponseApiResponse
+     * @memberof InvoiceItemDtoListApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof InvoiceItemDtoListApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
@@ -1623,92 +1456,55 @@ export interface JobPositionDtoApiResponse {
      * @memberof JobPositionDtoApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof JobPositionDtoApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
  * @export
- * @interface JobPositionDtoPaginatedResponse
+ * @interface JobPositionDtoListApiResponse
  */
-export interface JobPositionDtoPaginatedResponse {
-    /**
-     * 
-     * @type {Array<JobPositionDto>}
-     * @memberof JobPositionDtoPaginatedResponse
-     */
-    'data'?: Array<JobPositionDto> | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof JobPositionDtoPaginatedResponse
-     */
-    'currentPage'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof JobPositionDtoPaginatedResponse
-     */
-    'totalPages'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof JobPositionDtoPaginatedResponse
-     */
-    'totalCount'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof JobPositionDtoPaginatedResponse
-     */
-    'pageSize'?: number;
+export interface JobPositionDtoListApiResponse {
     /**
      * 
      * @type {boolean}
-     * @memberof JobPositionDtoPaginatedResponse
-     */
-    'hasPreviousPage'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof JobPositionDtoPaginatedResponse
-     */
-    'hasNextPage'?: boolean;
-}
-/**
- * 
- * @export
- * @interface JobPositionDtoPaginatedResponseApiResponse
- */
-export interface JobPositionDtoPaginatedResponseApiResponse {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof JobPositionDtoPaginatedResponseApiResponse
+     * @memberof JobPositionDtoListApiResponse
      */
     'isSuccess'?: boolean;
     /**
      * 
      * @type {string}
-     * @memberof JobPositionDtoPaginatedResponseApiResponse
+     * @memberof JobPositionDtoListApiResponse
      */
     'message'?: string | null;
     /**
      * 
-     * @type {JobPositionDtoPaginatedResponse}
-     * @memberof JobPositionDtoPaginatedResponseApiResponse
+     * @type {Array<JobPositionDto>}
+     * @memberof JobPositionDtoListApiResponse
      */
-    'data'?: JobPositionDtoPaginatedResponse;
+    'data'?: Array<JobPositionDto> | null;
     /**
      * 
      * @type {number}
-     * @memberof JobPositionDtoPaginatedResponseApiResponse
+     * @memberof JobPositionDtoListApiResponse
      */
     'statusCode'?: number;
     /**
      * 
      * @type {string}
-     * @memberof JobPositionDtoPaginatedResponseApiResponse
+     * @memberof JobPositionDtoListApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof JobPositionDtoListApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
@@ -1777,92 +1573,55 @@ export interface PartLocationDtoApiResponse {
      * @memberof PartLocationDtoApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof PartLocationDtoApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
  * @export
- * @interface PartLocationDtoPaginatedResponse
+ * @interface PartLocationDtoListApiResponse
  */
-export interface PartLocationDtoPaginatedResponse {
-    /**
-     * 
-     * @type {Array<PartLocationDto>}
-     * @memberof PartLocationDtoPaginatedResponse
-     */
-    'data'?: Array<PartLocationDto> | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof PartLocationDtoPaginatedResponse
-     */
-    'currentPage'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof PartLocationDtoPaginatedResponse
-     */
-    'totalPages'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof PartLocationDtoPaginatedResponse
-     */
-    'totalCount'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof PartLocationDtoPaginatedResponse
-     */
-    'pageSize'?: number;
+export interface PartLocationDtoListApiResponse {
     /**
      * 
      * @type {boolean}
-     * @memberof PartLocationDtoPaginatedResponse
-     */
-    'hasPreviousPage'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PartLocationDtoPaginatedResponse
-     */
-    'hasNextPage'?: boolean;
-}
-/**
- * 
- * @export
- * @interface PartLocationDtoPaginatedResponseApiResponse
- */
-export interface PartLocationDtoPaginatedResponseApiResponse {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PartLocationDtoPaginatedResponseApiResponse
+     * @memberof PartLocationDtoListApiResponse
      */
     'isSuccess'?: boolean;
     /**
      * 
      * @type {string}
-     * @memberof PartLocationDtoPaginatedResponseApiResponse
+     * @memberof PartLocationDtoListApiResponse
      */
     'message'?: string | null;
     /**
      * 
-     * @type {PartLocationDtoPaginatedResponse}
-     * @memberof PartLocationDtoPaginatedResponseApiResponse
+     * @type {Array<PartLocationDto>}
+     * @memberof PartLocationDtoListApiResponse
      */
-    'data'?: PartLocationDtoPaginatedResponse;
+    'data'?: Array<PartLocationDto> | null;
     /**
      * 
      * @type {number}
-     * @memberof PartLocationDtoPaginatedResponseApiResponse
+     * @memberof PartLocationDtoListApiResponse
      */
     'statusCode'?: number;
     /**
      * 
      * @type {string}
-     * @memberof PartLocationDtoPaginatedResponseApiResponse
+     * @memberof PartLocationDtoListApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof PartLocationDtoListApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
@@ -1925,6 +1684,12 @@ export interface PermissionDtoApiResponse {
      * @memberof PermissionDtoApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof PermissionDtoApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
@@ -1962,92 +1727,12 @@ export interface PermissionDtoListApiResponse {
      * @memberof PermissionDtoListApiResponse
      */
     'timestamp'?: string;
-}
-/**
- * 
- * @export
- * @interface PermissionDtoPaginatedResponse
- */
-export interface PermissionDtoPaginatedResponse {
     /**
      * 
-     * @type {Array<PermissionDto>}
-     * @memberof PermissionDtoPaginatedResponse
+     * @type {any}
+     * @memberof PermissionDtoListApiResponse
      */
-    'data'?: Array<PermissionDto> | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof PermissionDtoPaginatedResponse
-     */
-    'currentPage'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof PermissionDtoPaginatedResponse
-     */
-    'totalPages'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof PermissionDtoPaginatedResponse
-     */
-    'totalCount'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof PermissionDtoPaginatedResponse
-     */
-    'pageSize'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PermissionDtoPaginatedResponse
-     */
-    'hasPreviousPage'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PermissionDtoPaginatedResponse
-     */
-    'hasNextPage'?: boolean;
-}
-/**
- * 
- * @export
- * @interface PermissionDtoPaginatedResponseApiResponse
- */
-export interface PermissionDtoPaginatedResponseApiResponse {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof PermissionDtoPaginatedResponseApiResponse
-     */
-    'isSuccess'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof PermissionDtoPaginatedResponseApiResponse
-     */
-    'message'?: string | null;
-    /**
-     * 
-     * @type {PermissionDtoPaginatedResponse}
-     * @memberof PermissionDtoPaginatedResponseApiResponse
-     */
-    'data'?: PermissionDtoPaginatedResponse;
-    /**
-     * 
-     * @type {number}
-     * @memberof PermissionDtoPaginatedResponseApiResponse
-     */
-    'statusCode'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof PermissionDtoPaginatedResponseApiResponse
-     */
-    'timestamp'?: string;
+    'meta'?: any | null;
 }
 /**
  * 
@@ -2140,6 +1825,12 @@ export interface ProductDetailDtoApiResponse {
      * @memberof ProductDetailDtoApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof ProductDetailDtoApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
@@ -2193,88 +1884,45 @@ export interface ProductDto {
 /**
  * 
  * @export
- * @interface ProductDtoPaginatedResponse
+ * @interface ProductDtoListApiResponse
  */
-export interface ProductDtoPaginatedResponse {
-    /**
-     * 
-     * @type {Array<ProductDto>}
-     * @memberof ProductDtoPaginatedResponse
-     */
-    'data'?: Array<ProductDto> | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof ProductDtoPaginatedResponse
-     */
-    'currentPage'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof ProductDtoPaginatedResponse
-     */
-    'totalPages'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof ProductDtoPaginatedResponse
-     */
-    'totalCount'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof ProductDtoPaginatedResponse
-     */
-    'pageSize'?: number;
+export interface ProductDtoListApiResponse {
     /**
      * 
      * @type {boolean}
-     * @memberof ProductDtoPaginatedResponse
-     */
-    'hasPreviousPage'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ProductDtoPaginatedResponse
-     */
-    'hasNextPage'?: boolean;
-}
-/**
- * 
- * @export
- * @interface ProductDtoPaginatedResponseApiResponse
- */
-export interface ProductDtoPaginatedResponseApiResponse {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof ProductDtoPaginatedResponseApiResponse
+     * @memberof ProductDtoListApiResponse
      */
     'isSuccess'?: boolean;
     /**
      * 
      * @type {string}
-     * @memberof ProductDtoPaginatedResponseApiResponse
+     * @memberof ProductDtoListApiResponse
      */
     'message'?: string | null;
     /**
      * 
-     * @type {ProductDtoPaginatedResponse}
-     * @memberof ProductDtoPaginatedResponseApiResponse
+     * @type {Array<ProductDto>}
+     * @memberof ProductDtoListApiResponse
      */
-    'data'?: ProductDtoPaginatedResponse;
+    'data'?: Array<ProductDto> | null;
     /**
      * 
      * @type {number}
-     * @memberof ProductDtoPaginatedResponseApiResponse
+     * @memberof ProductDtoListApiResponse
      */
     'statusCode'?: number;
     /**
      * 
      * @type {string}
-     * @memberof ProductDtoPaginatedResponseApiResponse
+     * @memberof ProductDtoListApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof ProductDtoListApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
@@ -2374,92 +2022,55 @@ export interface RoleDtoApiResponse {
      * @memberof RoleDtoApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof RoleDtoApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
  * @export
- * @interface RoleDtoPaginatedResponse
+ * @interface RoleDtoListApiResponse
  */
-export interface RoleDtoPaginatedResponse {
-    /**
-     * 
-     * @type {Array<RoleDto>}
-     * @memberof RoleDtoPaginatedResponse
-     */
-    'data'?: Array<RoleDto> | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof RoleDtoPaginatedResponse
-     */
-    'currentPage'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof RoleDtoPaginatedResponse
-     */
-    'totalPages'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof RoleDtoPaginatedResponse
-     */
-    'totalCount'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof RoleDtoPaginatedResponse
-     */
-    'pageSize'?: number;
+export interface RoleDtoListApiResponse {
     /**
      * 
      * @type {boolean}
-     * @memberof RoleDtoPaginatedResponse
-     */
-    'hasPreviousPage'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof RoleDtoPaginatedResponse
-     */
-    'hasNextPage'?: boolean;
-}
-/**
- * 
- * @export
- * @interface RoleDtoPaginatedResponseApiResponse
- */
-export interface RoleDtoPaginatedResponseApiResponse {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof RoleDtoPaginatedResponseApiResponse
+     * @memberof RoleDtoListApiResponse
      */
     'isSuccess'?: boolean;
     /**
      * 
      * @type {string}
-     * @memberof RoleDtoPaginatedResponseApiResponse
+     * @memberof RoleDtoListApiResponse
      */
     'message'?: string | null;
     /**
      * 
-     * @type {RoleDtoPaginatedResponse}
-     * @memberof RoleDtoPaginatedResponseApiResponse
+     * @type {Array<RoleDto>}
+     * @memberof RoleDtoListApiResponse
      */
-    'data'?: RoleDtoPaginatedResponse;
+    'data'?: Array<RoleDto> | null;
     /**
      * 
      * @type {number}
-     * @memberof RoleDtoPaginatedResponseApiResponse
+     * @memberof RoleDtoListApiResponse
      */
     'statusCode'?: number;
     /**
      * 
      * @type {string}
-     * @memberof RoleDtoPaginatedResponseApiResponse
+     * @memberof RoleDtoListApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof RoleDtoListApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
@@ -2956,6 +2567,12 @@ export interface StringApiResponse {
      * @memberof StringApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof StringApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
@@ -3064,6 +2681,12 @@ export interface TokenResponseApiResponse {
      * @memberof TokenResponseApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof TokenResponseApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
@@ -3655,6 +3278,12 @@ export interface UserDetailDtoApiResponse {
      * @memberof UserDetailDtoApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof UserDetailDtoApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
@@ -3741,6 +3370,12 @@ export interface WarehouseLocationDetailDtoApiResponse {
      * @memberof WarehouseLocationDetailDtoApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof WarehouseLocationDetailDtoApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
@@ -3788,88 +3423,45 @@ export interface WarehouseLocationDto {
 /**
  * 
  * @export
- * @interface WarehouseLocationDtoPaginatedResponse
+ * @interface WarehouseLocationDtoListApiResponse
  */
-export interface WarehouseLocationDtoPaginatedResponse {
-    /**
-     * 
-     * @type {Array<WarehouseLocationDto>}
-     * @memberof WarehouseLocationDtoPaginatedResponse
-     */
-    'data'?: Array<WarehouseLocationDto> | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof WarehouseLocationDtoPaginatedResponse
-     */
-    'currentPage'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof WarehouseLocationDtoPaginatedResponse
-     */
-    'totalPages'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof WarehouseLocationDtoPaginatedResponse
-     */
-    'totalCount'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof WarehouseLocationDtoPaginatedResponse
-     */
-    'pageSize'?: number;
+export interface WarehouseLocationDtoListApiResponse {
     /**
      * 
      * @type {boolean}
-     * @memberof WarehouseLocationDtoPaginatedResponse
-     */
-    'hasPreviousPage'?: boolean;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof WarehouseLocationDtoPaginatedResponse
-     */
-    'hasNextPage'?: boolean;
-}
-/**
- * 
- * @export
- * @interface WarehouseLocationDtoPaginatedResponseApiResponse
- */
-export interface WarehouseLocationDtoPaginatedResponseApiResponse {
-    /**
-     * 
-     * @type {boolean}
-     * @memberof WarehouseLocationDtoPaginatedResponseApiResponse
+     * @memberof WarehouseLocationDtoListApiResponse
      */
     'isSuccess'?: boolean;
     /**
      * 
      * @type {string}
-     * @memberof WarehouseLocationDtoPaginatedResponseApiResponse
+     * @memberof WarehouseLocationDtoListApiResponse
      */
     'message'?: string | null;
     /**
      * 
-     * @type {WarehouseLocationDtoPaginatedResponse}
-     * @memberof WarehouseLocationDtoPaginatedResponseApiResponse
+     * @type {Array<WarehouseLocationDto>}
+     * @memberof WarehouseLocationDtoListApiResponse
      */
-    'data'?: WarehouseLocationDtoPaginatedResponse;
+    'data'?: Array<WarehouseLocationDto> | null;
     /**
      * 
      * @type {number}
-     * @memberof WarehouseLocationDtoPaginatedResponseApiResponse
+     * @memberof WarehouseLocationDtoListApiResponse
      */
     'statusCode'?: number;
     /**
      * 
      * @type {string}
-     * @memberof WarehouseLocationDtoPaginatedResponseApiResponse
+     * @memberof WarehouseLocationDtoListApiResponse
      */
     'timestamp'?: string;
+    /**
+     * 
+     * @type {any}
+     * @memberof WarehouseLocationDtoListApiResponse
+     */
+    'meta'?: any | null;
 }
 /**
  * 
@@ -4195,7 +3787,7 @@ export const CategoriesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiV1CategoriesSearchPost(searchCategoryRequest?: SearchCategoryRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CategoryDtoPaginatedResponseApiResponse>> {
+        async apiV1CategoriesSearchPost(searchCategoryRequest?: SearchCategoryRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CategoryDtoListApiResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1CategoriesSearchPost(searchCategoryRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['CategoriesApi.apiV1CategoriesSearchPost']?.[localVarOperationServerIndex]?.url;
@@ -4261,7 +3853,7 @@ export const CategoriesApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiV1CategoriesSearchPost(requestParameters: CategoriesApiApiV1CategoriesSearchPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<CategoryDtoPaginatedResponseApiResponse> {
+        apiV1CategoriesSearchPost(requestParameters: CategoriesApiApiV1CategoriesSearchPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<CategoryDtoListApiResponse> {
             return localVarFp.apiV1CategoriesSearchPost(requestParameters.searchCategoryRequest, options).then((request) => request(axios, basePath));
         },
     };
@@ -4659,7 +4251,7 @@ export const CustomersApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiV1CustomersSearchPost(searchCustomerRequest?: SearchCustomerRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomerDtoPaginatedResponseApiResponse>> {
+        async apiV1CustomersSearchPost(searchCustomerRequest?: SearchCustomerRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CustomerDtoListApiResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1CustomersSearchPost(searchCustomerRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['CustomersApi.apiV1CustomersSearchPost']?.[localVarOperationServerIndex]?.url;
@@ -4717,7 +4309,7 @@ export const CustomersApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiV1CustomersSearchPost(requestParameters: CustomersApiApiV1CustomersSearchPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<CustomerDtoPaginatedResponseApiResponse> {
+        apiV1CustomersSearchPost(requestParameters: CustomersApiApiV1CustomersSearchPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<CustomerDtoListApiResponse> {
             return localVarFp.apiV1CustomersSearchPost(requestParameters.searchCustomerRequest, options).then((request) => request(axios, basePath));
         },
     };
@@ -5105,7 +4697,7 @@ export const DepartmentsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiV1DepartmentsSearchPost(searchDepartmentRequest?: SearchDepartmentRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DepartmentDtoPaginatedResponseApiResponse>> {
+        async apiV1DepartmentsSearchPost(searchDepartmentRequest?: SearchDepartmentRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DepartmentDtoListApiResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1DepartmentsSearchPost(searchDepartmentRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DepartmentsApi.apiV1DepartmentsSearchPost']?.[localVarOperationServerIndex]?.url;
@@ -5163,7 +4755,7 @@ export const DepartmentsApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiV1DepartmentsSearchPost(requestParameters: DepartmentsApiApiV1DepartmentsSearchPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<DepartmentDtoPaginatedResponseApiResponse> {
+        apiV1DepartmentsSearchPost(requestParameters: DepartmentsApiApiV1DepartmentsSearchPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<DepartmentDtoListApiResponse> {
             return localVarFp.apiV1DepartmentsSearchPost(requestParameters.searchDepartmentRequest, options).then((request) => request(axios, basePath));
         },
     };
@@ -5551,7 +5143,7 @@ export const InvoiceItemsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiV1InvoiceitemsSearchPost(searchInvoiceItemRequest?: SearchInvoiceItemRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InvoiceItemDtoPaginatedResponseApiResponse>> {
+        async apiV1InvoiceitemsSearchPost(searchInvoiceItemRequest?: SearchInvoiceItemRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InvoiceItemDtoListApiResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1InvoiceitemsSearchPost(searchInvoiceItemRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['InvoiceItemsApi.apiV1InvoiceitemsSearchPost']?.[localVarOperationServerIndex]?.url;
@@ -5609,7 +5201,7 @@ export const InvoiceItemsApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiV1InvoiceitemsSearchPost(requestParameters: InvoiceItemsApiApiV1InvoiceitemsSearchPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<InvoiceItemDtoPaginatedResponseApiResponse> {
+        apiV1InvoiceitemsSearchPost(requestParameters: InvoiceItemsApiApiV1InvoiceitemsSearchPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<InvoiceItemDtoListApiResponse> {
             return localVarFp.apiV1InvoiceitemsSearchPost(requestParameters.searchInvoiceItemRequest, options).then((request) => request(axios, basePath));
         },
     };
@@ -5997,7 +5589,7 @@ export const InvoicesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiV1InvoicesSearchPost(searchInvoiceRequest?: SearchInvoiceRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InvoiceDtoPaginatedResponseApiResponse>> {
+        async apiV1InvoicesSearchPost(searchInvoiceRequest?: SearchInvoiceRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<InvoiceDtoListApiResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1InvoicesSearchPost(searchInvoiceRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['InvoicesApi.apiV1InvoicesSearchPost']?.[localVarOperationServerIndex]?.url;
@@ -6055,7 +5647,7 @@ export const InvoicesApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiV1InvoicesSearchPost(requestParameters: InvoicesApiApiV1InvoicesSearchPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<InvoiceDtoPaginatedResponseApiResponse> {
+        apiV1InvoicesSearchPost(requestParameters: InvoicesApiApiV1InvoicesSearchPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<InvoiceDtoListApiResponse> {
             return localVarFp.apiV1InvoicesSearchPost(requestParameters.searchInvoiceRequest, options).then((request) => request(axios, basePath));
         },
     };
@@ -6443,7 +6035,7 @@ export const JobPositionsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiV1JobpositionsSearchPost(searchJobPositionsRequest?: SearchJobPositionsRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<JobPositionDtoPaginatedResponseApiResponse>> {
+        async apiV1JobpositionsSearchPost(searchJobPositionsRequest?: SearchJobPositionsRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<JobPositionDtoListApiResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1JobpositionsSearchPost(searchJobPositionsRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['JobPositionsApi.apiV1JobpositionsSearchPost']?.[localVarOperationServerIndex]?.url;
@@ -6501,7 +6093,7 @@ export const JobPositionsApiFactory = function (configuration?: Configuration, b
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiV1JobpositionsSearchPost(requestParameters: JobPositionsApiApiV1JobpositionsSearchPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<JobPositionDtoPaginatedResponseApiResponse> {
+        apiV1JobpositionsSearchPost(requestParameters: JobPositionsApiApiV1JobpositionsSearchPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<JobPositionDtoListApiResponse> {
             return localVarFp.apiV1JobpositionsSearchPost(requestParameters.searchJobPositionsRequest, options).then((request) => request(axios, basePath));
         },
     };
@@ -6889,7 +6481,7 @@ export const PartLocationsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiV1PartlocationsSearchPost(searchPartLocationRequest?: SearchPartLocationRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PartLocationDtoPaginatedResponseApiResponse>> {
+        async apiV1PartlocationsSearchPost(searchPartLocationRequest?: SearchPartLocationRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PartLocationDtoListApiResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1PartlocationsSearchPost(searchPartLocationRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PartLocationsApi.apiV1PartlocationsSearchPost']?.[localVarOperationServerIndex]?.url;
@@ -6947,7 +6539,7 @@ export const PartLocationsApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiV1PartlocationsSearchPost(requestParameters: PartLocationsApiApiV1PartlocationsSearchPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<PartLocationDtoPaginatedResponseApiResponse> {
+        apiV1PartlocationsSearchPost(requestParameters: PartLocationsApiApiV1PartlocationsSearchPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<PartLocationDtoListApiResponse> {
             return localVarFp.apiV1PartlocationsSearchPost(requestParameters.searchPartLocationRequest, options).then((request) => request(axios, basePath));
         },
     };
@@ -7335,7 +6927,7 @@ export const PermissionsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiV1PermissionsSearchPost(searchPermissionsRequest?: SearchPermissionsRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PermissionDtoPaginatedResponseApiResponse>> {
+        async apiV1PermissionsSearchPost(searchPermissionsRequest?: SearchPermissionsRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PermissionDtoListApiResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1PermissionsSearchPost(searchPermissionsRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PermissionsApi.apiV1PermissionsSearchPost']?.[localVarOperationServerIndex]?.url;
@@ -7393,7 +6985,7 @@ export const PermissionsApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiV1PermissionsSearchPost(requestParameters: PermissionsApiApiV1PermissionsSearchPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<PermissionDtoPaginatedResponseApiResponse> {
+        apiV1PermissionsSearchPost(requestParameters: PermissionsApiApiV1PermissionsSearchPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<PermissionDtoListApiResponse> {
             return localVarFp.apiV1PermissionsSearchPost(requestParameters.searchPermissionsRequest, options).then((request) => request(axios, basePath));
         },
     };
@@ -7781,7 +7373,7 @@ export const ProductsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiV1ProductsSearchPost(searchProductRequest?: SearchProductRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductDtoPaginatedResponseApiResponse>> {
+        async apiV1ProductsSearchPost(searchProductRequest?: SearchProductRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProductDtoListApiResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1ProductsSearchPost(searchProductRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ProductsApi.apiV1ProductsSearchPost']?.[localVarOperationServerIndex]?.url;
@@ -7839,7 +7431,7 @@ export const ProductsApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiV1ProductsSearchPost(requestParameters: ProductsApiApiV1ProductsSearchPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<ProductDtoPaginatedResponseApiResponse> {
+        apiV1ProductsSearchPost(requestParameters: ProductsApiApiV1ProductsSearchPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<ProductDtoListApiResponse> {
             return localVarFp.apiV1ProductsSearchPost(requestParameters.searchProductRequest, options).then((request) => request(axios, basePath));
         },
     };
@@ -8372,7 +7964,7 @@ export const RolesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiV1RolesSearchPost(searchRolesRequest?: SearchRolesRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RoleDtoPaginatedResponseApiResponse>> {
+        async apiV1RolesSearchPost(searchRolesRequest?: SearchRolesRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RoleDtoListApiResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1RolesSearchPost(searchRolesRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['RolesApi.apiV1RolesSearchPost']?.[localVarOperationServerIndex]?.url;
@@ -8457,7 +8049,7 @@ export const RolesApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiV1RolesSearchPost(requestParameters: RolesApiApiV1RolesSearchPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<RoleDtoPaginatedResponseApiResponse> {
+        apiV1RolesSearchPost(requestParameters: RolesApiApiV1RolesSearchPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<RoleDtoListApiResponse> {
             return localVarFp.apiV1RolesSearchPost(requestParameters.searchRolesRequest, options).then((request) => request(axios, basePath));
         },
     };
@@ -9602,7 +9194,7 @@ export const WarehousesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiV1WarehousesSearchPost(searchWarehouseLocationRequest?: SearchWarehouseLocationRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WarehouseLocationDtoPaginatedResponseApiResponse>> {
+        async apiV1WarehousesSearchPost(searchWarehouseLocationRequest?: SearchWarehouseLocationRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WarehouseLocationDtoListApiResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiV1WarehousesSearchPost(searchWarehouseLocationRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['WarehousesApi.apiV1WarehousesSearchPost']?.[localVarOperationServerIndex]?.url;
@@ -9660,7 +9252,7 @@ export const WarehousesApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiV1WarehousesSearchPost(requestParameters: WarehousesApiApiV1WarehousesSearchPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<WarehouseLocationDtoPaginatedResponseApiResponse> {
+        apiV1WarehousesSearchPost(requestParameters: WarehousesApiApiV1WarehousesSearchPostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<WarehouseLocationDtoListApiResponse> {
             return localVarFp.apiV1WarehousesSearchPost(requestParameters.searchWarehouseLocationRequest, options).then((request) => request(axios, basePath));
         },
     };

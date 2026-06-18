@@ -1,13 +1,13 @@
+import type { PartLocationDto } from "#src/openapi";
 import { Table, Button, Space, Popconfirm, Typography } from "antd";
 import type { ColumnsType } from "antd/es/table";
-import type { PartLocationResponse } from "#src/apis/warehouses";
 
 const { Text } = Typography;
 
 interface PartLocationTableProps {
-  data: PartLocationResponse[];
+  data: PartLocationDto[];
   loading: boolean;
-  onEdit: (record: PartLocationResponse) => void;
+  onEdit: (record: PartLocationDto) => void;
   onDelete: (id: string) => void;
   deleting: boolean;
 }
@@ -19,7 +19,7 @@ export default function PartLocationTable({
   onDelete,
   deleting,
 }: PartLocationTableProps) {
-  const columns: ColumnsType<PartLocationResponse> = [
+  const columns: ColumnsType<PartLocationDto> = [
     {
       title: "Part ID",
       dataIndex: "partId",

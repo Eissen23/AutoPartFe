@@ -1,106 +1,46 @@
-export interface PaginatedQueryData<T> {
-  items: T[];
-  totalCount: number;
+export interface ApiResponseMeta {
   currentPage: number;
+  totalPages: number;
+  totalCount: number;
   pageSize: number;
+  hasPreviousPage: boolean;
+  hasNextPage: boolean;
 }
 
-export function extractPaginatedArrayData<T>(raw: unknown): T[] {
-  if (Array.isArray(raw)) {
-    return raw as T[];
-  }
-
-  if (!raw || typeof raw !== "object") {
-    return [];
-  }
-
-  const firstLevelData = (raw as Record<string, unknown>).data;
-
-  if (Array.isArray(firstLevelData)) {
-    return firstLevelData as T[];
-  }
-
-  if (!firstLevelData || typeof firstLevelData !== "object") {
-    return [];
-  }
-
-  const secondLevelData = (firstLevelData as Record<string, unknown>).data;
-
-  return Array.isArray(secondLevelData) ? (secondLevelData as T[]) : [];
+function isObjectRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
 }
 
-export function extractPaginatedQueryData<T>(
-  raw: unknown,
+function toNumber(value: unknown, fallback: number): number {
+  return typeof value === "number" && Number.isFinite(value) ? value : fallback;
+}
+
+function toBoolean(value: unknown, fallback: boolean): boolean {
+  return typeof value === "boolean" ? value : fallback;
+}
+
+export function extractApiResponseMeta(
+  meta: unknown,
   fallbackPageNumber = 1,
   fallbackPageSize = 10,
-): PaginatedQueryData<T> {
-  if (Array.isArray(raw)) {
+): ApiResponseMeta {
+  if (!isObjectRecord(meta)) {
     return {
-      items: raw as T[],
-      totalCount: raw.length,
       currentPage: fallbackPageNumber,
-      pageSize: fallbackPageSize,
-    };
-  }
-
-  if (!raw || typeof raw !== "object") {
-    return {
-      items: [],
+      totalPages: 0,
       totalCount: 0,
-      currentPage: fallbackPageNumber,
       pageSize: fallbackPageSize,
+      hasPreviousPage: false,
+      hasNextPage: false,
     };
   }
-
-  const firstLevel = raw as Record<string, unknown>;
-  const firstLevelData = firstLevel.data;
-
-  if (Array.isArray(firstLevelData)) {
-    const totalCount =
-      typeof firstLevel.totalCount === "number"
-        ? firstLevel.totalCount
-        : firstLevelData.length;
-
-    return {
-      items: firstLevelData as T[],
-      totalCount,
-      currentPage:
-        typeof firstLevel.currentPage === "number"
-          ? firstLevel.currentPage
-          : fallbackPageNumber,
-      pageSize:
-        typeof firstLevel.pageSize === "number"
-          ? firstLevel.pageSize
-          : fallbackPageSize,
-    };
-  }
-
-  if (!firstLevelData || typeof firstLevelData !== "object") {
-    return {
-      items: [],
-      totalCount: 0,
-      currentPage: fallbackPageNumber,
-      pageSize: fallbackPageSize,
-    };
-  }
-
-  const secondLevel = firstLevelData as Record<string, unknown>;
-  const secondLevelData = secondLevel.data;
-  const items = Array.isArray(secondLevelData) ? (secondLevelData as T[]) : [];
 
   return {
-    items,
-    totalCount:
-      typeof secondLevel.totalCount === "number"
-        ? secondLevel.totalCount
-        : items.length,
-    currentPage:
-      typeof secondLevel.currentPage === "number"
-        ? secondLevel.currentPage
-        : fallbackPageNumber,
-    pageSize:
-      typeof secondLevel.pageSize === "number"
-        ? secondLevel.pageSize
-        : fallbackPageSize,
+    currentPage: toNumber(meta.currentPage, fallbackPageNumber),
+    totalPages: toNumber(meta.totalPages, 0),
+    totalCount: toNumber(meta.totalCount, 0),
+    pageSize: toNumber(meta.pageSize, fallbackPageSize),
+    hasPreviousPage: toBoolean(meta.hasPreviousPage, false),
+    hasNextPage: toBoolean(meta.hasNextPage, false),
   };
 }

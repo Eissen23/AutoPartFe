@@ -29,9 +29,7 @@ export function useWarehousesQuery(payload?: SearchWarehouseLocationRequest) {
     queryFn: async () => {
       const raw = await searchWarehouseLocations(payload);
 
-      return {
-        data: raw.data,
-      };
+      return raw;
     },
     staleTime: 1000 * 60,
   });

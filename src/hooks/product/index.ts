@@ -20,7 +20,7 @@ export function useProductQuery(payload: SearchProductRequest) {
     queryFn: async () => {
       const result = await searchProducts(payload);
 
-      return result.data;
+      return result;
     },
   });
 }

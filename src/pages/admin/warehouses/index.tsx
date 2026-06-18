@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Button, Typography, Card, Input, Select } from "antd";
 import { WarehouseTable, WarehouseFormModal } from "./components";
 import {
@@ -7,6 +7,7 @@ import {
   useUpdateWarehouse,
   useWarehousesQuery,
 } from "#src/hooks/warehouses";
+import { extractApiResponseMeta } from "#src/utils/queries";
 import type {
   CreateWarehouseLocationRequest,
   SearchWarehouseLocationRequest,
@@ -38,12 +39,20 @@ export default function WarehousesPage() {
   const updateMutation = useUpdateWarehouse();
   const deleteMutation = useDeleteWarehouse();
 
-  const warehousesData = warehousesResult?.data?.data || [];
-  const paginationCurrentPage =
-    warehousesResult?.data?.currentPage || searchParams?.pageNumber || 1;
-  const paginationPageSize =
-    warehousesResult?.data?.pageSize || searchParams?.pageSize || 10;
-  const paginationTotal = warehousesResult?.data?.totalCount || 0;
+  const warehousesMeta = useMemo(
+    () =>
+      extractApiResponseMeta(
+        warehousesResult?.meta,
+        searchParams.pageNumber ?? 1,
+        searchParams.pageSize ?? 10,
+      ),
+    [warehousesResult?.meta, searchParams.pageNumber, searchParams.pageSize],
+  );
+
+  const warehousesData = warehousesResult?.data ?? [];
+  const paginationCurrentPage = warehousesMeta.currentPage;
+  const paginationPageSize = warehousesMeta.pageSize;
+  const paginationTotal = warehousesMeta.totalCount;
 
   const searchKeyword = searchParams?.advanceSearches?.keyword ?? "";
   const overstockFilter: "all" | "true" | "false" =

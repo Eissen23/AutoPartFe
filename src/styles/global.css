@@ -58,7 +58,7 @@
     }
 
     .dashboard-sidebar {
-        @apply w-64 bg-white border-r overflow-y-auto;
+        @apply w-64 bg-slate-200 border-r overflow-y-auto;
     }
 
     .sidebar-nav {
@@ -66,25 +66,22 @@
     }
 
     .nav-item {
-        @apply flex items-center gap-3 px-4 py-3 font-medium hover:bg-slate-700 hover:text-yellow-400 transition-colors duration-200;
+        @apply flex items-center gap-3 px-4 py-3 mx-1.5 rounded-2xl font-medium hover:bg-slate-700 hover:text-yellow-400 transition-colors duration-200;
     }
 
     .nav-item-icon {
         @apply shrink-0 flex items-center;
     }
 
-    .nav-item:hover,
-    .nav-item-active {
-        @apply bg-slate-200 text-blue-800;
-        border-right: 5px solid;
-        border-image: linear-gradient(to bottom, darkblue, red) 1;
+    a.nav-item:hover,
+    a.nav-item-active {
+        @apply bg-white text-blue-800;
     }
 
     .dashboard-content {
         @apply flex-1 overflow-y-auto bg-slate-200;
     }
 }
-
 @layer base {
     .app-container {
         display: grid;

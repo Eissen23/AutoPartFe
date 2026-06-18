@@ -20,7 +20,7 @@ export function useCustomersQuery(payload?: SearchCustomerRequest) {
     queryFn: async () => {
       const result = await searchCustomer(payload);
 
-      return result?.data;
+      return result;
     },
     staleTime: 1000 * 60,
   });
@@ -62,7 +62,10 @@ export function useUpdateCustomer() {
   const message = useMessage();
 
   return useApiMutation({
-    mutationFn: async (payload: { id: string; data: UpdateCustomerRequest }) => {
+    mutationFn: async (payload: {
+      id: string;
+      data: UpdateCustomerRequest;
+    }) => {
       const resp = await updateCustomer(payload.id, payload.data);
 
       return resp?.data;

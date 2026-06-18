@@ -20,7 +20,7 @@ export function useJobPositionsQuery(payload?: SearchJobPositionsRequest) {
     queryFn: async () => {
       const result = await searchJobPosition(payload);
 
-      return result?.data;
+      return result;
     },
     staleTime: 1000 * 60,
   });
@@ -62,7 +62,10 @@ export function useUpdateJobPosition() {
   const message = useMessage();
 
   return useApiMutation({
-    mutationFn: async (payload: { id: string; data?: UpdateJobPositionRequest }) => {
+    mutationFn: async (payload: {
+      id: string;
+      data?: UpdateJobPositionRequest;
+    }) => {
       const resp = await updateJobPosition(payload.id, payload.data);
 
       return resp?.data;

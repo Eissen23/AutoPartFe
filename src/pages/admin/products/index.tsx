@@ -8,6 +8,7 @@ import {
   useUpdateProduct,
 } from "#src/hooks/product";
 import { useCategoryMap } from "#src/hooks/categories";
+import { extractApiResponseMeta } from "#src/utils/queries";
 import type {
   CreateProductRequest,
   ProductDto,
@@ -36,15 +37,21 @@ export default function ProductsPage() {
   const updateMutation = useUpdateProduct();
   const deleteMutation = useDeleteProduct();
 
-  const paginationCurrentPage =
-    productsData?.currentPage || searchParams?.pageNumber || 1;
+  const productsMeta = useMemo(
+    () =>
+      extractApiResponseMeta(
+        productsData?.meta,
+        searchParams.pageNumber ?? 1,
+        searchParams.pageSize ?? 10,
+      ),
+    [productsData?.meta, searchParams.pageNumber, searchParams.pageSize],
+  );
 
-  const paginationPageSize =
-    productsData?.pageSize || searchParams?.pageSize || 10;
+  const paginationCurrentPage = productsMeta.currentPage;
+  const paginationPageSize = productsMeta.pageSize;
+  const paginationTotal = productsMeta.totalCount;
 
-  const paginationTotal = productsData?.totalCount || 0;
-
-  const data = useMemo(() => productsData?.data, [productsData]);
+  const data = productsData?.data ?? [];
   const searchKeyword = searchParams?.advanceSearches?.keyword ?? "";
 
   const applyFilters = () => {

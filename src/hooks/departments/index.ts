@@ -20,7 +20,7 @@ export function useDepartmentsQuery(payload?: SearchDepartmentRequest) {
     queryFn: async () => {
       const result = await searchDepartment(payload);
 
-      return result?.data;
+      return result;
     },
     staleTime: 1000 * 60,
   });
@@ -62,7 +62,10 @@ export function useUpdateDepartment() {
   const message = useMessage();
 
   return useApiMutation({
-    mutationFn: async (payload: { id: string; data: UpdateDepartmentRequest }) => {
+    mutationFn: async (payload: {
+      id: string;
+      data: UpdateDepartmentRequest;
+    }) => {
       const resp = await updateDepartment(payload.id, payload.data);
 
       return resp?.data;

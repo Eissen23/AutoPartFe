@@ -28,7 +28,7 @@ export function useInvoicesQuery(payload?: SearchInvoiceRequest) {
     queryFn: async () => {
       const result = await searchInvoice(payload);
 
-      return result?.data;
+      return result;
     },
     staleTime: 1000 * 60,
   });
@@ -121,7 +121,7 @@ export function useInvoiceItemsQuery(payload?: SearchInvoiceItemRequest) {
     queryFn: async () => {
       const result = await searchInvoiceItems(payload);
 
-      return result?.data;
+      return result;
     },
     staleTime: 1000 * 60,
   });

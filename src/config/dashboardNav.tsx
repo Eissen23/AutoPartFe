@@ -1,4 +1,12 @@
-import { Home, Warehouse, Package, FolderTree } from "lucide-react";
+import {
+  Home,
+  Warehouse,
+  Package,
+  FolderTree,
+  Cog,
+  ShieldCog,
+  Users,
+} from "lucide-react";
 import type { ReactElement } from "react";
 
 /**
@@ -49,5 +57,22 @@ export const dashboardNavItems: DashboardNavItem[] = [
     href: "/dashboard/categories",
     label: "Categories",
     icon: <FolderTree size={18} />,
+  },
+  {
+    href: "",
+    label: "System Settings",
+    icon: <Cog size={18} />,
+    children: [
+      {
+        href: "/dashboard/roles",
+        label: "Roles",
+        icon: <ShieldCog size={18} />,
+      },
+      {
+        href: "/dashboard/users",
+        label: "Manage users",
+        icon: <Users size={18} />,
+      },
+    ],
   },
 ];

@@ -66,7 +66,7 @@
     }
 
     .nav-item {
-        @apply flex items-center gap-3 px-4 py-3 mx-1.5 rounded-2xl text-black font-medium hover:bg-slate-700 hover:text-yellow-400 transition duration-200;
+        @apply flex items-center gap-3 px-4 py-3 mx-1.5 rounded-2xl text-black font-medium hover:bg-white hover:text-blue-800 transition duration-200;
     }
 
     .nav-item-icon {

@@ -59,7 +59,7 @@ export default function DashboardLayout() {
                 );
 
                 return (
-                  <div key={item.href}>
+                  <div key={item.href} className="flex flex-col">
                     <button
                       type="button"
                       onClick={() => toggleGroup(item.href)}
@@ -81,7 +81,7 @@ export default function DashboardLayout() {
                     {isExpanded && (
                       <div
                         id={`sidebar-group-${item.href.replaceAll("/", "-")}`}
-                        className="ml-6"
+                        className="ml-6 border-l"
                       >
                         {item.children.map((child) => (
                           <NavLink
@@ -89,7 +89,7 @@ export default function DashboardLayout() {
                             to={child.href}
                             end={child.href === "/dashboard"}
                             className={({ isActive }) =>
-                              `nav-item${isActive ? " nav-item-active" : ""}`
+                              `nav-item${isActive ? " nav-item-active" : ""} child`
                             }
                           >
                             {child.icon && (

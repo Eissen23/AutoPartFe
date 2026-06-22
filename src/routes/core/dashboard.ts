@@ -1,6 +1,8 @@
 import { lazy } from "react";
 import type { RouteObject } from "react-router";
 import ProtectedDashboardLayout from "#src/components/layouts/ProtectedDashboardLayout";
+import RoleManagenent from "#src/pages/superadmin/role";
+import UserManagementPage from "#src/pages/superadmin/user";
 
 const HomePage = lazy(() => import("#src/pages/HomePage"));
 const WarehousesPage = lazy(() => import("#src/pages/admin/warehouses"));
@@ -31,6 +33,16 @@ export const dashboardRoutes: RouteObject[] = [
         path: "/dashboard/categories",
         Component: CategoriesPage,
         handle: { label: "Categories" },
+      },
+      {
+        path: "/dashboard/roles",
+        Component: RoleManagenent,
+        handle: { label: "Roles" },
+      },
+      {
+        path: "/dashboard/users",
+        Component: UserManagementPage,
+        handle: { label: "Users" },
       },
     ],
   },

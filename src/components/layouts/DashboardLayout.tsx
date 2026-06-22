@@ -1,7 +1,69 @@
 import { useState } from "react";
 import { Outlet, NavLink, useLocation } from "react-router";
 import { ChevronDown } from "lucide-react";
-import { dashboardNavItems } from "#src/config/dashboardNav";
+import {
+  dashboardNavItems,
+  type DashboardNavItem,
+} from "#src/config/dashboardNav";
+
+const MAX_NAV_LEVELS = 3;
+const MAX_CHILD_DEPTH = MAX_NAV_LEVELS - 1;
+
+const createItemKey = (
+  item: DashboardNavItem,
+  parentKey: string,
+  index: number,
+): string => `${parentKey}:${item.href || item.label}:${index}`;
+
+const branchHasActivePath = (
+  item: DashboardNavItem,
+  pathname: string,
+  depth: number,
+): boolean => {
+  const matchesCurrentItem =
+    Boolean(item.href) && pathname.startsWith(item.href);
+
+  if (matchesCurrentItem) {
+    return true;
+  }
+
+  if (depth >= MAX_CHILD_DEPTH || !item.children?.length) {
+    return false;
+  }
+
+  return item.children.some((child) =>
+    branchHasActivePath(child, pathname, depth + 1),
+  );
+};
+
+const buildInitialExpandedState = (
+  items: DashboardNavItem[],
+  pathname: string,
+  depth = 0,
+  parentKey = "root",
+): Record<string, boolean> =>
+  items.reduce<Record<string, boolean>>((acc, item, index) => {
+    const itemKey = createItemKey(item, parentKey, index);
+    const canExpand = depth < MAX_CHILD_DEPTH && Boolean(item.children?.length);
+
+    if (!canExpand) {
+      return acc;
+    }
+
+    const children = item.children ?? [];
+    const hasActiveChild = children.some((child) =>
+      branchHasActivePath(child, pathname, depth + 1),
+    );
+
+    acc[itemKey] = hasActiveChild;
+
+    Object.assign(
+      acc,
+      buildInitialExpandedState(children, pathname, depth + 1, itemKey),
+    );
+
+    return acc;
+  }, {});
 
 /**
  * Dashboard Layout
@@ -14,20 +76,88 @@ import { dashboardNavItems } from "#src/config/dashboardNav";
 export default function DashboardLayout() {
   const location = useLocation();
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>(
-    () =>
-      dashboardNavItems.reduce<Record<string, boolean>>((acc, item) => {
-        if (item.children?.length) {
-          acc[item.href] = item.children.some((child) =>
-            location.pathname.startsWith(child.href),
-          );
-        }
-        return acc;
-      }, {}),
+    () => buildInitialExpandedState(dashboardNavItems, location.pathname),
   );
 
   const toggleGroup = (key: string) => {
     setExpandedGroups((prev) => ({ ...prev, [key]: !prev[key] }));
   };
+
+  const renderNavItems = (
+    items: DashboardNavItem[],
+    depth = 0,
+    parentKey = "root",
+  ) =>
+    items.map((item, index) => {
+      const itemKey = createItemKey(item, parentKey, index);
+      const isChildLevel = depth > 0;
+      const isGrandchildLevel = depth > 1;
+      const depthClasses = `${isChildLevel ? " nav-item-child" : ""}${
+        isGrandchildLevel ? " nav-item-grandchild" : ""
+      }`;
+      const canExpand =
+        depth < MAX_CHILD_DEPTH && Boolean(item.children?.length);
+
+      if (canExpand) {
+        const children = item.children ?? [];
+        const isExpanded = expandedGroups[itemKey] ?? false;
+        const hasActiveChild = children.some((child) =>
+          branchHasActivePath(child, location.pathname, depth + 1),
+        );
+        const groupId = `sidebar-group-${itemKey.replace(/[^a-zA-Z0-9-_]/g, "-")}`;
+
+        return (
+          <div key={itemKey} className="nav-group">
+            <button
+              type="button"
+              onClick={() => toggleGroup(itemKey)}
+              className={`nav-item nav-item-parent${depthClasses}${
+                hasActiveChild ? " nav-item-active" : ""
+              }`}
+              aria-expanded={isExpanded}
+              aria-controls={groupId}
+            >
+              {item.icon && <span className="nav-item-icon">{item.icon}</span>}
+              <span className="flex-1 text-left">{item.label}</span>
+              <ChevronDown
+                size={16}
+                className={`nav-chevron${isExpanded ? " nav-chevron-expanded" : ""}`}
+                aria-hidden="true"
+              />
+            </button>
+
+            {isExpanded && (
+              <div id={groupId} className="nav-children">
+                {renderNavItems(children, depth + 1, itemKey)}
+              </div>
+            )}
+          </div>
+        );
+      }
+
+      if (!item.href) {
+        return (
+          <div key={itemKey} className={`nav-item${depthClasses}`}>
+            {item.icon && <span className="nav-item-icon">{item.icon}</span>}
+            <span>{item.label}</span>
+          </div>
+        );
+      }
+
+      return (
+        <NavLink
+          key={itemKey}
+          to={item.href}
+          end={item.href === "/dashboard"}
+          className={({ isActive }) =>
+            `nav-item${depthClasses}${isActive ? " nav-item-active" : ""}`
+          }
+        >
+          {item.icon && <span className="nav-item-icon">{item.icon}</span>}
+          <span>{item.label}</span>
+        </NavLink>
+      );
+    });
 
   return (
     <div className="dashboard-container">
@@ -50,79 +180,7 @@ export default function DashboardLayout() {
       <div className="dashboard-main">
         {/* Sidebar */}
         <aside className="dashboard-sidebar">
-          <nav className="sidebar-nav">
-            {dashboardNavItems.map((item) => {
-              if (item.children?.length) {
-                const isExpanded = expandedGroups[item.href] ?? false;
-                const hasActiveChild = item.children.some((child) =>
-                  location.pathname.startsWith(child.href),
-                );
-
-                return (
-                  <div key={item.href} className="flex flex-col">
-                    <button
-                      type="button"
-                      onClick={() => toggleGroup(item.href)}
-                      className={`nav-item${hasActiveChild ? " nav-item-active" : ""}`}
-                      aria-expanded={isExpanded}
-                      aria-controls={`sidebar-group-${item.href.replaceAll("/", "-")}`}
-                    >
-                      {item.icon && (
-                        <span className="nav-item-icon">{item.icon}</span>
-                      )}
-                      <span className="flex-1 text-left">{item.label}</span>
-                      <ChevronDown
-                        size={16}
-                        className={`ml-auto transition-transform${isExpanded ? " rotate-180" : ""}`}
-                        aria-hidden="true"
-                      />
-                    </button>
-
-                    {isExpanded && (
-                      <div
-                        id={`sidebar-group-${item.href.replaceAll("/", "-")}`}
-                        className="ml-6 border-l"
-                      >
-                        {item.children.map((child) => (
-                          <NavLink
-                            key={child.href}
-                            to={child.href}
-                            end={child.href === "/dashboard"}
-                            className={({ isActive }) =>
-                              `nav-item${isActive ? " nav-item-active" : ""} child`
-                            }
-                          >
-                            {child.icon && (
-                              <span className="nav-item-icon">
-                                {child.icon}
-                              </span>
-                            )}
-                            <span>{child.label}</span>
-                          </NavLink>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                );
-              }
-
-              return (
-                <NavLink
-                  key={item.href}
-                  to={item.href}
-                  end={item.href === "/dashboard"}
-                  className={({ isActive }) =>
-                    `nav-item${isActive ? " nav-item-active" : ""}`
-                  }
-                >
-                  {item.icon && (
-                    <span className="nav-item-icon">{item.icon}</span>
-                  )}
-                  <span>{item.label}</span>
-                </NavLink>
-              );
-            })}
-          </nav>
+          <nav className="sidebar-nav">{renderNavItems(dashboardNavItems)}</nav>
         </aside>
 
         {/* Page content */}

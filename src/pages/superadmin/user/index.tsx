@@ -1,5 +1,5 @@
 const UserManagementPage = () => {
-  return <div></div>;
+  return <div>UserManagementPage</div>;
 };
 
 export default UserManagementPage;
